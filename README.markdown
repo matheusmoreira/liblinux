@@ -34,7 +34,8 @@ One of the proposed solutions was to
 > link explicitly with `-linux-syscalls`.
 > _[...]_
 
-It is not clear to me whether this `libinux-syscalls` library exists, [even though nobody opposed to it][email.carlos-o'donell].
+It is not clear to me whether this `libinux-syscalls` library exists,
+[even though nobody opposed to it][email.carlos-o'donell].
 I could not find traces of it in a `glibc` repository.
 [The documented consensus regarding Linux-specific system calls][consensus]
 makes no mention of any library.
