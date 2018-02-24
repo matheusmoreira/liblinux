@@ -50,7 +50,7 @@ However, one bullet point is quite interesting:
 
 Due to global and thread-local state maintained by `glibc`,
 it also applies to fundamental system calls such as `clone`.
-One maintainer replied to a [`clone`-related bug][bug]:
+One maintainer replied to a [`clone`-related bug][clone(CLONE_VM)-fails]:
 
 > If you use `clone()` you're on your own.
 
@@ -64,6 +64,41 @@ Another supplied more implementation details:
 > which your call to `clone` is unable to initialize correctly
 > because it does not know (and should not know) the internal implementation of threads.
 
+In [another bug][gettid()-should-have-a-wrapper], the following is said:
+
+> _[...]_
+> most of the problems with caching `pid`/`tid`
+> come from use of `clone()` (or worse, `vfork`) directly by applications,
+> which should probably not be a supported use.
+> With TLS being a mandatory feature in modern `glibc`
+> and the thread-pointer being always-initialized for purposes like `ssp`,
+> I don't think there's any way applications can safely `clone`,
+> whereby "safely"
+> I mean "without a risk that internal `libc` state is inconsistent afterwards".
+
+The idea of a library for Linux system calls doesn't seem to be new.
+[Comments about a `liblinux`][glibc-and-the-kernel-user-space-api]
+seem to go as far back as 2012:
+
+>> It makes no sense for every tool that wants to support
+>> doing things with kernel modules to do the `syscall()` thing,
+>> propagating potential errors in argument signatures
+>> into more than one location
+>> instead of getting it right in one canonical place, `libc`.
+>
+> Does that canonical place have to be `libc` though?
+> Why not e.g. some `liblinux` which could live in the kernel source tree?
+
+> _[...]_
+> that these functions don't belong in `LibC`,
+> but instead in some separate Linux-specific library or header file (a `"liblinux"`).
+
+> _[...]_
+> It would be nifty if the kernel came with a `"liblinux"`
+> that implemented things like this,
+> instead of the daunting (non-starter, really)
+> prospect of upgrading to a new `glibc` just to get `syncfs`.
+
 [getrandom]: http://man7.org/linux/man-pages/man2/getrandom.2.html
 [long-road-to-getrandom()-in-glibc]: https://lwn.net/Articles/711013/
 [email.theodore-ts'o]: https://lwn.net/Articles/711053/
@@ -74,4 +109,8 @@ Another supplied more implementation details:
 [email.carlos-o'donell]: https://lwn.net/Articles/655039/
 [consensus]: https://sourceware.org/glibc/wiki/Consensus#WIP:_Kernel_syscalls_wrappers
 
-[bug]: https://sourceware.org/bugzilla/show_bug.cgi?id=10311
+[clone(CLONE_VM)-fails]: https://sourceware.org/bugzilla/show_bug.cgi?id=10311
+
+[gettid()-should-have-a-wrapper]: https://sourceware.org/bugzilla/show_bug.cgi?id=6399
+
+[glibc-and-the-kernel-user-space-api]: https://lwn.net/Articles/534682/
