@@ -66,8 +66,11 @@ Another supplied more implementation details:
 [getrandom]: http://man7.org/linux/man-pages/man2/getrandom.2.html
 [long-road-to-getrandom()-in-glibc]: https://lwn.net/Articles/711013/
 [email.theodore-ts'o]: https://lwn.net/Articles/711053/
+
 [glibc-wrappers-for-(nearly-all)-linux-system-calls]: https://lwn.net/Articles/655028/
 [email.roland-mcgrath]: https://lwn.net/Articles/655034/
+
 [email.carlos-o'donell]: https://lwn.net/Articles/655039/
 [consensus]: https://sourceware.org/glibc/wiki/Consensus#WIP:_Kernel_syscalls_wrappers
+
 [bug]: https://sourceware.org/bugzilla/show_bug.cgi?id=10311
