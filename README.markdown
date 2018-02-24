@@ -76,6 +76,22 @@ In [another bug][gettid()-should-have-a-wrapper], the following is said:
 > whereby "safely"
 > I mean "without a risk that internal `libc` state is inconsistent afterwards".
 
+There's also an interesting comment about the different abstractions employed by the kernel and `glibc`:
+
+> At the kernel level,
+> there is really only one kind of kernel scheduling entity (KSE) --
+> commonly called a "task" in Linux parlance.
+> And that one kind of KSE is identified by one kind of data type.
+> Creating an artificial distinction at the `glibc` level seems illogical and confusing.
+> Furthermore, the `clone(2)` system call, which creates kernel "threads",
+> returns a thread ID.
+> But really, this is the same for processes:
+> `clone()` is equally the creator of "processes".
+> And of course,
+> `glibc` itself already assumes that `TID`s and `PID`s are the same thing,
+> since nowadays `glibc`'s `fork()` is a wrapper around `clone()`,
+> and that wrapper assumes that `clone()` returns a `PID`.
+
 The idea of a library for Linux system calls doesn't seem to be new.
 [Comments about a `liblinux`][glibc-and-the-kernel-user-space-api]
 seem to go as far back as 2012:
