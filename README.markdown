@@ -10,7 +10,7 @@ However, [it took over 2 years][long-road-to-getrandom()-in-glibc] for `glibc` s
 The kernel's random number subsystem maintainer [wrote in an email][email.theodore-ts'o]:
 
 > _[...]_
-> maybe the kernel developers should support a libinux.a library
+> maybe the kernel developers should support a `libinux.a` library
 > that would allow us to bypass `glibc` when they are being non-helpful.
 
 [Other system calls are also unsupported][glibc-wrappers-for-(nearly-all)-linux-system-calls].
