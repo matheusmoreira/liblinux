@@ -4,7 +4,7 @@ Liblinux is a library that provides architecture-independent access to Linux sys
 
 ## Why?
 
-In 2014, the [getrandom] system call was introduced.
+In 2014, the [`getrandom`][getrandom] system call was introduced.
 It lets applications obtain random bits without using pathnames or file descriptors.
 However, [it took over 2 years][long-road-to-getrandom()-in-glibc] for `glibc` support to arrive.
 The kernel's random number subsystem maintainer [wrote in an email][email.theodore-ts'o]:
