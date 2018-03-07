@@ -47,8 +47,10 @@ $(build_directory)/$(target) : $(objects) | directories
     -o $@ \
     $<
 
+all: $(build_directory)/$(target)
+
 clean:
 	rm -r $(build_directory)
 
 .PHONY: clean
-.DEFAULT_GOAL := $(build_directory)/$(target)
+.DEFAULT_GOAL := all
