@@ -22,7 +22,7 @@ gcc_include_options := -I $(include_directory)
 gcc_library_options := -shared -fPIC
 gcc_optimization_options := -fno-strict-aliasing
 
-gcc_options := $($(compiler)_standard_options) \
+gcc_options := $(gcc_standard_options) \
                $(gcc_warning_options) \
 	           $(gcc_freestanding_options) \
                $(gcc_include_options) \
