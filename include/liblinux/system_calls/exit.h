@@ -1,0 +1,6 @@
+#ifndef LIBLINUX_SYSTEM_CALLS_EXIT_H
+#define LIBLINUX_SYSTEM_CALLS_EXIT_H
+
+void exit(int code);
+
+#endif /* LIBLINUX_SYSTEM_CALLS_EXIT_H */
