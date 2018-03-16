@@ -1,7 +1,7 @@
 long
-system_call_6(long number,
-              long _1, long _2, long _3,
-              long _4, long _5, long _6)
+system_call(long number,
+            long _1, long _2, long _3,
+            long _4, long _5, long _6)
 {
     long return_value;
 
