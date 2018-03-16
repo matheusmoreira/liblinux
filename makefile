@@ -9,7 +9,8 @@ target := liblinux.so
 architecture := x86_64
 
 # List of C files in source tree
-sources := $(source_directory)/arch/$(architecture)/system_call.c
+sources := $(source_directory)/arch/$(architecture)/system_call.c \
+           $(wildcard $(source_directory)/system_calls/*.c)
 
 # List of object files that will be built
 objects := $(sources:$(source_directory)/%.c=$(build_objects_directory)/%.o)
@@ -34,6 +35,7 @@ compiler_options := $($(compiler)_options)
 
 directories:
 	mkdir -p $(build_objects_directory)/arch/$(architecture)
+	mkdir -p $(build_objects_directory)/system_calls
 
 $(build_objects_directory)/%.o : $(source_directory)/%.c | directories
 	$(compiler) \
