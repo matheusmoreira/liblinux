@@ -30,8 +30,12 @@ gcc_options := $(gcc_standard_options) \
                $(gcc_library_options) \
                $(gcc_optimization_options)
 
+# Compiler configuration
+
 compiler := gcc
 compiler_options := $($(compiler)_options)
+
+# Build rules
 
 directories:
 	mkdir -p $(build_objects_directory)/arch/$(architecture)
@@ -51,10 +55,15 @@ $(build_directory)/$(target) : $(objects) | directories
     -o $@ \
     $^
 
+# Phony targets
+
 all: $(build_directory)/$(target)
 
 clean:
 	rm -r $(build_directory)
 
 .PHONY: clean
+
+# Special variables
+
 .DEFAULT_GOAL := all
