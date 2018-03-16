@@ -20,7 +20,9 @@ sources := $(source_directory)/arch/$(architecture)/system_call.c \
 objects := $(sources:$(source_directory)/%.c=$(build_objects_directory)/%.o)
 
 # Library usage examples
-examples := $(wildcard $(examples_directory)/*)
+examples := $(subst $(examples_directory),\
+                    $(build_examples_directory),\
+                    $(basename $(wildcard $(examples_directory)/*)))
 
 # Options for GCC
 gcc_dialect_options := -ansi -ffreestanding
@@ -54,14 +56,6 @@ compiler_shared_library_option := $($(compiler)_shared_library_option)
 compiler_output_option = $($(compiler)_output_option)
 compiler_link_option = $($(compiler)_link_option)
 
-# Variables exported to sub-makes
-export build_examples_directory \
-       compiler \
-       compiler_common_options \
-	   compiler_library_search_options \
-	   compiler_output_option \
-	   compiler_link_option
-
 # Build rules
 
 directories:
@@ -84,11 +78,15 @@ $(build_directory)/$(target) : $(objects) | directories
     $^ \
     $(call compiler_output_option,$@)
 
-# Phony targets
+$(build_examples_directory)/% : $(examples_directory)/%.c $(build_directory)/$(target)
+	$(compiler) \
+    $(compiler_common_options) \
+    $< \
+    $(compiler_library_search_options) \
+    $(call compiler_output_option,$@) \
+    $(call compiler_link_option,linux)
 
-$(examples) : $(build_directory)/$(target)
-	$(eval export current_example := $@)
-	$(MAKE) --no-print-directory -f $(current_example)/makefile
+# Phony targets
 
 examples: $(examples)
 
@@ -97,7 +95,7 @@ all: $(build_directory)/$(target) examples
 clean:
 	rm -r $(build_directory)
 
-.PHONY: $(examples) examples all clean
+.PHONY: examples all clean
 
 # Special variables
 
