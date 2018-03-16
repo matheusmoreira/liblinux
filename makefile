@@ -20,7 +20,7 @@ gcc_standard_options := -ansi
 gcc_warning_options := -Wall -Wextra -pedantic
 gcc_freestanding_options := -ffreestanding -nostdlib
 gcc_include_options := -I $(include_directory)
-gcc_library_options := -shared -fPIC
+gcc_library_options := -fPIC
 gcc_optimization_options := -fno-strict-aliasing
 
 gcc_options := $(gcc_standard_options) \
@@ -40,12 +40,14 @@ directories:
 $(build_objects_directory)/%.o : $(source_directory)/%.c | directories
 	$(compiler) \
     $(compiler_options) \
+    -c \
     -o $@ \
     $<
 
 $(build_directory)/$(target) : $(objects) | directories
 	$(compiler) \
     $(compiler_options) \
+    -shared \
     -o $@ \
     $<
 
