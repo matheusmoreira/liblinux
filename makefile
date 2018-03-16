@@ -62,7 +62,7 @@ all: $(build_directory)/$(target)
 clean:
 	rm -r $(build_directory)
 
-.PHONY: clean
+.PHONY: all clean
 
 # Special variables
 
