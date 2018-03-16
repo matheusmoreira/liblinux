@@ -79,7 +79,7 @@ $(target) : $(objects) | directories
     $^ \
     $(call compiler_output_option,$@)
 
-$(build_examples_directory)/% : $(examples_directory)/%.c $(target)
+$(build_examples_directory)/% : $(examples_directory)/%.c $(target) | directories
 	$(compiler) \
     $(compiler_common_options) \
     $< \
