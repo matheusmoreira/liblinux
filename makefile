@@ -49,7 +49,7 @@ $(build_directory)/$(target) : $(objects) | directories
     $(compiler_options) \
     -shared \
     -o $@ \
-    $<
+    $^
 
 all: $(build_directory)/$(target)
 
