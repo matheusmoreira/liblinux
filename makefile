@@ -1,10 +1,12 @@
 # Project file system structure
-build_directory := build
-build_objects_directory := $(build_directory)/objects
-build_examples_directory := $(build_directory)/examples
 source_directory := source
 include_directory := include
 examples_directory := examples
+
+# Directories for build artifacts
+build_directory := build
+build_objects_directory := $(build_directory)/objects
+build_examples_directory := $(build_directory)/$(examples_directory)
 
 # Target is the liblinux shared object
 target := liblinux.so
