@@ -1,7 +1,7 @@
 $(build_examples_directory)/hello-world : $(current_example)/hello-world.c
 	$(compiler) \
-    $(compiler_options) \
-    -L$(build_directory) \
-    -o $@ \
+    $(compiler_common_options) \
+    $(compiler_library_search_options) \
+    $(compiler_output_option) $@ \
     $< \
-    -l linux
+    $(compiler_link_option) linux

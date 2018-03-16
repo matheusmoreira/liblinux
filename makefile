@@ -23,30 +23,45 @@ objects := $(sources:$(source_directory)/%.c=$(build_objects_directory)/%.o)
 examples := $(wildcard $(examples_directory)/*)
 
 # Options for GCC
-gcc_standard_options := -ansi
-gcc_warning_options := -Wall -Wextra -pedantic
-gcc_freestanding_options := -ffreestanding -nostdlib
-gcc_include_options := -I $(include_directory)
-gcc_library_options := -fPIC
-gcc_optimization_options := -fno-strict-aliasing
+gcc_dialect_options := -ansi -ffreestanding
+gcc_warning_options := -Wall -Wextra -Wpedantic
+gcc_optimization_options := -Os -fno-strict-aliasing
+gcc_preprocessor_options := -I $(include_directory)
+gcc_link_options := -nostdlib
 
-gcc_options := $(gcc_standard_options) \
-               $(gcc_warning_options) \
-	           $(gcc_freestanding_options) \
-               $(gcc_include_options) \
-               $(gcc_library_options) \
-               $(gcc_optimization_options)
+gcc_common_options = $(gcc_dialect_options) \
+                     $(gcc_warning_options) \
+                     $(gcc_optimization_options) \
+                     $(gcc_preprocessor_options) \
+                     $(gcc_link_options)
+
+gcc_library_search_options := -L$(build_directory)
+gcc_code_generation_options := -fPIC
+gcc_compile_option := -c
+gcc_shared_library_option := -shared
+gcc_output_option := -o
+gcc_link_option := -l
 
 # Compiler configuration
 
 compiler := gcc
-compiler_options := $($(compiler)_options)
+compiler_common_options := $($(compiler)_common_options)
+
+compiler_library_search_options := $($(compiler)_library_search_options)
+compiler_code_generation_options := $($(compiler)_code_generation_options)
+compiler_compile_option := $($(compiler)_compile_option)
+compiler_shared_library_option := $($(compiler)_shared_library_option)
+compiler_output_option := $($(compiler)_output_option)
+compiler_link_option := $($(compiler)_link_option)
 
 # Variables exported to sub-makes
 export build_directory \
        build_examples_directory \
        compiler \
-       compiler_options
+       compiler_common_options \
+	   compiler_library_search_options \
+	   compiler_output_option \
+	   compiler_link_option
 
 # Build rules
 
@@ -57,17 +72,18 @@ directories:
 
 $(build_objects_directory)/%.o : $(source_directory)/%.c | directories
 	$(compiler) \
-    $(compiler_options) \
-    -c \
-    -o $@ \
-    $<
+    $(compiler_common_options) \
+    $(compiler_code_generation_options) \
+    $(compiler_compile_option) $< \
+    -o $@
 
 $(build_directory)/$(target) : $(objects) | directories
 	$(compiler) \
-    $(compiler_options) \
-    -shared \
-    -o $@ \
-    $^
+    $(compiler_common_options) \
+    $(compiler_code_generation_options) \
+    $(compiler_shared_library_option) \
+    $^ \
+    -o $@
 
 # Phony targets
 
