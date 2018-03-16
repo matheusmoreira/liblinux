@@ -9,7 +9,8 @@ build_objects_directory := $(build_directory)/objects
 build_examples_directory := $(build_directory)/$(examples_directory)
 
 # Target is the liblinux shared object
-target := liblinux.so
+library := liblinux
+target := $(build_directory)/$(library).so
 architecture := x86_64
 
 # List of C files in source tree
@@ -70,7 +71,7 @@ $(build_objects_directory)/%.o : $(source_directory)/%.c | directories
     $(compiler_compile_option) $< \
     $(call compiler_output_option,$@)
 
-$(build_directory)/$(target) : $(objects) | directories
+$(target) : $(objects) | directories
 	$(compiler) \
     $(compiler_common_options) \
     $(compiler_code_generation_options) \
@@ -78,7 +79,7 @@ $(build_directory)/$(target) : $(objects) | directories
     $^ \
     $(call compiler_output_option,$@)
 
-$(build_examples_directory)/% : $(examples_directory)/%.c $(build_directory)/$(target)
+$(build_examples_directory)/% : $(examples_directory)/%.c $(target)
 	$(compiler) \
     $(compiler_common_options) \
     $< \
@@ -90,7 +91,7 @@ $(build_examples_directory)/% : $(examples_directory)/%.c $(build_directory)/$(t
 
 examples: $(examples)
 
-all: $(build_directory)/$(target) examples
+all: $(target) examples
 
 clean:
 	rm -r $(build_directory)
