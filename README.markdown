@@ -115,6 +115,21 @@ seem to go as far back as 2012:
 > instead of the daunting (non-starter, really)
 > prospect of upgrading to a new `glibc` just to get `syncfs`.
 
+[Posts from as far back as 2004][kernel-headers-and-user-space] mention the idea:
+
+> _[...]_ I hate even more the proposition that a user space program
+> should not include a kernel header file.
+> The C library is itself a user space program,
+> so the rule that a user space program has to go through the C library
+> obviously isn't logical.
+> And the GNU C library is an optional tool,
+> not an official part of the kernel interface
+> (if it were the latter, I would expect to see it packaged with the kernel).
+
+> _[...]_
+> That Linux has never had an identifiable set of interface header files
+> to declare its system call interface seems to me to be a major engineering weakness.
+
 [getrandom]: http://man7.org/linux/man-pages/man2/getrandom.2.html
 [long-road-to-getrandom()-in-glibc]: https://lwn.net/Articles/711013/
 [email.theodore-ts'o]: https://lwn.net/Articles/711053/
@@ -130,3 +145,5 @@ seem to go as far back as 2012:
 [gettid()-should-have-a-wrapper]: https://sourceware.org/bugzilla/show_bug.cgi?id=6399
 
 [glibc-and-the-kernel-user-space-api]: https://lwn.net/Articles/534682/
+
+[kernel-headers-and-user-space]: https://lwn.net/Articles/113349/
