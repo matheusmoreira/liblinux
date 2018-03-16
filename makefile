@@ -1,8 +1,10 @@
 # Project file system structure
 build_directory := build
 build_objects_directory := $(build_directory)/objects
+build_examples_directory := $(build_directory)/examples
 source_directory := source
 include_directory := include
+examples_directory := examples
 
 # Target is the liblinux shared object
 target := liblinux.so
@@ -14,6 +16,9 @@ sources := $(source_directory)/arch/$(architecture)/system_call.c \
 
 # List of object files that will be built
 objects := $(sources:$(source_directory)/%.c=$(build_objects_directory)/%.o)
+
+# Library usage examples
+examples := $(wildcard $(examples_directory)/*)
 
 # Options for GCC
 gcc_standard_options := -ansi
@@ -35,11 +40,18 @@ gcc_options := $(gcc_standard_options) \
 compiler := gcc
 compiler_options := $($(compiler)_options)
 
+# Variables exported to sub-makes
+export build_directory \
+       build_examples_directory \
+       compiler \
+       compiler_options
+
 # Build rules
 
 directories:
 	mkdir -p $(build_objects_directory)/arch/$(architecture)
 	mkdir -p $(build_objects_directory)/system_calls
+	mkdir -p $(build_examples_directory)
 
 $(build_objects_directory)/%.o : $(source_directory)/%.c | directories
 	$(compiler) \
@@ -57,12 +69,18 @@ $(build_directory)/$(target) : $(objects) | directories
 
 # Phony targets
 
-all: $(build_directory)/$(target)
+$(examples) : $(build_directory)/$(target)
+	$(eval export current_example := $@)
+	$(MAKE) --no-print-directory -f $(current_example)/makefile
+
+examples: $(examples)
+
+all: $(build_directory)/$(target) examples
 
 clean:
 	rm -r $(build_directory)
 
-.PHONY: all clean
+.PHONY: $(examples) examples all clean
 
 # Special variables
 
