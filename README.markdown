@@ -2,6 +2,44 @@
 
 Liblinux is a library that provides architecture-independent access to Linux system calls.
 
+## Building
+
+The library and all examples are freestanding and have no dependencies.
+They are built with GNU Make. Currently, only GCC is supported.
+Issuing the command:
+
+    make
+
+Will produce the `liblinux.so` shared object and place it in the build
+directory.
+
+The `makefile` implements an out-of-tree multi-architecture build using
+the [prefixed path method][make.prefixed-path], where all build targets
+are prefixed with their build path. While this method results in an
+organized build tree that mirrors the structure of the source tree,
+it also makes it harder to rebuild individual build targets.
+The main build interface consists of phony targets:
+
+- `library`
+
+  Builds the library.
+
+- `examples`
+
+  Builds all library usage examples.
+
+- `all`
+
+  Builds the library and its usage examples.
+
+- `clean`
+
+  Removes the build directory tree and all build artifacts.
+
+- `directories`
+
+  Creates the build directory tree.
+
 ## Why?
 
 In 2014, the [`getrandom`][getrandom] system call was introduced.
@@ -129,6 +167,8 @@ seem to go as far back as 2012:
 > _[...]_
 > That Linux has never had an identifiable set of interface header files
 > to declare its system call interface seems to me to be a major engineering weakness.
+
+[make.prefixed-path]: http://make.mad-scientist.net/papers/multi-architecture-builds/#explicitpath
 
 [getrandom]: http://man7.org/linux/man-pages/man2/getrandom.2.html
 [long-road-to-getrandom()-in-glibc]: https://lwn.net/Articles/711013/
