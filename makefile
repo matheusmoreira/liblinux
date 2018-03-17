@@ -60,9 +60,9 @@ compiler_link_option = $($(compiler)_link_option)
 # Build rules
 
 directories:
-	mkdir -p $(build_objects_directory)/arch/$(architecture)
-	mkdir -p $(build_objects_directory)/system_calls
-	mkdir -p $(build_examples_directory)
+	mkdir -p $(build_objects_directory)/arch/$(architecture) \
+             $(build_objects_directory)/system_calls \
+             $(build_examples_directory)
 
 $(build_objects_directory)/%.o : $(source_directory)/%.c | directories
 	$(compiler) \
