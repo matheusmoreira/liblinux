@@ -102,4 +102,4 @@ directories:
 
 # Special variables
 
-.DEFAULT_GOAL := all
+.DEFAULT_GOAL := library
