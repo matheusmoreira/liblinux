@@ -59,11 +59,6 @@ compiler_link_option = $($(compiler)_link_option)
 
 # Build rules
 
-directories:
-	mkdir -p $(build_objects_directory)/arch/$(architecture) \
-             $(build_objects_directory)/system_calls \
-             $(build_examples_directory)
-
 $(build_objects_directory)/%.o : $(source_directory)/%.c | directories
 	$(compiler) \
     $(compiler_common_options) \
@@ -96,7 +91,12 @@ all: $(target) examples
 clean:
 	rm -r $(build_directory)
 
-.PHONY: examples all clean
+directories:
+	mkdir -p $(build_objects_directory)/arch/$(architecture) \
+             $(build_objects_directory)/system_calls \
+             $(build_examples_directory)
+
+.PHONY: examples all clean directories
 
 # Special variables
 
