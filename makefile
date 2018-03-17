@@ -84,9 +84,11 @@ $(build_examples_directory)/% : $(examples_directory)/%.c $(target) | directorie
 
 # Phony targets
 
+library: $(target)
+
 examples: $(examples)
 
-all: $(target) examples
+all: library examples
 
 clean:
 	rm -r $(build_directory)
@@ -96,7 +98,7 @@ directories:
              $(build_objects_directory)/system_calls \
              $(build_examples_directory)
 
-.PHONY: examples all clean directories
+.PHONY: library examples all clean directories
 
 # Special variables
 
