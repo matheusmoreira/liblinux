@@ -1,6 +1,7 @@
 # Liblinux
 
-Liblinux is a library that provides architecture-independent access to Linux system calls.
+Liblinux is a library that provides architecture-independent access to
+Linux system calls.
 
 ## Building
 
@@ -43,16 +44,21 @@ The main build interface consists of phony targets:
 ## Why?
 
 In 2014, the [`getrandom`][getrandom] system call was introduced.
-It lets applications obtain random bits without using pathnames or file descriptors.
-However, [it took over 2 years][long-road-to-getrandom()-in-glibc] for `glibc` support to arrive.
-The kernel's random number subsystem maintainer [wrote in an email][email.theodore-ts'o]:
+It lets applications obtain random bits
+without using pathnames or file descriptors.
+However, [it took over 2 years][long-road-to-getrandom()-in-glibc]
+for `glibc` support to arrive.
+The kernel's random number subsystem maintainer
+[wrote in an email][email.theodore-ts'o]:
 
 > _[...]_
 > maybe the kernel developers should support a `libinux.a` library
 > that would allow us to bypass `glibc` when they are being non-helpful.
 
-[Other system calls are also unsupported][glibc-wrappers-for-(nearly-all)-linux-system-calls].
-Apparently, `glibc` does not see itself as a wrapper for Linux kernel functionality.
+Other system calls
+[are also unsupported][glibc-wrappers-for-linux-system-calls].
+Apparently, `glibc` does not see itself
+as a wrapper for Linux kernel functionality.
 One of the proposed solutions was to
 [put them in a separate library][email.roland-mcgrath]:
 
@@ -75,8 +81,8 @@ One of the proposed solutions was to
 It is not clear to me whether this `libinux-syscalls` library exists,
 [even though nobody opposed to it][email.carlos-o'donell].
 I could not find traces of it in a `glibc` repository.
-[The documented consensus regarding Linux-specific system calls][consensus]
-makes no mention of any library.
+[The documented consensus][consensus]
+regarding Linux-specific system calls makes no mention of any library.
 However, one bullet point is quite interesting:
 
 > If a syscall cannot meaningfully be used behind `glibc`'s back,
@@ -88,7 +94,7 @@ However, one bullet point is quite interesting:
 
 Due to global and thread-local state maintained by `glibc`,
 it also applies to fundamental system calls such as `clone`.
-One maintainer replied to a [`clone`-related bug][clone(CLONE_VM)-fails]:
+A maintainer replied to a [`clone`-related bug][clone(CLONE_VM)-fails]:
 
 > If you use `clone()` you're on your own.
 
@@ -97,38 +103,40 @@ Another supplied more implementation details:
 > _[...]_
 > If you use any of the standard library,
 > you risk the parent and child clobbering each other's internal states.
-> You also have issues like the fact that `glibc` caches the `pid`/`tid` in userspace,
-> and the fact that `glibc` expects to always have a valid thread pointer
-> which your call to `clone` is unable to initialize correctly
-> because it does not know (and should not know) the internal implementation of threads.
+> You also have issues like the fact that `glibc` caches the `pid`/`tid`
+> in userspace, and the fact that `glibc` expects to always have
+> a valid thread pointer which your call to `clone` is unable to
+> initialize correctly because it does not know (and should not know)
+> the internal implementation of threads.
 
 In [another bug][gettid()-should-have-a-wrapper], the following is said:
 
 > _[...]_
 > most of the problems with caching `pid`/`tid`
-> come from use of `clone()` (or worse, `vfork`) directly by applications,
-> which should probably not be a supported use.
+> come from use of `clone()` (or worse, `vfork`) directly
+> by applications, which should probably not be a supported use.
 > With TLS being a mandatory feature in modern `glibc`
-> and the thread-pointer being always-initialized for purposes like `ssp`,
-> I don't think there's any way applications can safely `clone`,
-> whereby "safely"
-> I mean "without a risk that internal `libc` state is inconsistent afterwards".
+> and the thread-pointer being always-initialized
+> for purposes like `ssp`, I don't think there's any way applications
+> can safely `clone`, whereby "safely" I mean "without a risk
+> that internal `libc` state is inconsistent afterwards".
 
-There's also an interesting comment about the different abstractions employed by the kernel and `glibc`:
+There's also an interesting comment about the different abstractions
+employed by the kernel and `glibc`:
 
 > At the kernel level,
 > there is really only one kind of kernel scheduling entity (KSE) --
 > commonly called a "task" in Linux parlance.
 > And that one kind of KSE is identified by one kind of data type.
-> Creating an artificial distinction at the `glibc` level seems illogical and confusing.
-> Furthermore, the `clone(2)` system call, which creates kernel "threads",
-> returns a thread ID.
+> Creating an artificial distinction at the `glibc` level seems
+> illogical and confusing. Furthermore, the `clone(2)` system call,
+> which creates kernel "threads", returns a thread ID.
 > But really, this is the same for processes:
 > `clone()` is equally the creator of "processes".
-> And of course,
-> `glibc` itself already assumes that `TID`s and `PID`s are the same thing,
-> since nowadays `glibc`'s `fork()` is a wrapper around `clone()`,
-> and that wrapper assumes that `clone()` returns a `PID`.
+> And of course, `glibc` itself already assumes that `TID`s and `PID`s
+> are the same thing, since nowadays `glibc`'s `fork()` is a wrapper
+> around `clone()`, and that wrapper assumes that `clone()`
+> returns a `PID`.
 
 The idea of a library for Linux system calls doesn't seem to be new.
 [Comments about a `liblinux`][glibc-and-the-kernel-user-space-api]
@@ -141,11 +149,13 @@ seem to go as far back as 2012:
 >> instead of getting it right in one canonical place, `libc`.
 >
 > Does that canonical place have to be `libc` though?
-> Why not e.g. some `liblinux` which could live in the kernel source tree?
+> Why not e.g. some `liblinux`
+> which could live in the kernel source tree?
 
 > _[...]_
 > that these functions don't belong in `LibC`,
-> but instead in some separate Linux-specific library or header file (a `"liblinux"`).
+> but instead in some separate Linux-specific library or header file
+> (a `"liblinux"`).
 
 > _[...]_
 > It would be nifty if the kernel came with a `"liblinux"`
@@ -153,7 +163,8 @@ seem to go as far back as 2012:
 > instead of the daunting (non-starter, really)
 > prospect of upgrading to a new `glibc` just to get `syncfs`.
 
-[Posts from as far back as 2004][kernel-headers-and-user-space] mention the idea:
+[Posts from as far back as 2004][kernel-headers-and-user-space]
+mention the idea:
 
 > _[...]_ I hate even more the proposition that a user space program
 > should not include a kernel header file.
@@ -162,11 +173,13 @@ seem to go as far back as 2012:
 > obviously isn't logical.
 > And the GNU C library is an optional tool,
 > not an official part of the kernel interface
-> (if it were the latter, I would expect to see it packaged with the kernel).
+> (if it were the latter,
+> I would expect to see it packaged with the kernel).
 
 > _[...]_
 > That Linux has never had an identifiable set of interface header files
-> to declare its system call interface seems to me to be a major engineering weakness.
+> to declare its system call interface seems to me to be a major
+> engineering weakness.
 
 [make.prefixed-path]: http://make.mad-scientist.net/papers/multi-architecture-builds/#explicitpath
 
@@ -174,7 +187,7 @@ seem to go as far back as 2012:
 [long-road-to-getrandom()-in-glibc]: https://lwn.net/Articles/711013/
 [email.theodore-ts'o]: https://lwn.net/Articles/711053/
 
-[glibc-wrappers-for-(nearly-all)-linux-system-calls]: https://lwn.net/Articles/655028/
+[glibc-wrappers-for-linux-system-calls]: https://lwn.net/Articles/655028/
 [email.roland-mcgrath]: https://lwn.net/Articles/655034/
 
 [email.carlos-o'donell]: https://lwn.net/Articles/655039/
