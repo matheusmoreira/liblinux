@@ -98,6 +98,9 @@ directories:
              $(build_objects_directory)/system_calls \
              $(build_examples_directory)
 
+run-% : $(build_examples_directory)/% | directories
+	LD_LIBRARY_PATH=$(build_directory) $(build_examples_directory)/$*
+
 .PHONY: library examples all clean directories
 
 # Special variables
