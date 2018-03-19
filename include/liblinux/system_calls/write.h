@@ -3,6 +3,6 @@
 
 #include <liblinux/types.h>
 
-long write(unsigned int file_descriptor, char * buffer, size_t count);
+ssize_t write(unsigned int file_descriptor, char * buffer, size_t count);
 
 #endif /* LIBLINUX_SYSTEM_CALLS_WRITE_H */
