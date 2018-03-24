@@ -9,8 +9,8 @@ build_objects_directory := $(build_directory)/objects
 build_examples_directory := $(build_directory)/$(examples_directory)
 
 # Target is the liblinux shared object
-library := liblinux
-target := $(build_directory)/$(library).so
+library := linux
+target := $(build_directory)/lib$(library).so
 architecture := x86_64
 
 # List of C files in source tree
