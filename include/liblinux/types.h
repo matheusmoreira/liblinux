@@ -6,4 +6,6 @@
 typedef __kernel_size_t size_t;
 typedef __kernel_ssize_t ssize_t;
 
+typedef __kernel_mode_t mode_t;
+
 #endif /* LIBLINUX_TYPES_H */
