@@ -79,7 +79,7 @@ $(build_examples_directory)/% : $(examples_directory)/%.c $(target) | directorie
     $< \
     $(compiler_library_search_options) \
     $(call compiler_output_option,$@) \
-    $(call compiler_link_option,linux)
+    $(call compiler_link_option,$(library))
 
 # Phony targets
 
