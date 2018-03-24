@@ -21,9 +21,8 @@ sources := $(source_directory)/arch/$(architecture)/system_call.c \
 objects := $(sources:$(source_directory)/%.c=$(build_objects_directory)/%.o)
 
 # Library usage examples
-examples := $(subst $(examples_directory),\
-                    $(build_examples_directory),\
-                    $(basename $(wildcard $(examples_directory)/*)))
+examples := $(basename $(notdir $(wildcard $(examples_directory)/*)))
+examples_targets := $(addprefix $(build_examples_directory)/,$(examples))
 
 # Options for GCC
 gcc_dialect_options := -ansi -ffreestanding
@@ -88,7 +87,7 @@ phony_targets += library
 library: $(target)
 
 phony_targets += examples
-examples: $(examples)
+examples: $(examples_targets)
 
 phony_targets += all
 all: library examples
@@ -103,8 +102,15 @@ directories:
              $(build_objects_directory)/system_calls \
              $(build_examples_directory)
 
-run-% : $(build_examples_directory)/% | directories
-	LD_LIBRARY_PATH=$(build_directory) $(build_examples_directory)/$*
+define run_example_rule
+phony_targets += run-$(1)
+run-$(1) : $$(build_examples_directory)/$(1) | directories
+	LD_LIBRARY_PATH=$$(build_directory) $$(build_examples_directory)/$(1)
+endef
+
+$(eval $(foreach target,$(examples),$(call run_example_rule,$(target))))
+
+undefine run_example_rule
 
 # Special variables
 
