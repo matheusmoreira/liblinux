@@ -84,15 +84,20 @@ $(build_examples_directory)/% : $(examples_directory)/%.c $(target) | directorie
 
 # Phony targets
 
+phony_targets += library
 library: $(target)
 
+phony_targets += examples
 examples: $(examples)
 
+phony_targets += all
 all: library examples
 
+phony_targets += clean
 clean:
 	rm -rf $(build_directory)
 
+phony_targets += directories
 directories:
 	mkdir -p $(build_objects_directory)/arch/$(architecture) \
              $(build_objects_directory)/system_calls \
@@ -101,8 +106,7 @@ directories:
 run-% : $(build_examples_directory)/% | directories
 	LD_LIBRARY_PATH=$(build_directory) $(build_examples_directory)/$*
 
-.PHONY: library examples all clean directories
-
 # Special variables
 
 .DEFAULT_GOAL := library
+.PHONY: $(phony_targets)
