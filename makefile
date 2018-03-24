@@ -91,7 +91,7 @@ examples: $(examples)
 all: library examples
 
 clean:
-	rm -r $(build_directory)
+	rm -rf $(build_directory)
 
 directories:
 	mkdir -p $(build_objects_directory)/arch/$(architecture) \
