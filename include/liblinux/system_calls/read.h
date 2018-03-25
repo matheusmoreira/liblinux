@@ -1,6 +1,8 @@
 #ifndef LIBLINUX_SYSTEM_CALLS_READ_H
 #define LIBLINUX_SYSTEM_CALLS_READ_H
 
+#include <linux/errno.h>
+
 #include <liblinux/types.h>
 
 ssize_t read(unsigned int file_descriptor, char * buffer, size_t count);
