@@ -108,7 +108,7 @@ run-$(1) : $$(build_examples_directory)/$(1) | directories
 	LD_LIBRARY_PATH=$$(build_directory) $$(build_examples_directory)/$(1)
 endef
 
-$(eval $(foreach target,$(examples),$(call run_example_rule,$(target))))
+$(foreach target,$(examples),$(eval $(call run_example_rule,$(target))))
 
 undefine run_example_rule
 
