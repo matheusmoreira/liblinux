@@ -28,12 +28,14 @@ examples_targets := $(addprefix $(build_examples_directory)/,$(examples))
 gcc_dialect_options := -ansi -ffreestanding
 gcc_warning_options := -Wall -Wextra -Wpedantic
 gcc_optimization_options := -Os -fno-strict-aliasing
+gcc_instrumentation_options := -fno-stack-protector
 gcc_preprocessor_options := -I $(include_directory)
 gcc_link_options := -nostdlib
 
 gcc_common_options = $(gcc_dialect_options) \
                      $(gcc_warning_options) \
                      $(gcc_optimization_options) \
+                     $(gcc_instrumentation_options) \
                      $(gcc_preprocessor_options) \
                      $(gcc_link_options)
 
