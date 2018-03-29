@@ -4,6 +4,6 @@
 #include <linux/errno.h>
 #include <linux/sysinfo.h>
 
-int sysinfo(struct sysinfo * system_information);
+int sysinfo(struct sysinfo *system_information);
 
 #endif /* LIBLINUX_SYSTEM_CALLS_SYSINFO_H */
