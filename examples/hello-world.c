@@ -7,7 +7,8 @@ void _start(void)
 {
 	static const char hello_world[] = "Hello, world!" "\n";
 
-	write(OUTPUT, hello_world, sizeof(hello_world));
+	/* No need to write the \0 */
+	write(OUTPUT, hello_world, sizeof(hello_world) - 1);
 
 	exit(0);
 }

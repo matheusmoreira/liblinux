@@ -43,7 +43,7 @@ void _start(void)
 
 #define error_case(code) \
 	case -code:                                                            \
-		write(ERROR, code##_message, sizeof(code##_message));          \
+		write(ERROR, code##_message, sizeof(code##_message) - 1);      \
 		exit(exit_code);                                               \
 		break
 
