@@ -83,6 +83,14 @@ $(build_examples_directory)/% : $(examples_directory)/%.c $(target) | directorie
     $(call compiler_output_option,$@) \
     $(call compiler_link_option,$(library))
 
+# Script rules
+
+scripts/checkpatch.pl scripts/const_structs.checkpatch scripts/spelling.txt:
+	mkdir -p scripts
+	curl --output $@ \
+         https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/plain/$@
+	chmod +x $@
+
 # Phony targets
 
 phony_targets += library
@@ -113,6 +121,12 @@ endef
 $(foreach target,$(examples),$(eval $(call run_example_rule,$(target))))
 
 undefine run_example_rule
+
+phony_targets += checkpatch
+checkpatch: scripts/checkpatch.pl scripts/const_structs.checkpatch scripts/spelling.txt
+	find $(include_directory) $(source_directory) $(examples_directory) \
+         -type f \
+         -exec scripts/checkpatch.pl --quiet --no-tree --file {} \;
 
 # Special variables
 

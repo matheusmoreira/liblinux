@@ -1,2 +1,5 @@
 # Ignore build directory
 build/
+
+# Linux kernel scripts are downloaded by make
+scripts/
