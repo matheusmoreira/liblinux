@@ -34,11 +34,20 @@ void _start(void) {
     exit(0);
 }
 
-void handle_open_errors(int code) {
+/* Error handling macros and functions */
 
 #define error_message(code, message) \
-    static const char \
-    code##_message[] = "open = -" #code ": " message "\n"
+    static const char code##_message[] = function " = -" #code ": " message "\n"
+
+#define error_case(code) \
+    case -code:                                                         \
+        write(standard_error, code##_message, sizeof(code##_message));  \
+        exit(exit_code);                                                        \
+        break
+
+void handle_open_errors(int code) {
+
+#define function "open"
 
     error_message(EACCES, "Not permitted to access path");
     error_message(EFAULT, "Path points outside the accessible address space");
@@ -59,13 +68,9 @@ void handle_open_errors(int code) {
     error_message(EOVERFLOW, "File is too big to be opened");
     error_message(EPERM, "A file seal prevented the file from being opened");
 
-#undef error_message
+#undef function
 
-#define error_case(code) \
-        case -code: \
-            write(standard_error, code##_message, sizeof code##_message); \
-            exit(1); \
-            break
+#define exit_code 1
 
     switch (code) {
         error_case(EACCES);
@@ -94,15 +99,13 @@ void handle_open_errors(int code) {
         /* EWOULDBLOCK - O_NONBLOCK not specified */
     }
 
-#undef error_case
+#undef exit_code
 
 }
 
 void handle_read_errors(int code) {
 
-#define error_message(code, message) \
-    static const char \
-    code##_message[] = "read = -" #code ": " message "\n"
+#define function "read"
 
     error_message(EBADF, "File descriptor not valid or open for reading");
     error_message(EFAULT, "Buffer points outside the accessible address space");
@@ -111,13 +114,9 @@ void handle_read_errors(int code) {
     error_message(EIO, "Input error");
     error_message(EISDIR, "File descriptor refers to a directory");
 
-#undef error_message
+#undef function
 
-#define error_case(code) \
-        case -code: \
-            write(standard_error, code##_message, sizeof code##_message); \
-            exit(2); \
-            break
+#define exit_code 2
 
     switch (code) {
         /* EAGAIN - O_NONBLOCK not specified */
@@ -130,15 +129,13 @@ void handle_read_errors(int code) {
         error_case(EISDIR);
     }
 
-#undef error_case
+#undef exit_code
 
 }
 
 void handle_write_errors(int code) {
 
-#define error_message(code, message) \
-    static const char \
-    code##_message[] = "write = -" #code ": " message "\n"
+#define function "write"
 
     error_message(EBADF, "File descriptor not valid or open for writing");
     error_message(EDQUOT, "User's disk quota reached");
@@ -151,13 +148,9 @@ void handle_write_errors(int code) {
     error_message(EPERM, "A file seal prevented the file from being written");
     error_message(EPIPE, "The pipe or socket being written to was closed");
 
-#undef error_message
+#undef function
 
-#define error_case(code) \
-        case -code: \
-            write(standard_error, code##_message, sizeof code##_message); \
-            exit(3); \
-            break
+#define exit_code 3
 
     switch (code) {
         /* EAGAIN - O_NONBLOCK not specified */
@@ -175,15 +168,13 @@ void handle_write_errors(int code) {
         error_case(EPIPE);
     }
 
-#undef error_case
+#undef exit_code
 
 }
 
 void handle_close_errors(int code) {
 
-#define error_message(code, message) \
-    static const char \
-    code##_message[] = "close = -" #code ": " message "\n"
+#define function "close"
 
     error_message(EBADF, "File descriptor not open or valid");
     error_message(EINTR, "Close system call interrupted by a signal");
@@ -191,13 +182,9 @@ void handle_close_errors(int code) {
     error_message(ENOSPC, "No space available on device");
     error_message(EDQUOT, "User's disk quota reached");
 
-#undef error_message
+#undef function
 
-#define error_case(code) \
-        case -code: \
-            write(standard_error, code##_message, sizeof code##_message); \
-            exit(4); \
-            break
+#define exit_code 4
 
     switch (code) {
         error_case(EBADF);
@@ -207,6 +194,6 @@ void handle_close_errors(int code) {
         error_case(EDQUOT);
     }
 
-#undef error_case
+#undef exit_code
 
 }
