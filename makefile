@@ -25,6 +25,16 @@ objects := $(sources:$(source_directory)/%.c=$(build_objects_directory)/%.o)
 examples := $(basename $(notdir $(wildcard $(examples_directory)/*)))
 examples_targets := $(addprefix $(build_examples_directory)/,$(examples))
 
+# Scripts
+scripts_directory := scripts
+scripts_linux_directory := $(scripts_directory)/linux
+
+download = curl --output $(1) $(2)
+download_linux_script = $(call download,$(1),https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/plain/scripts/$(notdir $(1)))
+
+checkpatch.pl := $(scripts_linux_directory)/checkpatch.pl
+checkpatch.pl_files := $(addprefix $(dir $(checkpatch.pl)),const_structs.checkpatch spelling.txt)
+
 # Options for GCC
 gcc_dialect_options := -ansi -ffreestanding
 gcc_warning_options := -Wall -Wextra -Wpedantic
@@ -88,11 +98,12 @@ $(build_examples_directory)/% : $(examples_directory)/%.c $(target) | directorie
 
 # Script rules
 
-scripts/checkpatch.pl scripts/const_structs.checkpatch scripts/spelling.txt:
-	mkdir -p scripts
-	curl --output $@ \
-         https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/plain/$@
+$(checkpatch.pl): $(checkpatch.pl_files)
+	$(call download_linux_script,$@)
 	chmod +x $@
+
+$(checkpatch.pl_files):
+	$(call download_linux_script,$@)
 
 # Phony targets
 
@@ -127,10 +138,10 @@ $(foreach target,$(examples),$(eval $(call run_example_rule,$(target))))
 undefine run_example_rule
 
 phony_targets += checkpatch
-checkpatch: scripts/checkpatch.pl scripts/const_structs.checkpatch scripts/spelling.txt
+checkpatch: $(checkpatch.pl) $(checkpatch.pl_files)
 	find $(include_directory) $(source_directory) $(examples_directory) \
          -type f \
-         -exec scripts/checkpatch.pl --quiet --no-tree --file {} \;
+         -exec $(checkpatch.pl) --quiet --no-tree --file {} \;
 
 # Special variables
 

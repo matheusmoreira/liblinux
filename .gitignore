@@ -2,4 +2,4 @@
 build/
 
 # Linux kernel scripts are downloaded by make
-scripts/
+scripts/linux
