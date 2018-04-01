@@ -1,18 +1,25 @@
+# Project information
+library := linux
+project := lib$(library)
+architecture := x86_64
+
 # Project file system structure
 source_directory := source
 include_directory := include
 examples_directory := examples
+scripts_directory := scripts
 
 # Directories for build artifacts
 build_directory := build
 build_objects_directory := $(build_directory)/objects
 build_libraries_directory := $(build_directory)/libraries
 build_examples_directory := $(build_directory)/$(examples_directory)
+build_scripts_directory := $(build_directory)/$(scripts_directory)
 
 # Target is the liblinux shared object
-library := linux
-target := $(build_libraries_directory)/lib$(library).so
-architecture := x86_64
+target := $(build_libraries_directory)/$(project).so
+gcc_specs := $(build_libraries_directory)/$(project).specs
+gcc_wrapper := $(build_scripts_directory)/$(project)-gcc
 
 # List of C files in source tree
 sources := $(wildcard $(source_directory)/arch/$(architecture)/*.c) \
@@ -26,8 +33,10 @@ examples := $(basename $(notdir $(wildcard $(examples_directory)/*)))
 examples_targets := $(addprefix $(build_examples_directory)/,$(examples))
 
 # Scripts
-scripts_directory := scripts
 scripts_linux_directory := $(scripts_directory)/linux
+
+gcc_specs_script := $(scripts_directory)/$(project).specs.sh
+gcc_wrapper_script := $(scripts_directory)/$(project)-gcc.sh
 
 download = curl --output $(1) $(2)
 download_linux_script = $(call download,$(1),https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/plain/scripts/$(notdir $(1)))
@@ -55,6 +64,7 @@ gcc_shared_library_option := -shared
 gcc_nostdlib_option := -nostdlib
 gcc_output_option = -o $(1)
 gcc_link_option = -l $(1)
+gcc_specs_option = -specs=$(1)
 
 # Compiler configuration
 
@@ -88,13 +98,20 @@ $(target) : $(objects) | directories
     $^ \
     $(call compiler_output_option,$@)
 
-$(build_examples_directory)/% : $(examples_directory)/%.c $(target) | directories
-	$(compiler) \
-    $(compiler_common_options) \
+$(build_examples_directory)/% : $(examples_directory)/%.c $(target) $(gcc_wrapper) | directories
+	$(gcc_wrapper) \
+    $(gcc_common_options) \
     $< \
-    $(call compiler_library_search_options,$(build_libraries_directory)) \
-    $(call compiler_output_option,$@) \
-    $(call compiler_link_option,$(library))
+    $(call gcc_library_directory_option,$(build_libraries_directory)) \
+    $(call gcc_output_option,$@) \
+    $(call gcc_link_option,$(library))
+
+$(gcc_wrapper) : $(gcc_specs) $(gcc_wrapper_script) | directories
+	$(gcc_wrapper_script) $(gcc_specs) > $@
+	chmod +x $@
+
+$(gcc_specs) : $(gcc_specs_script) | directories
+	$(gcc_specs_script) $(build_objects_directory)/arch/$(architecture)/_start.o > $@
 
 # Script rules
 
@@ -125,6 +142,7 @@ directories:
 	mkdir -p $(build_objects_directory)/arch/$(architecture) \
              $(build_objects_directory)/system_calls \
              $(build_libraries_directory) \
+             $(build_scripts_directory) \
              $(build_examples_directory)
 
 define run_example_rule
