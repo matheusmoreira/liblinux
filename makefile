@@ -14,7 +14,7 @@ target := $(build_directory)/lib$(library).so
 architecture := x86_64
 
 # List of C files in source tree
-sources := $(source_directory)/arch/$(architecture)/system_call.c \
+sources := $(wildcard $(source_directory)/arch/$(architecture)/*.c) \
            $(wildcard $(source_directory)/system_calls/*.c)
 
 # List of object files that will be built
