@@ -30,19 +30,18 @@ gcc_warning_options := -Wall -Wextra -Wpedantic
 gcc_optimization_options := -Os -fno-strict-aliasing
 gcc_instrumentation_options := -fno-stack-protector
 gcc_preprocessor_options := -I $(include_directory)
-gcc_link_options := -nostdlib
 
 gcc_common_options := $(gcc_dialect_options) \
                       $(gcc_warning_options) \
                       $(gcc_optimization_options) \
                       $(gcc_instrumentation_options) \
-                      $(gcc_preprocessor_options) \
-                      $(gcc_link_options)
+                      $(gcc_preprocessor_options)
 
 gcc_library_directory_option = -L$(1)
 gcc_code_generation_options := -fPIC
 gcc_compile_option := -c
 gcc_shared_library_option := -shared
+gcc_nostdlib_option := -nostdlib
 gcc_output_option = -o $(1)
 gcc_link_option = -l $(1)
 
@@ -55,6 +54,7 @@ compiler_library_search_options := $(call $(compiler)_library_directory_option,$
 compiler_code_generation_options := $($(compiler)_code_generation_options)
 compiler_compile_option := $($(compiler)_compile_option)
 compiler_shared_library_option := $($(compiler)_shared_library_option)
+compiler_nostdlib_option := $($(compiler)_nostdlib_option)
 compiler_output_option = $($(compiler)_output_option)
 compiler_link_option = $($(compiler)_link_option)
 
@@ -63,6 +63,7 @@ compiler_link_option = $($(compiler)_link_option)
 $(build_objects_directory)/%.o : $(source_directory)/%.c | directories
 	$(compiler) \
     $(compiler_common_options) \
+    $(compiler_nostdlib_option) \
     $(compiler_code_generation_options) \
     $(compiler_compile_option) $< \
     $(call compiler_output_option,$@)
@@ -70,6 +71,7 @@ $(build_objects_directory)/%.o : $(source_directory)/%.c | directories
 $(target) : $(objects) | directories
 	$(compiler) \
     $(compiler_common_options) \
+    $(compiler_nostdlib_option) \
     $(compiler_code_generation_options) \
     $(compiler_shared_library_option) \
     $^ \
