@@ -6,11 +6,12 @@ examples_directory := examples
 # Directories for build artifacts
 build_directory := build
 build_objects_directory := $(build_directory)/objects
+build_libraries_directory := $(build_directory)/libraries
 build_examples_directory := $(build_directory)/$(examples_directory)
 
 # Target is the liblinux shared object
 library := linux
-target := $(build_directory)/lib$(library).so
+target := $(build_libraries_directory)/lib$(library).so
 architecture := x86_64
 
 # List of C files in source tree
@@ -50,7 +51,7 @@ gcc_link_option = -l $(1)
 compiler := gcc
 compiler_common_options := $($(compiler)_common_options)
 
-compiler_library_search_options := $(call $(compiler)_library_directory_option,$(build_directory))
+compiler_library_search_options = $($(compiler)_library_directory_option)
 compiler_code_generation_options := $($(compiler)_code_generation_options)
 compiler_compile_option := $($(compiler)_compile_option)
 compiler_shared_library_option := $($(compiler)_shared_library_option)
@@ -81,7 +82,7 @@ $(build_examples_directory)/% : $(examples_directory)/%.c $(target) | directorie
 	$(compiler) \
     $(compiler_common_options) \
     $< \
-    $(compiler_library_search_options) \
+    $(call compiler_library_search_options,$(build_libraries_directory)) \
     $(call compiler_output_option,$@) \
     $(call compiler_link_option,$(library))
 
@@ -112,12 +113,13 @@ phony_targets += directories
 directories:
 	mkdir -p $(build_objects_directory)/arch/$(architecture) \
              $(build_objects_directory)/system_calls \
+             $(build_libraries_directory) \
              $(build_examples_directory)
 
 define run_example_rule
 phony_targets += run-$(1)
 run-$(1) : $$(build_examples_directory)/$(1) | directories
-	LD_LIBRARY_PATH=$$(build_directory) $$(build_examples_directory)/$(1)
+	LD_LIBRARY_PATH=$$(build_libraries_directory) $$(build_examples_directory)/$(1)
 endef
 
 $(foreach target,$(examples),$(eval $(call run_example_rule,$(target))))
