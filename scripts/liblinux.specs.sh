@@ -1,4 +1,4 @@
-startfiles=$1
+startfiles=$*
 
 cat <<specs
 *startfile:
