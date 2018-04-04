@@ -82,15 +82,19 @@ compiler_nostdlib_option := $($(compiler)_nostdlib_option)
 compiler_output_option = $($(compiler)_output_option)
 compiler_link_option = $($(compiler)_link_option)
 
+define compiler.compile_object_file
+$(compiler) \
+$(compiler_common_options) \
+$(compiler_nostdlib_option) \
+$(compiler_code_generation_options) \
+$(call compiler_output_option,$(1)) \
+$(compiler_compile_option) $(2)
+endef
+
 # Build rules
 
 $(build_objects_directory)/%.o : $(source_directory)/%.c | directories
-	$(compiler) \
-    $(compiler_common_options) \
-    $(compiler_nostdlib_option) \
-    $(compiler_code_generation_options) \
-    $(compiler_compile_option) $< \
-    $(call compiler_output_option,$@)
+	$(call compiler.compile_object_file,$@,$<)
 
 $(target) : $(objects) | directories
 	$(compiler) \
