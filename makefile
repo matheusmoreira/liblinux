@@ -6,16 +6,19 @@ architecture := x86_64
 # Project file system structure
 source_directory := source
 include_directory := include
+start_directory := start
 examples_directory := examples
 scripts_directory := scripts
 
 source_architecture_directory := $(source_directory)/arch/$(architecture)
+start_architecture_directory := $(start_directory)/$(architecture)
 
 # Directories for build artifacts
 build_directory := build
 build_objects_directory := $(build_directory)/objects
 build_architecture_directory := $(build_objects_directory)/arch/$(architecture)
 build_libraries_directory := $(build_directory)/libraries
+build_start_directory := $(build_libraries_directory)/$(start_directory)
 build_examples_directory := $(build_directory)/$(examples_directory)
 build_scripts_directory := $(build_directory)/$(scripts_directory)
 
@@ -24,12 +27,14 @@ target := $(build_libraries_directory)/$(project).so
 gcc_specs := $(build_libraries_directory)/$(project).specs
 gcc_wrapper := $(build_scripts_directory)/$(project)-gcc
 
-# List of C files in source tree
-sources := $(wildcard $(source_directory)/arch/$(architecture)/*.c) \
-           $(wildcard $(source_directory)/system_calls/*.c)
+# List of source files in tree
+sources_start := $(wildcard $(start_architecture_directory)/*.[cs])
+sources_library := $(wildcard $(source_architecture_directory)/*.c) \
+                   $(wildcard $(source_directory)/system_calls/*.c)
 
 # List of object files that will be built
-objects := $(sources:$(source_directory)/%.c=$(build_objects_directory)/%.o)
+objects_start := $(addsuffix .o,$(basename $(sources_start:$(start_architecture_directory)/%=$(build_start_directory)/%)))
+objects_library := $(sources_library:$(source_directory)/%.c=$(build_objects_directory)/%.o)
 
 # Library usage examples
 examples := $(basename $(notdir $(wildcard $(examples_directory)/*)))
@@ -96,7 +101,14 @@ endef
 $(build_objects_directory)/%.o : $(source_directory)/%.c | directories
 	$(call compiler.compile_object_file,$@,$<)
 
-$(target) : $(objects) | directories
+define generate_startfile_rule
+$(filter %/$(basename $(notdir $(1))).o,$(objects_start)) : $(1) | directories
+	$(call compiler.compile_object_file,$$@,$$<)
+endef
+$(foreach startfile,$(sources_start),$(eval $(call generate_startfile_rule,$(startfile))))
+undefine generate_startfile_rule
+
+$(target) : $(objects_library) | directories
 	$(compiler) \
     $(compiler_common_options) \
     $(compiler_nostdlib_option) \
@@ -105,7 +117,7 @@ $(target) : $(objects) | directories
     $^ \
     $(call compiler_output_option,$@)
 
-$(build_examples_directory)/% : $(examples_directory)/%.c $(target) $(gcc_wrapper) | directories
+$(build_examples_directory)/% : $(examples_directory)/%.c $(target) $(objects_start) $(gcc_wrapper) | directories
 	$(gcc_wrapper) \
     $(gcc_common_options) \
     $< \
@@ -118,7 +130,7 @@ $(gcc_wrapper) : $(gcc_specs) $(gcc_wrapper_script) | directories
 	chmod +x $@
 
 $(gcc_specs) : $(gcc_specs_script) | directories
-	$(gcc_specs_script) $(build_objects_directory)/arch/$(architecture)/_start.o > $@
+	$(gcc_specs_script) $(objects_start) > $@
 
 # Script rules
 
@@ -134,11 +146,14 @@ $(checkpatch.pl_files):
 phony_targets += library
 library: $(target)
 
+phony_targets += startfiles
+startfiles: $(objects_start)
+
 phony_targets += examples
 examples: $(examples_targets)
 
 phony_targets += all
-all: library examples
+all: library startfiles examples
 
 phony_targets += clean
 clean:
@@ -149,6 +164,7 @@ directories:
 	mkdir -p $(build_architecture_directory) \
              $(build_objects_directory)/system_calls \
              $(build_libraries_directory) \
+             $(build_start_directory) \
              $(build_scripts_directory) \
              $(build_examples_directory)
 
