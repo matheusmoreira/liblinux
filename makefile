@@ -9,9 +9,12 @@ include_directory := include
 examples_directory := examples
 scripts_directory := scripts
 
+source_architecture_directory := $(source_directory)/arch/$(architecture)
+
 # Directories for build artifacts
 build_directory := build
 build_objects_directory := $(build_directory)/objects
+build_architecture_directory := $(build_objects_directory)/arch/$(architecture)
 build_libraries_directory := $(build_directory)/libraries
 build_examples_directory := $(build_directory)/$(examples_directory)
 build_scripts_directory := $(build_directory)/$(scripts_directory)
@@ -139,7 +142,7 @@ clean:
 
 phony_targets += directories
 directories:
-	mkdir -p $(build_objects_directory)/arch/$(architecture) \
+	mkdir -p $(build_architecture_directory) \
              $(build_objects_directory)/system_calls \
              $(build_libraries_directory) \
              $(build_scripts_directory) \
