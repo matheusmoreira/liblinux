@@ -1,15 +1,12 @@
 include make/project
 include make/structure
 
+include make/sources
+
 # Target is the liblinux shared object
 target := $(build_libraries_directory)/$(project).so
 gcc_specs := $(build_libraries_directory)/$(project).specs
 gcc_wrapper := $(build_scripts_directory)/$(project)-gcc
-
-# List of source files in tree
-sources_start := $(wildcard $(start_architecture_directory)/*.[cs])
-sources_library := $(wildcard $(source_architecture_directory)/*.c) \
-                   $(wildcard $(source_directory)/system_calls/*.c)
 
 # List of object files that will be built
 objects_start := $(addsuffix .o,$(basename $(sources_start:$(start_architecture_directory)/%=$(build_start_directory)/%)))
