@@ -1,0 +1,1 @@
+examples := $(basename $(notdir $(sources_examples)))

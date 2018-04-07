@@ -1,0 +1,44 @@
+# The main build target is the library shared object
+target := $(build_libraries_directory)/$(project).so
+
+$(target) : $(objects_library) | directories
+	$(call compiler.compile_library,$@,$^)
+
+# Build targets for the liblinux process startup objects:
+#
+#     _start.o
+#     liblinux_start.o
+define generate_startfile_rule
+$(filter %/$(basename $(notdir $(1))).o,$(objects_start)) : $(1) | directories
+	$$(call compiler.compile_object_file,$$@,$$<)
+endef
+$(foreach startfile,$(sources_start),$(eval $(call generate_startfile_rule,$(startfile))))
+undefine generate_startfile_rule
+
+# GCC specs file and wrapper script that uses it
+# Makes building example and application code painless
+gcc_specs := $(build_libraries_directory)/$(notdir $(basename $(gcc_specs_script)))
+gcc_wrapper := $(build_scripts_directory)/$(notdir $(basename $(gcc_wrapper_script)))
+
+$(gcc_wrapper) : $(gcc_specs) $(gcc_wrapper_script) | directories
+	$(gcc_wrapper_script) $(gcc_specs) > $@
+	chmod +x $@
+
+$(gcc_specs) : $(gcc_specs_script) | directories
+	$(gcc_specs_script) $(objects_start) > $@
+
+# Targets for library usage examples
+include make/examples
+
+examples_targets := $(addprefix $(build_examples_directory)/,$(examples))
+
+$(build_examples_directory)/% : $(examples_directory)/%.c $(target) $(objects_start) $(gcc_wrapper) | directories
+	$(call gcc.compile_example,$@,$<)
+
+define generate_example_rule
+phony_targets += run-$(1)
+run-$(1) : $$(build_examples_directory)/$(1) | directories
+	LD_LIBRARY_PATH=$$(build_libraries_directory) $$(build_examples_directory)/$(1)
+endef
+$(foreach phony,$(examples),$(eval $(call generate_example_rule,$(phony))))
+undefine run_example_rule

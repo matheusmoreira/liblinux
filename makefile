@@ -2,21 +2,13 @@
 include make/project
 include make/structure
 
-# List of source files that will be compiled and the resulting object files
-include make/sources
-include make/objects
-
 # Integration with project shell scripts
 include make/scripts
 
-# Target is the liblinux shared object
-target := $(build_libraries_directory)/$(project).so
-gcc_specs := $(build_libraries_directory)/$(project).specs
-gcc_wrapper := $(build_scripts_directory)/$(project)-gcc
-
-# Library usage examples
-examples := $(basename $(notdir $(sources_examples)))
-examples_targets := $(addprefix $(build_examples_directory)/,$(examples))
+# List of sources, objects and targets
+include make/sources
+include make/objects
+include make/targets
 
 # Compiler configuration
 include make/compiler
@@ -25,37 +17,6 @@ include make/compiler
 
 $(build_objects_directory)/%.o : $(source_directory)/%.c | directories
 	$(call compiler.compile_object_file,$@,$<)
-
-define generate_startfile_rule
-$(filter %/$(basename $(notdir $(1))).o,$(objects_start)) : $(1) | directories
-	$(call compiler.compile_object_file,$$@,$$<)
-endef
-$(foreach startfile,$(sources_start),$(eval $(call generate_startfile_rule,$(startfile))))
-undefine generate_startfile_rule
-
-$(target) : $(objects_library) | directories
-	$(compiler) \
-    $(compiler_common_options) \
-    $(compiler_nostdlib_option) \
-    $(compiler_code_generation_options) \
-    $(compiler_shared_library_option) \
-    $^ \
-    $(call compiler_output_option,$@)
-
-$(build_examples_directory)/% : $(examples_directory)/%.c $(target) $(objects_start) $(gcc_wrapper) | directories
-	$(gcc_wrapper) \
-    $(gcc_common_options) \
-    $< \
-    $(call gcc_library_directory_option,$(build_libraries_directory)) \
-    $(call gcc_output_option,$@) \
-    $(call gcc_link_option,$(library))
-
-$(gcc_wrapper) : $(gcc_specs) $(gcc_wrapper_script) | directories
-	$(gcc_wrapper_script) $(gcc_specs) > $@
-	chmod +x $@
-
-$(gcc_specs) : $(gcc_specs_script) | directories
-	$(gcc_specs_script) $(objects_start) > $@
 
 # Phony targets
 
@@ -83,16 +44,6 @@ directories:
              $(build_start_directory) \
              $(build_scripts_directory) \
              $(build_examples_directory)
-
-define run_example_rule
-phony_targets += run-$(1)
-run-$(1) : $$(build_examples_directory)/$(1) | directories
-	LD_LIBRARY_PATH=$$(build_libraries_directory) $$(build_examples_directory)/$(1)
-endef
-
-$(foreach target,$(examples),$(eval $(call run_example_rule,$(target))))
-
-undefine run_example_rule
 
 # Special variables
 

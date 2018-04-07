@@ -21,3 +21,13 @@ $(compiler_code_generation_options) \
 $(call compiler_output_option,$(1)) \
 $(compiler_compile_option) $(2)
 endef
+
+define compiler.compile_library
+$(compiler) \
+$(compiler_common_options) \
+$(compiler_nostdlib_option) \
+$(compiler_code_generation_options) \
+$(compiler_shared_library_option) \
+$(call compiler_output_option,$(1)) \
+$(2)
+endef
