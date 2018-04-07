@@ -4,16 +4,17 @@ include_directory := include
 start_directory := start
 examples_directory := examples
 scripts_directory := scripts
+build_directory := build
 
 source_architecture_directory := $(source_directory)/arch/$(architecture)
 start_architecture_directory := $(start_directory)/$(architecture)
 scripts_linux_directory := $(scripts_directory)/linux
 
 # Directories for build artifacts
-build_directory := build
-build_objects_directory := $(build_directory)/objects
+build_root_directory := $(build_directory)
+build_objects_directory := $(build_root_directory)/objects
 build_architecture_directory := $(build_objects_directory)/arch/$(architecture)
-build_libraries_directory := $(build_directory)/libraries
+build_libraries_directory := $(build_root_directory)/libraries
 build_start_directory := $(build_libraries_directory)/$(start_directory)
-build_examples_directory := $(build_directory)/$(examples_directory)
-build_scripts_directory := $(build_directory)/$(scripts_directory)
+build_examples_directory := $(build_root_directory)/$(examples_directory)
+build_scripts_directory := $(build_root_directory)/$(scripts_directory)
