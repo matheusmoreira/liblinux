@@ -1,7 +1,4 @@
-# Project information
-library := linux
-project := lib$(library)
-architecture := x86_64
+include make/project
 
 # Project file system structure
 source_directory := source
