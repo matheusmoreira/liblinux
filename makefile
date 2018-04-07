@@ -13,11 +13,6 @@ include make/targets
 # Compiler configuration
 include make/compiler
 
-# Build rules
-
-$(build_objects_directory)/%.o : $(source_directory)/%.c | directories
-	$(call compiler.compile_object,$@,$<)
-
 # Phony targets
 
 phony_targets += library
