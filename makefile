@@ -13,7 +13,7 @@ objects_start := $(addsuffix .o,$(basename $(sources_start:$(start_architecture_
 objects_library := $(sources_library:$(source_directory)/%.c=$(build_objects_directory)/%.o)
 
 # Library usage examples
-examples := $(basename $(notdir $(wildcard $(examples_directory)/*)))
+examples := $(basename $(notdir $(sources_examples)))
 examples_targets := $(addprefix $(build_examples_directory)/,$(examples))
 
 # Scripts

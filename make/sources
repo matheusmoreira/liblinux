@@ -4,3 +4,6 @@ sources_library := $(wildcard $(source_architecture_directory)/*.c) \
 
 # List of liblinux process startup source code
 sources_start := $(wildcard $(start_architecture_directory)/*.[cs])
+
+# List of example programs that demonstrate how to use liblinux
+sources_examples := $(wildcard $(examples_directory)/*.c)
