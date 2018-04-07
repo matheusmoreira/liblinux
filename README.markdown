@@ -25,13 +25,17 @@ The main build interface consists of phony targets:
 
   Builds the library.
 
+- `startfiles`
+
+  Builds the process startup object files.
+
 - `examples`
 
   Builds all library usage examples.
 
 - `all`
 
-  Builds the library and its usage examples.
+  Builds the `library`, `startfiles` and `examples`.
 
 - `clean`
 
@@ -40,6 +44,15 @@ The main build interface consists of phony targets:
 - `directories`
 
   Creates the build directory tree.
+
+- `run-hello-world`
+
+  Builds and runs the `hello-world` example.
+  Similar rules are automatically generated for every example.
+
+- `checkpatch`
+
+  Runs the Linux kernel's `checkpatch.pl` script on the liblinux source code.
 
 ## Why?
 
