@@ -1,0 +1,26 @@
+# Phony targets
+
+phony_targets += library
+library: $(target)
+
+phony_targets += startfiles
+startfiles: $(objects_start)
+
+phony_targets += examples
+examples: $(examples_targets)
+
+phony_targets += all
+all: library startfiles examples
+
+phony_targets += clean
+clean:
+	rm -rf $(build_directory)
+
+phony_targets += directories
+directories:
+	mkdir -p $(build_architecture_directory) \
+	         $(build_objects_directory)/system_calls \
+	         $(build_libraries_directory) \
+	         $(build_start_directory) \
+	         $(build_scripts_directory) \
+	         $(build_examples_directory)
