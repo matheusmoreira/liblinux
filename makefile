@@ -17,8 +17,6 @@ examples := $(basename $(notdir $(wildcard $(examples_directory)/*)))
 examples_targets := $(addprefix $(build_examples_directory)/,$(examples))
 
 # Scripts
-scripts_linux_directory := $(scripts_directory)/linux
-
 gcc_specs_script := $(scripts_directory)/$(project).specs.sh
 gcc_wrapper_script := $(scripts_directory)/$(project)-gcc.sh
 

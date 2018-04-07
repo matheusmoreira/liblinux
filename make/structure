@@ -7,6 +7,7 @@ scripts_directory := scripts
 
 source_architecture_directory := $(source_directory)/arch/$(architecture)
 start_architecture_directory := $(start_directory)/$(architecture)
+scripts_linux_directory := $(scripts_directory)/linux
 
 # Directories for build artifacts
 build_directory := build
