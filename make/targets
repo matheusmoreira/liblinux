@@ -1,5 +1,6 @@
 # The main build target is the library shared object
 target := $(build_libraries_directory)/$(project).so
+targets := $(target)
 
 $(target) : $(objects_library) | directories
 	$(call compiler.compile_library,$@,$^)
@@ -19,6 +20,7 @@ undefine generate_startfile_rule
 # Makes building example and application code painless
 gcc_specs := $(build_libraries_directory)/$(notdir $(basename $(gcc_specs_script)))
 gcc_wrapper := $(build_scripts_directory)/$(notdir $(basename $(gcc_wrapper_script)))
+targets += $(gcc_wrapper) $(gcc_specs)
 
 $(gcc_wrapper) : $(gcc_specs) $(gcc_wrapper_script) | directories
 	$(gcc_wrapper_script) $(gcc_specs) > $@
@@ -31,6 +33,7 @@ $(gcc_specs) : $(gcc_specs_script) | directories
 include make/examples
 
 examples_targets := $(addprefix $(build_examples_directory)/,$(examples))
+targets += $(examples_targets)
 
 $(build_examples_directory)/% : $(examples_directory)/%.c $(target) $(objects_start) $(gcc_wrapper) | directories
 	$(call gcc.compile_example,$@,$<)
