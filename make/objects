@@ -4,6 +4,9 @@ objects_library := $(sources_library:$(source_directory)/%.c=$(build_objects_dir
 # List of liblinux objects that will be built and used as GCC startfiles
 objects_start := $(addsuffix .o,$(basename $(sources_start:$(start_architecture_directory)/%=$(build_start_directory)/%)))
 
+# List of all objects
+objects := $(objects_library) $(objects_start)
+
 # Build rules for object files
 
 $(build_objects_directory)/%.o : $(source_directory)/%.c | directories
