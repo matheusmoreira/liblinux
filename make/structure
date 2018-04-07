@@ -11,7 +11,7 @@ start_architecture_directory := $(start_directory)/$(architecture)
 scripts_linux_directory := $(scripts_directory)/linux
 
 # Directories for build artifacts
-build_root_directory := $(build_directory)
+build_root_directory := $(build_directory)/$(architecture)
 build_objects_directory := $(build_root_directory)/objects
 build_architecture_directory := $(build_objects_directory)/arch/$(architecture)
 build_libraries_directory := $(build_root_directory)/libraries
