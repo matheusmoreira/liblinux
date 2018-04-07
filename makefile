@@ -6,6 +6,9 @@ include make/structure
 include make/sources
 include make/objects
 
+# Integration with project shell scripts
+include make/scripts
+
 # Target is the liblinux shared object
 target := $(build_libraries_directory)/$(project).so
 gcc_specs := $(build_libraries_directory)/$(project).specs
@@ -14,16 +17,6 @@ gcc_wrapper := $(build_scripts_directory)/$(project)-gcc
 # Library usage examples
 examples := $(basename $(notdir $(sources_examples)))
 examples_targets := $(addprefix $(build_examples_directory)/,$(examples))
-
-# Scripts
-gcc_specs_script := $(scripts_directory)/$(project).specs.sh
-gcc_wrapper_script := $(scripts_directory)/$(project)-gcc.sh
-
-download = curl --output $(1) $(2)
-download_linux_script = $(call download,$(1),https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/plain/scripts/$(notdir $(1)))
-
-checkpatch.pl := $(scripts_linux_directory)/checkpatch.pl
-checkpatch.pl_files := $(addprefix $(dir $(checkpatch.pl)),const_structs.checkpatch spelling.txt)
 
 # Options for GCC
 gcc_dialect_options := -ansi -ffreestanding
@@ -105,15 +98,6 @@ $(gcc_wrapper) : $(gcc_specs) $(gcc_wrapper_script) | directories
 $(gcc_specs) : $(gcc_specs_script) | directories
 	$(gcc_specs_script) $(objects_start) > $@
 
-# Script rules
-
-$(checkpatch.pl): $(checkpatch.pl_files)
-	$(call download_linux_script,$@)
-	chmod +x $@
-
-$(checkpatch.pl_files):
-	$(call download_linux_script,$@)
-
 # Phony targets
 
 phony_targets += library
@@ -150,12 +134,6 @@ endef
 $(foreach target,$(examples),$(eval $(call run_example_rule,$(target))))
 
 undefine run_example_rule
-
-phony_targets += checkpatch
-checkpatch: $(checkpatch.pl) $(checkpatch.pl_files)
-	find $(include_directory) $(source_directory) $(examples_directory) \
-         -type f \
-         -exec $(checkpatch.pl) --quiet --no-tree --file {} \;
 
 # Special variables
 
