@@ -19,6 +19,6 @@ $(checkpatch.pl_files):
 
 phony_targets += checkpatch
 checkpatch: $(checkpatch.pl)
-	find $(include_directory) $(source_directory) $(examples_directory) \
+	find $(include_directory) $(source_directory) $(start_directory) $(examples_directory) \
 	     -type f \
 	     -exec $(checkpatch.pl) --quiet --no-tree --file {} \;
