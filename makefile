@@ -1,6 +1,8 @@
+# Project information and file system structure
 include make/project
 include make/structure
 
+# List of source files that will be compiled
 include make/sources
 
 # Target is the liblinux shared object
