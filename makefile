@@ -16,7 +16,7 @@ include make/compiler
 # Build rules
 
 $(build_objects_directory)/%.o : $(source_directory)/%.c | directories
-	$(call compiler.compile_object_file,$@,$<)
+	$(call compiler.compile_object,$@,$<)
 
 # Phony targets
 

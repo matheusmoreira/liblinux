@@ -13,7 +13,7 @@ compiler_nostdlib_option := $($(compiler)_nostdlib_option)
 compiler_output_option = $($(compiler)_output_option)
 compiler_link_option = $($(compiler)_link_option)
 
-define compiler.compile_object_file
+define compiler.compile_object
 $(compiler) \
 $(compiler_common_options) \
 $(compiler_nostdlib_option) \
