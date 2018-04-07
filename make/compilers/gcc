@@ -1,0 +1,23 @@
+# Options for GCC
+gcc_dialect_options := -ansi -ffreestanding
+gcc_warning_options := -Wall -Wextra -Wpedantic
+gcc_optimization_options := -Os -fno-strict-aliasing
+gcc_instrumentation_options := -fno-stack-protector
+gcc_preprocessor_options := -I $(include_directory)
+
+define gcc_common_options
+$(gcc_dialect_options) \
+$(gcc_warning_options) \
+$(gcc_optimization_options) \
+$(gcc_instrumentation_options) \
+$(gcc_preprocessor_options)
+endef
+
+gcc_library_directory_option = -L$(1)
+gcc_code_generation_options := -fPIC
+gcc_compile_option := -c
+gcc_shared_library_option := -shared
+gcc_nostdlib_option := -nostdlib
+gcc_output_option = -o $(1)
+gcc_link_option = -l $(1)
+gcc_specs_option = -specs=$(1)
