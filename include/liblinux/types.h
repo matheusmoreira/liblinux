@@ -8,4 +8,6 @@ typedef __kernel_ssize_t ssize_t;
 
 typedef __kernel_mode_t mode_t;
 
+typedef __kernel_off_t off_t;
+
 #endif /* LIBLINUX_TYPES_H */
