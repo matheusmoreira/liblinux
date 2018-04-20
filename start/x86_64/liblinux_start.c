@@ -1,4 +1,3 @@
-#include <liblinux/system_calls/exit.h>
 #include <liblinux/main.h>
 
 int liblinux_start(void *stack_pointer)
