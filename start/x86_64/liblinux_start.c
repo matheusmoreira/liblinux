@@ -2,9 +2,9 @@
 
 int liblinux_start(void *stack_pointer)
 {
-	register long count;
-	register char **arguments;
-	register char **environment;
+	long count;
+	char **arguments;
+	char **environment;
 
 	count = *((long *) stack_pointer);
 	arguments = ((char **) stack_pointer) + 1;
