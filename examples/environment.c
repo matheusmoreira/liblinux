@@ -26,19 +26,17 @@ static void write_c_string_tabbed(const char *string)
 	write_c_string(string);
 }
 
+static void write_vector(const char *header, char **vector)
+{
+	write_c_string(header);
+	while (*vector)
+		write_c_string_tabbed(*vector++);
+}
+
 int start(int count, char **arguments, char **environment)
 {
-	char **current = arguments;
-
-	write_c_string("Arguments:");
-	while (*current)
-		write_c_string_tabbed(*current++);
-
-	current = environment;
-
-	write_c_string("Environment:");
-	while (*current)
-		write_c_string_tabbed(*current++);
+	write_vector("Arguments:", arguments);
+	write_vector("Environment:", environment);
 
 	return 0;
 }
