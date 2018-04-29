@@ -1,5 +1,5 @@
 #include <liblinux/system_calls/write.h>
-#include <liblinux/main.h>
+#include <liblinux/start.h>
 
 static size_t length(const char *beginning)
 {
@@ -26,7 +26,7 @@ static void write_c_string_tabbed(const char *string)
 	write_c_string(string);
 }
 
-int main(int count, char *arguments[], char *environment[])
+int start(int count, char **arguments, char **environment)
 {
 	char **current = arguments;
 

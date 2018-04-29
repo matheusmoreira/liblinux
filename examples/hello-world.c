@@ -1,9 +1,9 @@
 #include <liblinux/system_calls/write.h>
-#include <liblinux/main.h>
+#include <liblinux/start.h>
 
 #define OUTPUT 1
 
-int main(int count, char **arguments, char **environment)
+int start(int count, char **arguments, char **environment)
 {
 	static const char hello_world[] = "Hello, world!" "\n";
 

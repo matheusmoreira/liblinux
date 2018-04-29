@@ -1,6 +1,7 @@
 #include <liblinux/system_calls/mmap.h>
 #include <liblinux/system_calls/munmap.h>
 #include <liblinux/system_calls/write.h>
+#include <liblinux/start.h>
 
 #define PRINTABLE_COUNT 95
 #define PRINTABLE_OFFSET 32
@@ -14,7 +15,7 @@ static void allocate(struct memory *, size_t);
 static void deallocate(struct memory *);
 static ssize_t output(struct memory *);
 
-int main(void)
+int start(int count, char **arguments, char **environment)
 {
 	struct memory data = {0};
 	char *text = 0;

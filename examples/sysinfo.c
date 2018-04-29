@@ -1,7 +1,7 @@
 #include <liblinux/system_calls/sysinfo.h>
 #include <liblinux/system_calls/write.h>
 #include <liblinux/system_calls/exit.h>
-#include <liblinux/main.h>
+#include <liblinux/start.h>
 
 #define OUTPUT 1
 #define ERROR 2
@@ -9,7 +9,7 @@
 static void handle_sysinfo_errors(int);
 static void write_sysinfo(struct sysinfo *info);
 
-int main(int count, char **arguments, char **environment)
+int start(int count, char **arguments, char **environment)
 {
 	struct sysinfo info = {0};
 

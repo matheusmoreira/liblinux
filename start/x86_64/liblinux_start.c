@@ -1,4 +1,4 @@
-#include <liblinux/main.h>
+#include <liblinux/start.h>
 
 int liblinux_start(void *stack_pointer)
 {
@@ -10,5 +10,5 @@ int liblinux_start(void *stack_pointer)
 	arguments = ((char **) stack_pointer) + 1;
 	environment = arguments + count + 1;
 
-	return main(count, arguments, environment);
+	return start(count, arguments, environment);
 }

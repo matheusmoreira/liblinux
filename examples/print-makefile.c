@@ -3,7 +3,7 @@
 #include <liblinux/system_calls/read.h>
 #include <liblinux/system_calls/write.h>
 #include <liblinux/system_calls/exit.h>
-#include <liblinux/main.h>
+#include <liblinux/start.h>
 
 #define MAKEFILE "makefile"
 #define OUTPUT 1
@@ -16,7 +16,7 @@ static void handle_read_errors(int code);
 static void handle_write_errors(int code);
 static void handle_close_errors(int code);
 
-int main(int count, char **arguments, char **environment)
+int start(int count, char **arguments, char **environment)
 {
 	ssize_t bytes_read = 0, bytes_written = 0;
 	int makefile = open(MAKEFILE, O_RDONLY | O_CLOEXEC, 0);
