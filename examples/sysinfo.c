@@ -9,7 +9,8 @@
 static void handle_sysinfo_errors(int);
 static void write_sysinfo(struct sysinfo *info);
 
-int start(int count, char **arguments, char **environment)
+int start(int count, char **arguments, char **environment,
+		struct auxiliary *values)
 {
 	struct sysinfo info = {0};
 

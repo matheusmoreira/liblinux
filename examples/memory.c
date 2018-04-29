@@ -15,7 +15,8 @@ static void allocate(struct memory *, size_t);
 static void deallocate(struct memory *);
 static ssize_t output(struct memory *);
 
-int start(int count, char **arguments, char **environment)
+int start(int count, char **arguments, char **environment,
+		struct auxiliary *values)
 {
 	struct memory data = {0};
 	char *text = 0;

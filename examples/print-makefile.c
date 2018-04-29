@@ -16,7 +16,8 @@ static void handle_read_errors(int code);
 static void handle_write_errors(int code);
 static void handle_close_errors(int code);
 
-int start(int count, char **arguments, char **environment)
+int start(int count, char **arguments, char **environment,
+		struct auxiliary *values)
 {
 	ssize_t bytes_read = 0, bytes_written = 0;
 	int makefile = open(MAKEFILE, O_RDONLY | O_CLOEXEC, 0);

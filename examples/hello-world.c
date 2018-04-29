@@ -3,7 +3,8 @@
 
 #define OUTPUT 1
 
-int start(int count, char **arguments, char **environment)
+int start(int count, char **arguments, char **environment,
+		struct auxiliary *values)
 {
 	static const char hello_world[] = "Hello, world!\n";
 

@@ -33,7 +33,8 @@ static void write_vector(const char *header, char **vector)
 		write_c_string_tabbed(*vector++);
 }
 
-int start(int count, char **arguments, char **environment)
+int start(int count, char **arguments, char **environment,
+		struct auxiliary *values)
 {
 	write_vector("Arguments:", arguments);
 	write_vector("Environment:", environment);
