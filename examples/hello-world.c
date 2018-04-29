@@ -5,7 +5,7 @@
 
 int start(int count, char **arguments, char **environment)
 {
-	static const char hello_world[] = "Hello, world!" "\n";
+	static const char hello_world[] = "Hello, world!\n";
 
 	/* No need to write the \0 */
 	write(OUTPUT, hello_world, sizeof(hello_world) - 1);
