@@ -34,8 +34,9 @@ int start(int count, char **arguments, char **environment)
 	while (*current)
 		write_c_string_tabbed(*current++);
 
-	write_c_string("Environment:");
 	current = environment;
+
+	write_c_string("Environment:");
 	while (*current)
 		write_c_string_tabbed(*current++);
 
