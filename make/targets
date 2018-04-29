@@ -11,7 +11,7 @@ $(target) : $(objects_library) | directories
 #     liblinux_start.o
 define generate_startfile_rule
 $(filter %/$(basename $(notdir $(1))).o,$(objects_start)) : $(1) | directories
-	$$(call compiler.compile_object,$$@,$$<)
+	$$(call compiler.compile_startup_object,$$@,$$<)
 endef
 $(foreach startfile,$(sources_start),$(eval $(call generate_startfile_rule,$(startfile))))
 undefine generate_startfile_rule
