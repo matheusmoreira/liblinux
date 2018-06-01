@@ -37,7 +37,7 @@ static void write_ulong(unsigned long);
 
 #define message(variable, message) \
 	static const char \
-	variable##_message[] = message " "
+	variable##_message[] = message ": "
 
 #define write_message(variable) \
 	write(OUTPUT, variable##_message, sizeof(variable##_message) - 1)
@@ -45,26 +45,26 @@ static void write_ulong(unsigned long);
 static void write_sysinfo(struct sysinfo *info)
 {
 
-	message(uptime,    "Uptime (seconds):");
+	message(uptime,    "Uptime (seconds)");
 
-	message(procs,     "Number of running processes:");
+	message(procs,     "Number of running processes");
 
-	message(load1,     "Load average (1 minute):");
-	message(load5,     "Load average (5 minutes):");
-	message(load15,    "Load average (15 minutes):");
+	message(load1,     "Load average (1 minute)");
+	message(load5,     "Load average (5 minutes)");
+	message(load15,    "Load average (15 minutes)");
 
-	message(mem_unit,  "Bytes per unit of memory:");
+	message(mem_unit,  "Bytes per unit of memory");
 
-	message(totalram,  "Total RAM (bytes):");
-	message(freeram,   "Free RAM (bytes):");
-	message(sharedram, "Shared RAM (bytes):");
-	message(bufferram, "RAM buffers (bytes):");
+	message(totalram,  "Total RAM (bytes)");
+	message(freeram,   "Free RAM (bytes)");
+	message(sharedram, "Shared RAM (bytes)");
+	message(bufferram, "RAM buffers (bytes)");
 
-	message(totalswap, "Total swap (bytes):");
-	message(freeswap,  "Free swap (bytes):");
+	message(totalswap, "Total swap (bytes)");
+	message(freeswap,  "Free swap (bytes)");
 
-	message(totalhigh, "Total high memory (bytes):");
-	message(freehigh,  "Free high memory (bytes):");
+	message(totalhigh, "Total high memory (bytes)");
+	message(freehigh,  "Free high memory (bytes)");
 
 	write_message(uptime);
 	write_long(info->uptime);
