@@ -8,7 +8,7 @@
 #define ERROR 2
 
 static void handle_errors(int);
-static void write_sysinfo(struct sysinfo *info);
+static void write_sysinfo(struct sysinfo *);
 static void write_time(struct timeval *, struct timezone *);
 
 int start(int count, char **arguments, char **environment,
