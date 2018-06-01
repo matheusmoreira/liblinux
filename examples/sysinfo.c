@@ -1,4 +1,5 @@
 #include <liblinux/system_calls/sysinfo.h>
+#include <liblinux/system_calls/gettimeofday.h>
 #include <liblinux/system_calls/write.h>
 #include <liblinux/system_calls/exit.h>
 #include <liblinux/start.h>
@@ -6,21 +7,27 @@
 #define OUTPUT 1
 #define ERROR 2
 
-static void handle_sysinfo_errors(int);
+static void handle_errors(int);
 static void write_sysinfo(struct sysinfo *info);
+static void write_time(struct timeval *, struct timezone *);
 
 int start(int count, char **arguments, char **environment,
 		struct auxiliary *values)
 {
 	struct sysinfo info = {0};
+	struct timeval time = {0};
+	struct timezone zone = {0};
 
-	handle_sysinfo_errors(sysinfo(&info));
+	handle_errors(sysinfo(&info));
 	write_sysinfo(&info);
+
+	handle_errors(gettimeofday(&time, &zone));
+	write_time(&time, &zone);
 
 	return 0;
 }
 
-static void handle_sysinfo_errors(int code)
+static void handle_errors(int code)
 {
 	static const char EFAULT_message[] = "Invalid sysinfo pointer\n";
 
@@ -100,7 +107,25 @@ static void write_sysinfo(struct sysinfo *info)
 	write_ulong(info->totalhigh * info->mem_unit);
 	write_message(freehigh);
 	write_ulong(info->freehigh * info->mem_unit);
+}
 
+static void write_time(struct timeval *time, struct timezone *zone)
+{
+	message(seconds, "Seconds since the epoch");
+	message(microseconds, "Microseconds since the epoch");
+
+	message(minutes_west, "Minutes west of Greenwich");
+	message(dst_type, "Type of DST correction");
+
+	write_message(seconds);
+	write_long(time->tv_sec);
+	write_message(microseconds);
+	write_long(time->tv_usec);
+
+	write_message(minutes_west);
+	write_long(zone->tz_minuteswest);
+	write_message(dst_type);
+	write_long(zone->tz_dsttime);
 }
 
 #undef message
