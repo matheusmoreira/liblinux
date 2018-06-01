@@ -35,12 +35,15 @@ static void handle_sysinfo_errors(int code)
 static void write_long(long);
 static void write_ulong(unsigned long);
 
-static void write_sysinfo(struct sysinfo *info)
-{
-
 #define message(variable, message) \
 	static const char \
 	variable##_message[] = message " "
+
+#define write_message(variable) \
+	write(OUTPUT, variable##_message, sizeof(variable##_message) - 1)
+
+static void write_sysinfo(struct sysinfo *info)
+{
 
 	message(uptime,    "Uptime (seconds):");
 
@@ -62,11 +65,6 @@ static void write_sysinfo(struct sysinfo *info)
 
 	message(totalhigh, "Total high memory (bytes):");
 	message(freehigh,  "Free high memory (bytes):");
-
-#undef message
-
-#define write_message(variable) \
-	write(OUTPUT, variable##_message, sizeof(variable##_message) - 1)
 
 	write_message(uptime);
 	write_long(info->uptime);
@@ -103,10 +101,10 @@ static void write_sysinfo(struct sysinfo *info)
 	write_message(freehigh);
 	write_ulong(info->freehigh * info->mem_unit);
 
-
-#undef write_message
-
 }
+
+#undef message
+#undef write_message
 
 /* Integer to string conversion and output */
 
