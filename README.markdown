@@ -54,6 +54,94 @@ The main build interface consists of phony targets:
 
   Runs the Linux kernel's `checkpatch.pl` script on the liblinux source code.
 
+## Project structure
+
+    liblinux
+    ├── examples
+    ├── include
+    │   └── liblinux
+    │       └── system_calls
+    ├── make
+    │   └── compilers
+    ├── scripts
+    │   └── linux
+    ├── source
+    │   ├── arch
+    │   └── system_calls
+    └── start
+
+### `examples`
+
+Library usage examples.
+Each `.c` file represents one example.
+Make automatically discovers all examples.
+All examples can be built with `make examples`.
+Specific examples can be compiled and executed with `make run-$example`.
+
+### `include`
+
+Library header files.
+Added to the compiler's search directories list.
+
+### `include/liblinux`
+
+All headers are inside the `liblinux` directory.
+Prevents name clashes since headers are meant to be copied to `/usr/include`
+as part of the installation process.
+
+### `include/liblinux/system_calls`
+
+All system call prototypes are declared here.
+One header per function.
+Each header includes the Linux user space headers required by the function.
+
+### `make`
+
+Makefiles that are included by the top-level `makefile` in a specific order.
+They are named according to the purpose of their definitions.
+
+### `make/compilers`
+
+Makefiles that define compiler-specific variables and macros.
+They are named after the compiler they provide support for.
+
+### `scripts`
+
+Scripts invoked during the build process.
+They generate a GCC wrapper that uses liblinux's startup files when compiling.
+
+### `scripts/linux`
+
+Linux kernel scripts integrated with the build process.
+They check source code for compliance with the
+[Linux kernel coding style][coding-style].
+`make checkpatch` will automatically download `checkpatch.pl`
+and run it on the liblinux source code.
+
+### `source`
+
+Library source code.
+Make automatically discovers all `.c` files and includes them in the build.
+
+### `source/arch`
+
+Architecture-specific source code.
+Contains the implementation of the `system_call` function,
+which is used by all system call wrapper functions.
+Make will select which architecture directory to include in the build
+depending on the target platform.
+
+### `source/system_calls`
+
+System call wrapper function definitions.
+One translation unit per function.
+
+### `start`
+
+Architecture-specific program startup code.
+Provides the `_start` symbol, which is the default ELF entry point.
+This code ultimately calls the program's `start` function.
+
 ## Why?
 
 In 2014, the [`getrandom`][getrandom] system call was introduced.
@@ -195,6 +283,8 @@ mention the idea:
 > engineering weakness.
 
 [make.prefixed-path]: http://make.mad-scientist.net/papers/multi-architecture-builds/#explicitpath
+
+[coding-style]: https://www.kernel.org/doc/html/latest/process/coding-style.html
 
 [getrandom]: http://man7.org/linux/man-pages/man2/getrandom.2.html
 [long-road-to-getrandom()-in-glibc]: https://lwn.net/Articles/711013/
