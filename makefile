@@ -8,8 +8,9 @@ include make/functions
 # Integration with project shell scripts
 include make/scripts
 
-# Compiler configuration
+# Compiler and archiver configuration
 include make/compiler
+include make/archiver
 
 # List of sources, objects and targets
 include make/sources
