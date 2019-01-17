@@ -10,11 +10,3 @@ include make/targets/gcc_wrapper
 
 # Targets for library usage examples
 include make/targets/examples
-
-define generate_example_rule
-phony_targets += run-$(1)
-run-$(1) : $$(build_examples_directory)/$(1) | directories
-	LD_LIBRARY_PATH=$$(build_libraries_directory) $$(build_examples_directory)/$(1)
-endef
-$(foreach phony,$(examples),$(eval $(call generate_example_rule,$(phony))))
-undefine run_example_rule
