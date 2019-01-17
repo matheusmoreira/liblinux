@@ -1,0 +1,5 @@
+archiver = ar
+
+define archiver.create
+$(archiver) rcs $(1) $(2)
+endef
