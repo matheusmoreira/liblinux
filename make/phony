@@ -28,8 +28,8 @@ directories:
 
 define generate_run_example_rule
 phony_targets += run-$(1)
-run-$(1) : $$(build_examples_directory)/$(1) | directories
-	LD_LIBRARY_PATH=$$(build_libraries_directory) $$(build_examples_directory)/$(1)
+run-$(1) : $$(build_examples_dynamic_directory)/$(1) | directories
+	LD_LIBRARY_PATH=$$(build_libraries_directory) $$(build_examples_dynamic_directory)/$(1)
 endef
 
 $(foreach example,$(examples),$(eval $(call generate_run_example_rule,$(example))))

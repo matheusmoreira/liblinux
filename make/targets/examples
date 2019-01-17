@@ -1,6 +1,7 @@
-examples_targets := $(addprefix $(build_examples_directory)/,$(examples))
+examples_dynamic_targets := $(addprefix $(build_examples_dynamic_directory)/,$(examples))
 
-$(build_examples_directory)/% : $(examples_directory)/%.c $(target) $(objects_start) $(gcc_wrapper) | directories
+$(build_examples_dynamic_directory)/% : $(examples_directory)/%.c $(dynamic_library) $(objects_start) $(gcc_wrapper) | directories
 	$(call gcc.compile_example,$@,$<)
 
+examples_targets += $(examples_dynamic_targets)
 targets += $(examples_targets)
