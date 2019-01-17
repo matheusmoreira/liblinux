@@ -9,13 +9,7 @@ include make/targets/start
 include make/targets/gcc_wrapper
 
 # Targets for library usage examples
-include make/examples
-
-examples_targets := $(addprefix $(build_examples_directory)/,$(examples))
-targets += $(examples_targets)
-
-$(build_examples_directory)/% : $(examples_directory)/%.c $(target) $(objects_start) $(gcc_wrapper) | directories
-	$(call gcc.compile_example,$@,$<)
+include make/targets/examples
 
 define generate_example_rule
 phony_targets += run-$(1)

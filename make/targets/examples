@@ -1,0 +1,6 @@
+examples_targets := $(addprefix $(build_examples_directory)/,$(examples))
+
+$(build_examples_directory)/% : $(examples_directory)/%.c $(target) $(objects_start) $(gcc_wrapper) | directories
+	$(call gcc.compile_example,$@,$<)
+
+targets += $(examples_targets)

@@ -12,8 +12,9 @@ include make/scripts
 include make/compiler
 include make/archiver
 
-# List of sources, objects and targets
+# List of sources, examples, objects and targets
 include make/sources
+include make/examples
 include make/objects
 include make/all_targets
 
