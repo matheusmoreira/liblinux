@@ -12,8 +12,14 @@ libraries: static-library dynamic-library
 phony_targets += startfiles
 startfiles: $(objects_start)
 
+phony_targets += static-examples
+static-examples: $(examples_static_targets)
+
+phony_targets += dynamic-examples
+dynamic-examples: $(examples_dynamic_targets)
+
 phony_targets += examples
-examples: $(examples_targets)
+examples: static-examples dynamic-examples
 
 phony_targets += all
 all: libraries startfiles examples
