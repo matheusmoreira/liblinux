@@ -19,14 +19,14 @@ gcc_compile_option := -c
 gcc_shared_library_option := -shared
 gcc_nostdlib_option := -nostdlib
 gcc_output_option = -o $(1)
-gcc_link_option = -l $(1)
+gcc_link_option = $(if $(call equal?,$(2),static),-static) -l $(1)
 gcc_specs_option = -specs=$(1)
 
 define gcc.compile_example
 $(gcc_wrapper) \
 $(gcc_common_options) \
 $(call gcc_library_directory_option,$(build_libraries_directory)) \
-$(call gcc_link_option,$(library)) \
+$(call gcc_link_option,$(library),$(3)) \
 $(call gcc_output_option,$(1)) \
 $(2)
 endef
