@@ -5,18 +5,8 @@ include make/targets/dynamic_library
 # Targets for the liblinux process startup files
 include make/targets/start
 
-# GCC specs file and wrapper script that uses it
-# Makes building example and application code painless
-gcc_specs := $(build_libraries_directory)/$(notdir $(basename $(gcc_specs_script)))
-gcc_wrapper := $(build_scripts_directory)/$(notdir $(basename $(gcc_wrapper_script)))
-targets += $(gcc_wrapper) $(gcc_specs)
-
-$(gcc_wrapper) : $(gcc_specs) $(gcc_wrapper_script) | directories
-	$(gcc_wrapper_script) $(gcc_specs) > $@
-	chmod +x $@
-
-$(gcc_specs) : $(gcc_specs_script) | directories
-	$(gcc_specs_script) $(objects_start) > $@
+# GCC wrapper script and the specs file used by it
+include make/targets/gcc_wrapper
 
 # Targets for library usage examples
 include make/examples

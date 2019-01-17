@@ -1,0 +1,14 @@
+# GCC wrapper script and the specs file used by it
+# Makes building example and application code painless
+
+gcc_wrapper := $(build_scripts_directory)/$(notdir $(basename $(gcc_wrapper_script)))
+gcc_specs := $(build_libraries_directory)/$(notdir $(basename $(gcc_specs_script)))
+
+$(gcc_wrapper) : $(gcc_specs) $(gcc_wrapper_script) | directories
+	$(gcc_wrapper_script) $(gcc_specs) > $@
+	chmod +x $@
+
+$(gcc_specs) : $(gcc_specs_script) | directories
+	$(gcc_specs_script) $(objects_start) > $@
+
+targets += $(gcc_wrapper) $(gcc_specs)
