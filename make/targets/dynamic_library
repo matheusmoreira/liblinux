@@ -1,0 +1,6 @@
+dynamic_library := $(build_libraries_directory)/$(project).so
+
+$(dynamic_library) : $(objects_dynamic_library) | directories
+	$(call compiler.compile_dynamic_library,$@,$^)
+
+targets += $(static_library)
