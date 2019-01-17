@@ -15,7 +15,6 @@ build_root_directory := $(build_directory)/$(architecture)
 build_objects_directory := $(build_root_directory)/objects
 build_objects_static_directory := $(build_objects_directory)/static
 build_objects_dynamic_directory := $(build_objects_directory)/dynamic
-build_architecture_directory := $(build_objects_directory)/arch/$(architecture)
 build_libraries_directory := $(build_root_directory)/libraries
 build_start_directory := $(build_libraries_directory)/$(start_directory)
 build_examples_directory := $(build_root_directory)/$(examples_directory)
