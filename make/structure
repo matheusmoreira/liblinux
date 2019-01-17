@@ -29,8 +29,12 @@ build_scripts_directory := $(build_root_directory)/$(scripts_directory)
 # build
 # └── x86_64
 #     ├── examples
-#     │   ├── hello-world
-#     │   └── ...
+#     │   ├── dynamic
+#     │   │   ├── hello-world
+#     │   │   └── ...
+#     │   └── static
+#     │       ├── hello-world
+#     │       └── ...
 #     ├── libraries
 #     │   ├── liblinux.a
 #     │   ├── liblinux.so
