@@ -21,9 +21,17 @@ organized build tree that mirrors the structure of the source tree,
 it also makes it harder to rebuild individual build targets.
 The main build interface consists of phony targets:
 
-- `library`
+- `static-library`
 
-  Builds the library.
+  Builds a static library.
+
+- `dynamic-library`
+
+  Builds a dynamic library.
+
+- `libraries`
+
+  Builds static and dynamic libraries.
 
 - `startfiles`
 
@@ -35,7 +43,7 @@ The main build interface consists of phony targets:
 
 - `all`
 
-  Builds the `library`, `startfiles` and `examples`.
+  Builds the `libraries`, `startfiles` and `examples`.
 
 - `clean`
 
