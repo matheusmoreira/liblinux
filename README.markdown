@@ -37,9 +37,17 @@ The main build interface consists of phony targets:
 
   Builds the process startup object files.
 
+- `static-examples`
+
+  Builds statically linked executables of all library usage examples.
+
+- `dynamic-examples`
+
+  Builds dynamically linked executables of all library usage examples.
+
 - `examples`
 
-  Builds all library usage examples.
+  Builds both statically and dynamically linked versions of all examples.
 
 - `all`
 
@@ -56,6 +64,17 @@ The main build interface consists of phony targets:
 - `run-hello-world`
 
   Builds and runs the `hello-world` example.
+  Similar rules are automatically generated for every example.
+  By default, examples are statically linked.
+
+- `run-static-hello-world`
+
+  Builds and runs the statically linked `hello-world` example.
+  Similar rules are automatically generated for every example.
+
+- `run-dynamic-hello-world`
+
+  Builds and runs the dynamically linked `hello-world` example.
   Similar rules are automatically generated for every example.
 
 - `checkpatch`
