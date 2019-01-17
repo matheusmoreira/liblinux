@@ -1,6 +1,7 @@
-# The main build target is the library shared object
+# The main build targets are the static and dynamic libraries
+static_library := $(build_libraries_directory)/$(project).a
 dynamic_library := $(build_libraries_directory)/$(project).so
-targets := $(dynamic_library)
+targets := $(static_library) $(dynamic_library)
 
 $(dynamic_library) : $(objects_dynamic_library) | directories
 	$(call compiler.compile_dynamic_library,$@,$^)
