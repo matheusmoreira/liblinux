@@ -15,7 +15,7 @@ include make/archiver
 # List of sources, objects and targets
 include make/sources
 include make/objects
-include make/targets
+include make/all_targets
 
 # Phony targets
 include make/phony
