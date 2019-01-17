@@ -21,6 +21,8 @@ build_libraries_directory := $(build_root_directory)/libraries
 build_start_directory := $(build_libraries_directory)/$(start_directory)
 
 build_examples_directory := $(build_root_directory)/$(examples_directory)
+build_examples_static_directory := $(build_examples_directory)/static
+build_examples_dynamic_directory := $(build_examples_directory)/dynamic
 
 build_scripts_directory := $(build_root_directory)/$(scripts_directory)
 
