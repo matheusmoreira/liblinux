@@ -30,7 +30,7 @@ $(call compiler_output_option,$(1)) \
 $(compiler_compile_option) $(2)
 endef
 
-define compiler.compile_library
+define compiler.compile_dynamic_library
 $(compiler) \
 $(compiler_common_options) \
 $(compiler_nostdlib_option) \

@@ -1,7 +1,10 @@
 # Phony targets
 
-phony_targets += library
-library: $(target)
+phony_targets += dynamic-library
+dynamic-library: $(dynamic_library)
+
+phony_targets += libraries
+libraries: dynamic-library
 
 phony_targets += startfiles
 startfiles: $(objects_start)
@@ -10,7 +13,7 @@ phony_targets += examples
 examples: $(examples_targets)
 
 phony_targets += all
-all: library startfiles examples
+all: libraries startfiles examples
 
 phony_targets += clean
 clean:

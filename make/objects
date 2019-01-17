@@ -1,13 +1,16 @@
-# List of liblinux objects that will be built
-objects_library := $(sources_library:$(source_directory)/%.c=$(build_objects_directory)/%.o)
+# List of liblinux objects that will be built for the dynamic library
+objects_dynamic_library := $(sources_library:$(source_directory)/%.c=$(build_objects_dynamic_directory)/%.o)
+
+# List of liblinux objects that will be built for all libraries
+objects_libraries := $(objects_dynamic_library)
 
 # List of liblinux objects that will be built and used as GCC startfiles
 objects_start := $(addsuffix .o,$(basename $(sources_start:$(start_architecture_directory)/%=$(build_start_directory)/%)))
 
 # List of all objects
-objects := $(objects_library) $(objects_start)
+objects := $(objects_libraries) $(objects_start)
 
 # Build rules for object files
 
-$(build_objects_directory)/%.o : $(source_directory)/%.c | directories
+$(build_objects_dynamic_directory)/%.o : $(source_directory)/%.c | directories
 	$(call compiler.compile_object,$@,$<)

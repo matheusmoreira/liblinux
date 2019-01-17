@@ -21,5 +21,5 @@ include make/phony
 
 # Special variables
 
-.DEFAULT_GOAL := library
+.DEFAULT_GOAL := libraries
 .PHONY: $(phony_targets)
