@@ -3,6 +3,9 @@ static_library := $(build_libraries_directory)/$(project).a
 dynamic_library := $(build_libraries_directory)/$(project).so
 targets := $(static_library) $(dynamic_library)
 
+$(static_library) : $(objects_static_library) | directories
+	$(call archiver.create,$@,$^)
+
 $(dynamic_library) : $(objects_dynamic_library) | directories
 	$(call compiler.compile_dynamic_library,$@,$^)
 

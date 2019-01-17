@@ -1,10 +1,13 @@
 # Phony targets
 
+phony_targets += static-library
+static-library: $(static_library)
+
 phony_targets += dynamic-library
 dynamic-library: $(dynamic_library)
 
 phony_targets += libraries
-libraries: dynamic-library
+libraries: static-library dynamic-library
 
 phony_targets += startfiles
 startfiles: $(objects_start)
