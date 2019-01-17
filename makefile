@@ -2,6 +2,9 @@
 include make/project
 include make/structure
 
+# Custom make functions for convenience
+include make/functions
+
 # Integration with project shell scripts
 include make/scripts
 
