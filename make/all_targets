@@ -2,16 +2,8 @@
 include make/targets/static_library
 include make/targets/dynamic_library
 
-# Build targets for the liblinux process startup objects:
-#
-#     _start.o
-#     liblinux_start.o
-define generate_startfile_rule
-$(filter %/$(basename $(notdir $(1))).o,$(objects_start)) : $(1) | directories
-	$$(call compiler.compile_startup_object,$$@,$$<)
-endef
-$(foreach startfile,$(sources_start),$(eval $(call generate_startfile_rule,$(startfile))))
-undefine generate_startfile_rule
+# Targets for the liblinux process startup files
+include make/targets/start
 
 # GCC specs file and wrapper script that uses it
 # Makes building example and application code painless

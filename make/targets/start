@@ -1,0 +1,13 @@
+# Build targets for the liblinux process startup objects:
+#
+#     _start.o
+#     liblinux_start.o
+
+define generate_start_object_rule
+$(filter %/$(basename $(notdir $(1))).o,$(objects_start)) : $(1) | directories
+	$$(call compiler.compile_startup_object,$$@,$$<)
+endef
+
+$(foreach start,$(sources_start),$(eval $(call generate_start_object_rule,$(start))))
+
+undefine generate_start_object_rule
