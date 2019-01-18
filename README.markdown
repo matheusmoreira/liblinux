@@ -7,16 +7,10 @@ Linux system calls.
 
 The library and all examples are freestanding and have no dependencies.
 They are built with GNU Make.
+Running `make` without arguments will create both static and shared libraries.
 
 Currently, the only supported architecture and compiler is `x86_64` and `GCC`,
 respectively.
-
-Issuing the command:
-
-    make
-
-Will produce the `liblinux.so` shared object and place it in the build
-directory.
 
 The `makefile` implements an out-of-tree multi-architecture build using
 the [prefixed path method][make.prefixed-path], where all build targets
