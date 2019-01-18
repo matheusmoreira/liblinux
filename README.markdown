@@ -8,6 +8,30 @@ Linux system calls.
 The library and all examples are freestanding and have no dependencies.
 They are built with GNU Make.
 Running `make` without arguments will create both static and shared libraries.
+Optional features available:
+
+- Process startup code
+
+  Code that serves as the process entry point and performs initialization before
+  passing control to application code.
+  The current implementation facilitates access to the argument,
+  environment and auxiliary vectors.
+  GCC calls these objects `startfiles`.
+
+- `liblinux.specs` file for GCC
+
+  This file tells GCC to use liblinux `startfiles`.
+
+- `liblinux-gcc` wrapper script
+
+  This script makes GCC use the `liblinux.specs` file.
+  It was inspired by and works just like [`musl-gcc`][musl-gcc].
+
+- Example code
+
+  Examples that demonstrate use of many system calls are provided.
+  They are compiled with `liblinux-gcc` and can use both the static and dynamic
+  liblinux.
 
 Currently, the only supported architecture and compiler is `x86_64` and `GCC`,
 respectively.
@@ -306,6 +330,8 @@ mention the idea:
 > That Linux has never had an identifiable set of interface header files
 > to declare its system call interface seems to me to be a major
 > engineering weakness.
+
+[musl-gcc]: https://www.musl-libc.org/how.html
 
 [make.prefixed-path]: http://make.mad-scientist.net/papers/multi-architecture-builds/#explicitpath
 
