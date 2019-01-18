@@ -6,7 +6,11 @@ Linux system calls.
 ## Building
 
 The library and all examples are freestanding and have no dependencies.
-They are built with GNU Make. Currently, only GCC is supported.
+They are built with GNU Make.
+
+Currently, the only supported architecture and compiler is `x86_64` and `GCC`,
+respectively.
+
 Issuing the command:
 
     make
