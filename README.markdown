@@ -1,6 +1,6 @@
 # Liblinux
 
-Liblinux is a library that provides architecture-independent access to
+Liblinux is a C library that provides architecture-independent access to
 Linux system calls.
 
 ## Building
