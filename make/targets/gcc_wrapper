@@ -9,6 +9,6 @@ $(gcc_wrapper) : $(gcc_specs) $(gcc_wrapper_script) | directories
 	chmod +x $@
 
 $(gcc_specs) : $(gcc_specs_script) | directories
-	$(gcc_specs_script) $(objects_start) > $@
+	$(gcc_specs_script) $(build_libraries_directory) $(objects_start) > $@
 
 targets += $(gcc_wrapper) $(gcc_specs)
