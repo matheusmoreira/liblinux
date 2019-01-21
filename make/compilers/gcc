@@ -1,3 +1,6 @@
+# GCC executable
+gcc := gcc
+
 # Options for GCC
 gcc_dialect_options := -ansi -ffreestanding
 gcc_warning_options := -Wall -Wextra -Wpedantic
