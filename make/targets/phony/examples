@@ -1,0 +1,15 @@
+define generate_run_example_rule
+phony_targets += run-$(1) run-static-$(1) run-dynamic-$(1)
+
+run-$(1) : run-static-$(1)
+
+run-static-$(1) : $$(build_examples_static_directory)/$(1) | directories
+	$$(build_examples_static_directory)/$(1)
+
+run-dynamic-$(1) : $$(build_examples_dynamic_directory)/$(1) | directories
+	LD_LIBRARY_PATH=$$(build_libraries_directory) $$(build_examples_dynamic_directory)/$(1)
+endef
+
+$(foreach example,$(examples),$(eval $(call generate_run_example_rule,$(example))))
+
+undefine generate_run_example_rule
