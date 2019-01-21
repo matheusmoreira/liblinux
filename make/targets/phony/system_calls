@@ -1,0 +1,11 @@
+system_call_lists := $(notdir $(wildcard make/targets/system_calls/*))
+
+define generate_system_call_list_rule
+phony_targets += system-calls.$(1)
+system-calls.$(1) : $$(system-calls.$(1))
+	cat $$<
+endef
+
+$(foreach list,$(system_call_lists),$(eval $(call generate_system_call_list_rule,$(list))))
+
+undefine generate_system_call_list_rule
