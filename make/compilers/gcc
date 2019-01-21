@@ -29,6 +29,10 @@ gcc_static_option = $(if $(call equal?,$(1),static),-static)
 gcc_link_option = -l $(1)
 gcc_specs_option = -specs=$(1)
 
+redirect_input_to = < $(1)
+gcc_read_from_standard_input := -
+gcc_null_input := $(gcc_read_from_standard_input) $(call redirect_input_to,/dev/null)
+
 define gcc.compile_example
 $(gcc_wrapper) \
 $(gcc_common_options) \
