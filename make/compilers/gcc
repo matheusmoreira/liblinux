@@ -19,6 +19,7 @@ endef
 gcc_library_directory_option = -L$(1)
 gcc_code_generation_options = $(if $(call equal?,$(1),static),-fno-PIC,-fPIC)
 gcc_compile_option := -c
+gcc_preprocess_option := -E
 gcc_shared_library_option := -shared
 gcc_nostdlib_option := -nostdlib
 gcc_output_option = -o $(1)
