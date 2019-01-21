@@ -4,6 +4,7 @@ gcc_wrapper_script := $(scripts_directory)/$(project)-gcc.sh
 
 # Scripts must be downloaded from the kernel's git repository
 download = curl --output $(1) $(2)
-download_linux_script = $(call download,$(1),https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/plain/scripts/$(notdir $(1)))
+linux_script_url = https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/plain/scripts/$(1)
+download_linux_script = $(call download,$(1),$(call linux_script_url,$(notdir $(1))))
 
 include make/scripts/checkpatch
