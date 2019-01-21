@@ -6,7 +6,7 @@ include make/structure
 include make/functions
 
 # Integration with project shell scripts
-include make/scripts
+include make/all_scripts
 
 # Compiler and archiver configuration
 include make/compiler
