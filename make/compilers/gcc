@@ -40,3 +40,12 @@ $(call gcc_static_option,$(3)) \
 $(call gcc_output_option,$(1)) \
 $(2)
 endef
+
+define gcc.list_defined_macros
+$(gcc) \
+$(gcc_common_options) \
+$(gcc_preprocess_option) \
+$(gcc_list_macro_names_option) \
+$(call gcc_include_macros_option,$(1)) \
+$(gcc_null_input)
+endef
