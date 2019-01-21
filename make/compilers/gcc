@@ -21,6 +21,7 @@ gcc_code_generation_options = $(if $(call equal?,$(1),static),-fno-PIC,-fPIC)
 gcc_compile_option := -c
 gcc_preprocess_option := -E
 gcc_include_macros_option = -imacros $(1)
+gcc_list_macro_names_option := -dN
 gcc_shared_library_option := -shared
 gcc_nostdlib_option := -nostdlib
 gcc_output_option = -o $(1)
