@@ -1,0 +1,7 @@
+system-calls.implemented.sh := $(scripts_directory)/system-calls.implemented.sh
+system-calls.implemented := $(build_scripts_directory)/system-calls.implemented
+
+liblinux_system_calls := $(basename $(notdir $(wildcard $(include_directory)/liblinux/system_calls/*.h)))
+
+$(system-calls.implemented) : $(system-calls.implemented.sh) | directories
+	$< $(liblinux_system_calls) > $@
