@@ -10,3 +10,6 @@ include make/targets/gcc_wrapper
 
 # Targets for library usage examples
 include make/targets/examples
+
+# System call lists
+include make/targets/system_calls/available
