@@ -103,6 +103,18 @@ The main build interface consists of phony targets:
 
   Runs the Linux kernel's `checkpatch.pl` script on the liblinux source code.
 
+- `system-calls.available`
+
+  Computes a list of available system calls on the system.
+
+- `system-calls.implemented`
+
+  Computes a list of system calls currently implemented by liblinux.
+
+- `system-calls.missing`
+
+  Computes a list of available system calls that are not present in liblinux.
+
 ## Project structure
 
     liblinux
