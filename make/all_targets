@@ -14,3 +14,4 @@ include make/targets/examples
 # System call lists
 include make/targets/system_calls/available
 include make/targets/system_calls/implemented
+include make/targets/system_calls/missing
