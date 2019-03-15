@@ -12,11 +12,3 @@ objects_start := $(addsuffix .o,$(basename $(sources_start:$(start_architecture_
 
 # List of all objects
 objects := $(objects_libraries) $(objects_start)
-
-# Build rules for object files
-
-$(build_objects_static_directory)/%.o : $(source_directory)/%.c | directories
-	$(call compiler.compile_object,$@,$<,static)
-
-$(build_objects_dynamic_directory)/%.o : $(source_directory)/%.c | directories
-	$(call compiler.compile_object,$@,$<,dynamic)
