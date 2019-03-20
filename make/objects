@@ -1,3 +1,6 @@
+# Converts source paths to object paths
+source_to_object = $(patsubst $(source_directory)/%.c,$(build_objects_$(2)_directory)/%.o,$(1))
+
 # List of liblinux objects that will be built for the static library
 objects_static_library := $(sources_library:$(source_directory)/%.c=$(build_objects_static_directory)/%.o)
 
