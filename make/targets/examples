@@ -1,8 +1,9 @@
 example_to_executable = $(patsubst $(examples_directory)/%.c,$(build_examples_$(2)_directory)/%,$(1))
 example_to_static_executable = $(call example_to_executable,$(1),static)
+example_to_dynamic_executable = $(call example_to_executable,$(1),dynamic)
 
 examples_static_targets := $(call example_to_static_executable,$(sources_examples))
-examples_dynamic_targets := $(addprefix $(build_examples_dynamic_directory)/,$(examples))
+examples_dynamic_targets := $(call example_to_dynamic_executable,$(sources_examples))
 
 $(build_examples_static_directory)/% : $(examples_directory)/%.c $(static_library) $(objects_start) $(gcc_wrapper) | directories
 	$(call gcc.compile_example,$@,$<,static)
