@@ -13,3 +13,5 @@ $(foreach file,$(sources_library),$(eval $(call generate_dependency_file_rule,$(
 $(foreach file,$(sources_examples),$(eval $(call generate_dependency_file_rule,$(call path_to_dependency_file,$(file)),$(file),example_to_executables)))
 
 undefine generate_dependency_file_rule
+
+targets += $(dependency_files)
