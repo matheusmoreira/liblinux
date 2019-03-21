@@ -25,6 +25,8 @@ build_examples_directory := $(build_root_directory)/$(examples_directory)
 build_examples_static_directory := $(build_examples_directory)/static
 build_examples_dynamic_directory := $(build_examples_directory)/dynamic
 
+build_dependencies_directory := $(build_root_directory)/dependencies
+
 build_scripts_directory := $(build_root_directory)/$(scripts_directory)
 
 # build
