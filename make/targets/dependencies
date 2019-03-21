@@ -15,3 +15,5 @@ $(foreach file,$(sources_examples),$(eval $(call generate_dependency_file_rule,$
 undefine generate_dependency_file_rule
 
 targets += $(dependency_files)
+
+include $(dependency_files)
