@@ -8,4 +8,6 @@ $(1) : $(2) | directories
 	$$(call compiler.generate_dependency_data,$$@,$$<,$$(call $(3),$(2)))
 endef
 
+$(foreach file,$(sources_library),$(eval $(call generate_dependency_file_rule,$(call path_to_dependency_file,$(file)),$(file),source_to_objects)))
+
 undefine generate_dependency_file_rule
