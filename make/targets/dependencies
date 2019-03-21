@@ -1,1 +1,3 @@
 # Build rules for dependency files
+
+path_to_dependency_file = $(addprefix $(build_dependencies_directory)/,$(addsuffix .d,$(basename $(1))))
