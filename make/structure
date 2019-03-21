@@ -31,6 +31,17 @@ build_scripts_directory := $(build_root_directory)/$(scripts_directory)
 
 # build
 # └── x86_64
+#     ├── dependencies
+#     │   ├── examples
+#     │   │   ├── hello-world.d
+#     │   │   └── ...
+#     │   └── source
+#     │       ├── arch
+#     │       │   └── x86_64
+#     │       │       └── system_call.d
+#     │       └── system_calls
+#     │           ├── exit.d
+#     │           └── ...
 #     ├── examples
 #     │   ├── dynamic
 #     │   │   ├── hello-world
