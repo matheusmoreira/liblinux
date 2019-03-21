@@ -26,7 +26,7 @@ all: libraries startfiles examples
 
 phony_targets += clean
 clean:
-	rm -rf $(build_directory)
+	rm -rf $(build_directory)/
 
 phony_targets += directories
 directories:
