@@ -2,7 +2,7 @@
 
 define generate_object_rule
 $(1) : $$(patsubst $$(build_objects_$(2)_directory)/%.o,$$(source_directory)/%.c,$(1)) | directories
-	$(call compiler.compile_object,$$@,$$<,$(2))
+	$$(call compiler.compile_object,$$@,$$<,$(2))
 endef
 
 $(foreach link_type,static dynamic,$(foreach object,$(objects_$(link_type)_library),$(eval $(call generate_object_rule,$(object),$(link_type)))))
