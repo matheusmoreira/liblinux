@@ -1,0 +1,3 @@
+# List of liblinux headers
+headers_library := $(wildcard $(include_liblinux_directory)/*.h) \
+                   $(wildcard $(include_liblinux_directory)/system_calls/*.h)

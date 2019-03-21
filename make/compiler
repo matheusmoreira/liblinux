@@ -39,3 +39,5 @@ $(compiler_shared_library_option) \
 $(call compiler_output_option,$(1)) \
 $(2)
 endef
+
+compiler.generate_dependency_data = $($(compiler).generate_dependency_data)

@@ -20,6 +20,7 @@ gcc_library_directory_option = -L$(1)
 gcc_code_generation_options = $(if $(call equal?,$(1),static),-fno-PIC,-fPIC)
 gcc_compile_option := -c
 gcc_preprocess_option := -E
+gcc_dependency_generation_options = -M -MF $(1) $(foreach target,$(2),-MT $(target))
 gcc_include_macros_option = -imacros $(1)
 gcc_list_macro_names_option := -dN
 gcc_shared_library_option := -shared
@@ -38,6 +39,13 @@ $(gcc_wrapper) \
 $(gcc_common_options) \
 $(call gcc_static_option,$(3)) \
 $(call gcc_output_option,$(1)) \
+$(2)
+endef
+
+define gcc.generate_dependency_data
+$(gcc) \
+$(gcc_common_options) \
+$(call gcc_dependency_generation_options,$(1),$(3) $(1)) \
 $(2)
 endef
 

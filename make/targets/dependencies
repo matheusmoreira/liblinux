@@ -1,0 +1,19 @@
+# Build rules for dependency files
+
+path_to_dependency_file = $(addprefix $(build_dependencies_directory)/,$(addsuffix .d,$(basename $(1))))
+
+define generate_dependency_file_rule
+dependency_files += $(1)
+$(1) : $(2) | directories
+	$$(call compiler.generate_dependency_data,$$@,$$<,$$(call $(3),$(2)))
+endef
+
+$(foreach file,$(sources_library),$(eval $(call generate_dependency_file_rule,$(call path_to_dependency_file,$(file)),$(file),source_to_objects)))
+
+$(foreach file,$(sources_examples),$(eval $(call generate_dependency_file_rule,$(call path_to_dependency_file,$(file)),$(file),example_to_executables)))
+
+undefine generate_dependency_file_rule
+
+targets += $(dependency_files)
+
+include $(dependency_files)

@@ -1,8 +1,14 @@
+# Converts source paths to object paths
+source_to_object = $(patsubst $(source_directory)/%.c,$(build_objects_$(2)_directory)/%.o,$(1))
+source_to_static_object = $(call source_to_object,$(1),static)
+source_to_dynamic_object = $(call source_to_object,$(1),dynamic)
+source_to_objects = $(call source_to_static_object,$(1)) $(call source_to_dynamic_object,$(1))
+
 # List of liblinux objects that will be built for the static library
-objects_static_library := $(sources_library:$(source_directory)/%.c=$(build_objects_static_directory)/%.o)
+objects_static_library := $(call source_to_static_object,$(sources_library))
 
 # List of liblinux objects that will be built for the dynamic library
-objects_dynamic_library := $(sources_library:$(source_directory)/%.c=$(build_objects_dynamic_directory)/%.o)
+objects_dynamic_library := $(call source_to_dynamic_object,$(sources_library))
 
 # List of liblinux objects that will be built for all libraries
 objects_libraries := $(objects_static_library) $(objects_dynamic_library)
@@ -12,11 +18,3 @@ objects_start := $(addsuffix .o,$(basename $(sources_start:$(start_architecture_
 
 # List of all objects
 objects := $(objects_libraries) $(objects_start)
-
-# Build rules for object files
-
-$(build_objects_static_directory)/%.o : $(source_directory)/%.c | directories
-	$(call compiler.compile_object,$@,$<,static)
-
-$(build_objects_dynamic_directory)/%.o : $(source_directory)/%.c | directories
-	$(call compiler.compile_object,$@,$<,dynamic)
