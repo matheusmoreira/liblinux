@@ -5,7 +5,7 @@ path_to_dependency_file = $(addprefix $(build_dependencies_directory)/,$(addsuff
 define generate_dependency_file_rule
 dependency_files += $(1)
 $(1) : $(2) | directories
-	$$(call compiler.generate_dependency_data,$$@,$$<,$$(call $(3),$(2)))
+	$$(call compiler.generate_dependency_data,$$@,$$<,$$(call $(3),$$<))
 endef
 
 $(foreach file,$(sources_library),$(eval $(call generate_dependency_file_rule,$(call path_to_dependency_file,$(file)),$(file),source_to_objects)))
