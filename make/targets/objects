@@ -1,10 +1,46 @@
-# Build rules for object files
+# Automatic build rule generation for object files
 
-define generate_object_rule
-$(1) : $$(patsubst $$(build_objects_$(2)_directory)/%.o,$$(source_directory)/%.c,$(1)) | directories
-	$$(call compiler.compile_object,$$@,$$<,$(2))
+# Rule template for object files.
+#
+# The reason why objects depend on their dependency data file
+# is to trigger the generation of dependency data when it is updated.
+# Once generated, future executions of make will benefit from the dependency data.
+# Dependency data file generation rules are defined in make/targets/dependencies.
+#
+# $(1) = path to source file
+# $(2) = path to object file
+# $(3) = path to dependency data file
+# $(4) = linkage type
+#
+# References:
+#
+#     https://make.mad-scientist.net/papers/advanced-auto-dependency-generation/#depdelete
+#
+define object_rule_template
+$(2) : $(1) $(3) | directories
+	$$(call compiler.compile_object,$$@,$$<,$(4))
 endef
 
-$(foreach link_type,static dynamic,$(foreach object,$(objects_$(link_type)_library),$(eval $(call generate_object_rule,$(object),$(link_type)))))
+# Evaluates computes the parameters for and evaluates the object rule template.
+#
+# $(1) = path to source file
+# $(2) = linkage type
+#
+generate_object_rule = $(call object_rule_template,$(1),$(call source_to_object,$(1),$(2)),$(call source_to_dependency,$(1)),$(2))
 
-undefine generate_object_rule
+# Rule generators for statically and dynamically linked objects,
+# either individually or both a the same time.
+#
+# $(1) = path to source file
+#
+generate_static_object_rule = $(call generate_object_rule,$(1),static)
+generate_dynamic_object_rule = $(call generate_object_rule,$(1),dynamic)
+
+define generate_object_rules
+$(call generate_static_object_rule,$(1))
+
+$(call generate_dynamic_object_rule,$(1))
+endef
+
+# Generate object file rules for every source file
+$(foreach source,$(sources_library),$(eval $(call generate_object_rules,$(source))))
