@@ -1,8 +1,3 @@
-example_to_executable = $(patsubst $(examples_directory)/%.c,$(build_examples_$(2)_directory)/%,$(1))
-example_to_static_executable = $(call example_to_executable,$(1),static)
-example_to_dynamic_executable = $(call example_to_executable,$(1),dynamic)
-example_to_executables = $(call example_to_static_executable,$(1)) $(call example_to_dynamic_executable,$(1))
-
 examples_static_targets := $(call example_to_static_executable,$(sources_examples))
 examples_dynamic_targets := $(call example_to_dynamic_executable,$(sources_examples))
 
