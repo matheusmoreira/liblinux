@@ -5,7 +5,7 @@ gcc_wrapper := $(build_scripts_directory)/$(notdir $(basename $(gcc_wrapper_scri
 gcc_specs := $(build_libraries_directory)/$(notdir $(basename $(gcc_specs_script)))
 
 $(gcc_wrapper) : $(gcc_specs) $(gcc_wrapper_script) | directories
-	$(gcc_wrapper_script) $(gcc_specs) > $@
+	$(gcc_wrapper_script) $< > $@
 	chmod +x $@
 
 $(gcc_specs) : $(gcc_specs_script) | directories
