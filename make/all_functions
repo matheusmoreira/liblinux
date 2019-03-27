@@ -1,3 +1,1 @@
-# x - y = 0 ∴ x = y
-equal? = $(if $(subst $(1),,$(2)),,equal)
-not_equal? = $(if $(call equal?,$(1),$(2)),,not_equal)
+include make/functions/comparison

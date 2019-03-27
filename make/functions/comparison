@@ -1,0 +1,5 @@
+# x - y = 0 ∴ x = y
+equal? = $(if $(subst $(1),,$(2)),,=)
+
+# x - y ≠ 0 ∴ x ≠ y
+not_equal? = $(if $(call equal?,$(1),$(2)),,≠)
