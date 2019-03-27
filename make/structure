@@ -72,4 +72,7 @@ build_scripts_directory := $(build_root_directory)/$(scripts_directory)
 #     │           ├── exit.o
 #     │           └── ...
 #     └── scripts
-#         └── liblinux-gcc
+#         ├── liblinux-gcc
+#         ├── system-calls.available
+#         ├── system-calls.implemented
+#         └── system-calls.missing
