@@ -1,7 +1,5 @@
 # Build rules for dependency files
 
-path_to_dependency_file = $(addprefix $(build_dependencies_directory)/,$(addsuffix .d,$(basename $(1))))
-
 define generate_dependency_file_rule
 dependency_files += $(1)
 $(1) : $(2) | directories
