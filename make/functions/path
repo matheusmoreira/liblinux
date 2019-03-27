@@ -1,7 +1,14 @@
-# Converts source paths to object paths
+# Converts a source file path to its corresponding object file path.
+# Parameterized on the linkage type: static or dynamic.
+#
+# $(1) = path to source file
+# $(2) = linkage type: static | dynamic
+#
 source_to_object = $(patsubst $(source_directory)/%.c,$(build_objects_$(2)_directory)/%.o,$(1))
+
 source_to_static_object = $(call source_to_object,$(1),static)
 source_to_dynamic_object = $(call source_to_object,$(1),dynamic)
+
 source_to_objects = $(call source_to_static_object,$(1)) $(call source_to_dynamic_object,$(1))
 
 # Converts the path to a source file to the path to its corresponding dependency data file
