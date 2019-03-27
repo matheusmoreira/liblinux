@@ -6,9 +6,9 @@ $(1) : $(2) | directories
 	$$(call compiler.generate_dependency_data,$$@,$$<,$$(call $(3),$$<))
 endef
 
-$(foreach file,$(sources_library),$(eval $(call generate_dependency_file_rule,$(call path_to_dependency_file,$(file)),$(file),source_to_objects)))
+$(foreach file,$(sources_library),$(eval $(call generate_dependency_file_rule,$(call source_to_dependency,$(file)),$(file),source_to_objects)))
 
-$(foreach file,$(sources_examples),$(eval $(call generate_dependency_file_rule,$(call path_to_dependency_file,$(file)),$(file),example_to_executables)))
+$(foreach file,$(sources_examples),$(eval $(call generate_dependency_file_rule,$(call source_to_dependency,$(file)),$(file),example_to_executables)))
 
 undefine generate_dependency_file_rule
 
