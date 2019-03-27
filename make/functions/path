@@ -7,6 +7,12 @@ source_to_objects = $(call source_to_static_object,$(1)) $(call source_to_dynami
 # Converts the path to a source file to the path to its corresponding dependency data file
 source_to_dependency = $(addprefix $(build_dependencies_directory)/,$(addsuffix .d,$(basename $(1))))
 
+# Converts an example source file path to its corresponding executable file path.
+# Parameterized on the linkage type: static or dynamic.
+#
+# $(1) = path to example source file
+# $(2) = linkage type: static | dynamic
+#
 example_to_executable = $(patsubst $(examples_directory)/%.c,$(build_examples_$(2)_directory)/%,$(1))
 
 example_to_static_executable = $(call example_to_executable,$(1),static)
