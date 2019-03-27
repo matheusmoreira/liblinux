@@ -21,7 +21,7 @@ $(2) : $(1) $(3) | directories
 	$$(call compiler.compile_object,$$@,$$<,$(4))
 endef
 
-# Evaluates computes the parameters for and evaluates the object rule template.
+# Computes the parameters for and evaluates the object rule template.
 #
 # $(1) = path to source file
 # $(2) = linkage type
