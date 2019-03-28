@@ -3,5 +3,5 @@ system-calls.available := $(build_scripts_directory)/system-calls.available
 
 definitions.h := $(include_liblinux_directory)/definitions.h
 
-$(system-calls.available) : $(system-calls.available.sh) $(definitions.h) | directories
+$(system-calls.available) : $(system-calls.available.sh) $(definitions.h)
 	$(call gcc.list_defined_macros,$(definitions.h)) | $< > $@

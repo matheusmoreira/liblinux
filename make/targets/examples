@@ -17,7 +17,7 @@
 define example_rule_template
 examples_$(4)_targets += $(2)
 
-$(2) : $(1) $(3) $$($(4)_library) $$(objects_start) $$(gcc_wrapper) | directories
+$(2) : $(1) $(3) $$($(4)_library) $$(objects_start) $$(gcc_wrapper)
 	$$(call gcc.compile_example,$$@,$$<,$(4))
 endef
 
