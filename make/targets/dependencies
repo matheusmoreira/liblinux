@@ -2,7 +2,8 @@
 
 define generate_dependency_file_rule
 dependency_files += $(1)
-$(1) : $(2) | directories
+$(1) : $(2)
+	$$(call ensure_directory_exists,$$(@D))
 	$$(call compiler.generate_dependency_data,$$@,$$<,$$(call $(3),$$<))
 endef
 

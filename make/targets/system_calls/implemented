@@ -3,5 +3,6 @@ system-calls.implemented := $(build_scripts_directory)/system-calls.implemented
 
 liblinux_system_calls := $(basename $(notdir $(wildcard $(include_liblinux_directory)/system_calls/*.h)))
 
-$(system-calls.implemented) : $(system-calls.implemented.sh) | directories
+$(system-calls.implemented) : $(system-calls.implemented.sh)
+	$(call ensure_directory_exists,$(@D))
 	$< $(liblinux_system_calls) > $@

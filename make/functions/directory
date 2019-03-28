@@ -1,0 +1,10 @@
+# Command to use to create directories.
+# Should not fail if the directory already exists, and create its parent directories as needed.
+mkdir_p := mkdir -p
+
+# Generates a command that makes sure the given directory exists.
+# Creates all directories that don't exist. Does nothing if they do.
+#
+# $(1) = path to directory to create
+#
+ensure_directory_exists = $(mkdir_p) $(1)

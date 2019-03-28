@@ -28,9 +28,5 @@ phony_targets += clean
 clean:
 	rm -rf $(build_directory)/
 
-phony_targets += directories
-directories:
-	mkdir -p $(sort $(dir $(objects) $(targets)))
-
 include make/targets/phony/examples
 include make/targets/phony/system_calls

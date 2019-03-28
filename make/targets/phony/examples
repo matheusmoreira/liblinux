@@ -3,10 +3,10 @@ phony_targets += run-$(1) run-static-$(1) run-dynamic-$(1)
 
 run-$(1) : run-static-$(1)
 
-run-static-$(1) : $$(build_examples_static_directory)/$(1) | directories
+run-static-$(1) : $$(build_examples_static_directory)/$(1)
 	$$(build_examples_static_directory)/$(1)
 
-run-dynamic-$(1) : $$(build_examples_dynamic_directory)/$(1) | directories
+run-dynamic-$(1) : $$(build_examples_dynamic_directory)/$(1)
 	LD_LIBRARY_PATH=$$(build_libraries_directory) $$(build_examples_dynamic_directory)/$(1)
 endef
 
