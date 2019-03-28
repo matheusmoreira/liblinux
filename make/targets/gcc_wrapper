@@ -5,10 +5,12 @@ gcc_wrapper := $(build_scripts_directory)/$(notdir $(basename $(gcc_wrapper_scri
 gcc_specs := $(build_libraries_directory)/$(notdir $(basename $(gcc_specs_script)))
 
 $(gcc_wrapper) : $(gcc_specs) $(gcc_wrapper_script)
+	$(call ensure_directory_exists,$(@D))
 	$(gcc_wrapper_script) $< > $@
 	chmod +x $@
 
 $(gcc_specs) : $(gcc_specs_script)
+	$(call ensure_directory_exists,$(@D))
 	$(gcc_specs_script) $(build_libraries_directory) $(objects_start) > $@
 
 targets += $(gcc_wrapper) $(gcc_specs)

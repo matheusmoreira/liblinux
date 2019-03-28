@@ -5,6 +5,7 @@
 
 define generate_start_object_rule
 $(filter %/$(basename $(notdir $(1))).o,$(objects_start)) : $(1)
+	$$(call ensure_directory_exists,$$(@D))
 	$$(call compiler.compile_startup_object,$$@,$$<)
 endef
 

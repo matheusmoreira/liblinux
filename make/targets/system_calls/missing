@@ -2,4 +2,5 @@ system-calls.missing.sh := $(scripts_directory)/system-calls.missing.sh
 system-calls.missing := $(build_scripts_directory)/system-calls.missing
 
 $(system-calls.missing) : $(system-calls.missing.sh) $(system-calls.available) $(system-calls.implemented)
+	$(call ensure_directory_exists,$(@D))
 	$< $(system-calls.available) $(system-calls.implemented) > $@
