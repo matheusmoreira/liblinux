@@ -1,2 +1,3 @@
 include make/functions/comparison
+include make/functions/directory
 include make/functions/path
