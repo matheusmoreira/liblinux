@@ -23,8 +23,9 @@ endef
 #
 generate_dependency_file_rule = $(call dependency_file_rule_template,$(1),$(call source_to_dependency,$(1)),$(2))
 
-# Generate dependency file rules for all library and example source code
+# Generate dependency file rules for library sources, process startup code and examples.
 $(foreach file,$(sources_library),$(eval $(call generate_dependency_file_rule,$(file),source_to_objects)))
+$(foreach file,$(sources_start),$(eval $(call generate_dependency_file_rule,$(file),source_to_start_object)))
 $(foreach file,$(sources_examples),$(eval $(call generate_dependency_file_rule,$(file),example_to_executables)))
 
 targets += $(dependency_files)
