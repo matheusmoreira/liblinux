@@ -1,26 +1,10 @@
 # GCC executable
 gcc := gcc
 
-# Options for GCC
-gcc_dialect_options := -ansi -ffreestanding
-gcc_warning_options := -Wall -Wextra -Wpedantic
-gcc_optimization_options := -Os -fno-strict-aliasing
-gcc_instrumentation_options := -fno-stack-protector
-gcc_preprocessor_options := -I $(include_directory)
-
-define gcc_common_options
-$(gcc_dialect_options) \
-$(gcc_warning_options) \
-$(gcc_optimization_options) \
-$(gcc_instrumentation_options) \
-$(gcc_preprocessor_options)
-endef
-
+# GCC option variable and function definitions
 gcc_library_directory_option = -L$(1)
-gcc_code_generation_options = $(if $(call equal?,$(1),static),-fno-PIC,-fPIC)
 gcc_compile_option := -c
 gcc_preprocess_option := -E
-gcc_dependency_generation_options = -M -MF $(1) $(foreach target,$(2),-MT $(target))
 gcc_include_macros_option = -imacros $(1)
 gcc_list_macro_names_option := -dN
 gcc_shared_library_option := -shared
@@ -30,10 +14,25 @@ gcc_static_option = $(if $(call equal?,$(1),static),-static)
 gcc_link_option = -l $(1)
 gcc_specs_option = -specs=$(1)
 
-redirect_input_to = < $(1)
-gcc_read_from_standard_input := -
-gcc_null_input := $(gcc_read_from_standard_input) $(call redirect_input_to,/dev/null)
+gcc_code_generation_options = $(if $(call equal?,$(1),static),-fno-PIC,-fPIC)
+gcc_dependency_generation_options = -M -MF $(1) $(foreach target,$(2),-MT $(target))
 
+# Common GCC options
+gcc_dialect_options := -ansi -ffreestanding
+gcc_warning_options := -Wall -Wextra -Wpedantic
+gcc_preprocessor_options := -I $(include_directory)
+gcc_optimization_options := -Os -fno-strict-aliasing
+gcc_instrumentation_options := -fno-stack-protector
+
+define gcc_common_options
+$(gcc_dialect_options) \
+$(gcc_warning_options) \
+$(gcc_preprocessor_options) \
+$(gcc_optimization_options) \
+$(gcc_instrumentation_options)
+endef
+
+# GCC command line generation functions
 define gcc.compile_example
 $(gcc_wrapper) \
 $(gcc_common_options) \
@@ -48,6 +47,10 @@ $(gcc_common_options) \
 $(call gcc_dependency_generation_options,$(1),$(3) $(1)) \
 $(2)
 endef
+
+redirect_input_to = < $(1)
+gcc_read_from_standard_input := -
+gcc_null_input := $(gcc_read_from_standard_input) $(call redirect_input_to,/dev/null)
 
 define gcc.list_defined_macros
 $(gcc) \
