@@ -9,7 +9,7 @@
 # $(2) = path to start object file
 #
 define start_object_rule_template
-$(2) : $(1)
+$(2) : $(1) $(3)
 	$$(call ensure_directory_exists,$$(@D))
 	$$(call compiler.compile_startup_object,$$@,$$<)
 endef
@@ -18,7 +18,7 @@ endef
 #
 # $(1) = path to start code file
 #
-generate_start_object_rule = $(call start_object_rule_template,$(1),$(call source_to_start_object,$(1)))
+generate_start_object_rule = $(call start_object_rule_template,$(1),$(call source_to_start_object,$(1)),$(call source_to_dependency,$(1)))
 
 # Generate start object rules for all start code files
 $(foreach file,$(sources_start),$(eval $(call generate_start_object_rule,$(file))))
