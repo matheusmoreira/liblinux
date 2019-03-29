@@ -15,5 +15,3 @@ _start:
 	movq %rax,%rdi
 	movq $__NR_exit,%rax
 	syscall
-
-	hlt
