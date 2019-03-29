@@ -1,3 +1,5 @@
+#include <liblinux/definitions.h>
+
 .text
 .global _start
 
@@ -11,7 +13,7 @@ _start:
 	call liblinux_start
 
 	movq %rax,%rdi
-	movq $60,%rax
+	movq $__NR_exit,%rax
 	syscall
 
 	hlt
