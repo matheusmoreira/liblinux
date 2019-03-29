@@ -8,7 +8,7 @@ objects_dynamic_library := $(call source_to_dynamic_object,$(sources_library))
 objects_libraries := $(objects_static_library) $(objects_dynamic_library)
 
 # List of liblinux objects that will be built and used as GCC startfiles
-objects_start := $(addsuffix .o,$(basename $(sources_start:$(start_architecture_directory)/%=$(build_start_directory)/%)))
+objects_start := $(call source_to_start_object,$(sources_start))
 
 # List of all objects
 objects := $(objects_libraries) $(objects_start)
