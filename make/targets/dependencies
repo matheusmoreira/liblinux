@@ -1,17 +1,31 @@
 # Build rules for dependency files
 
-define generate_dependency_file_rule
-dependency_files += $(1)
-$(1) : $(2)
+# Rule template for dependency data files.
+#
+# $(1) = path to source file
+# $(2) = path to dependency file
+# $(3) = make function that converts a path to a source file
+#        to a list of paths to all its targets
+#
+define dependency_file_rule_template
+dependency_files += $(2)
+
+$(2) : $(1)
 	$$(call ensure_directory_exists,$$(@D))
 	$$(call compiler.generate_dependency_data,$$@,$$<,$$(call $(3),$$<))
 endef
 
-$(foreach file,$(sources_library),$(eval $(call generate_dependency_file_rule,$(call source_to_dependency,$(file)),$(file),source_to_objects)))
+# Computes the parameters for and evaluates the dependency file rule template.
+#
+# $(1) = path to source source file
+# $(2) = make function that converts a path to a source file
+#        to a list of paths to all its targets
+#
+generate_dependency_file_rule = $(call dependency_file_rule_template,$(1),$(call source_to_dependency,$(1)),$(2))
 
-$(foreach file,$(sources_examples),$(eval $(call generate_dependency_file_rule,$(call source_to_dependency,$(file)),$(file),example_to_executables)))
-
-undefine generate_dependency_file_rule
+# Generate dependency file rules for all library and example source code
+$(foreach file,$(sources_library),$(eval $(call generate_dependency_file_rule,$(file),source_to_objects)))
+$(foreach file,$(sources_examples),$(eval $(call generate_dependency_file_rule,$(file),example_to_executables)))
 
 targets += $(dependency_files)
 
