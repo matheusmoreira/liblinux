@@ -5,6 +5,7 @@ gcc := gcc
 gcc_library_directory_option = -L$(1)
 gcc_compile_option := -c
 gcc_preprocess_option := -E
+gcc_inhibit_linemarkers_option := -P
 gcc_include_macros_option = -imacros $(1)
 gcc_list_macro_names_option := -dN
 gcc_shared_library_option := -shared
@@ -20,7 +21,7 @@ gcc_dependency_generation_options = -M -MF $(1) $(foreach target,$(2),-MT $(targ
 # Common GCC options
 gcc_dialect_options := -ansi -ffreestanding
 gcc_warning_options := -Wall -Wextra -Wpedantic
-gcc_preprocessor_options := -I $(include_directory)
+gcc_preprocessor_options := -I $(include_directory) $(gcc_inhibit_linemarkers_option)
 gcc_optimization_options := -Os -fno-strict-aliasing
 gcc_instrumentation_options := -fno-stack-protector
 
