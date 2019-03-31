@@ -119,7 +119,6 @@ The main build interface consists of phony targets:
     │   └── liblinux
     │       └── system_calls
     ├── make
-    │   └── compilers
     ├── scripts
     │   └── linux
     ├── source
@@ -156,11 +155,6 @@ Each header includes the Linux user space headers required by the function.
 
 Makefiles that are included by the top-level `GNUmakefile` in a specific order.
 They are named according to the purpose of their definitions.
-
-### `make/compilers`
-
-Makefiles that define compiler-specific variables and macros.
-They are named after the compiler they provide support for.
 
 ### `scripts`
 
