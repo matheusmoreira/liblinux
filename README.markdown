@@ -79,10 +79,6 @@ The main build interface consists of phony targets:
 
   Removes the build directory tree and all build artifacts.
 
-- `directories`
-
-  Creates the build directory tree.
-
 - `run-hello-world`
 
   Builds and runs the `hello-world` example.
