@@ -154,7 +154,7 @@ Each header includes the Linux user space headers required by the function.
 
 ### `make`
 
-Makefiles that are included by the top-level `makefile` in a specific order.
+Makefiles that are included by the top-level `GNUmakefile` in a specific order.
 They are named according to the purpose of their definitions.
 
 ### `make/compilers`
