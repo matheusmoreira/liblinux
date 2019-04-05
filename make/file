@@ -19,9 +19,6 @@ include make/examples
 include make/objects
 include make/all_targets
 
-# Phony targets
-include make/phony
-
 # Special variables
 
 .DEFAULT_GOAL := libraries
