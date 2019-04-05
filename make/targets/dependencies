@@ -11,7 +11,7 @@ define dependency_file_rule_template
 dependency_files += $(2)
 
 $(2) : $(1)
-	$$(call ensure_directory_exists,$$(@D))
+	$$(call ensure_target_directory_exists)
 	$$(call compiler.generate_dependency_data,$$@,$$<,$$(call $(3),$$<))
 endef
 

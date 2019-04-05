@@ -10,7 +10,7 @@
 #
 define start_object_rule_template
 $(2) : $(1) $(3)
-	$$(call ensure_directory_exists,$$(@D))
+	$$(call ensure_target_directory_exists)
 	$$(call compiler.compile_startup_object,$$@,$$<)
 endef
 
