@@ -8,3 +8,7 @@ mkdir_p := mkdir -p
 # $(1) = path to directory to create
 #
 ensure_directory_exists = $(mkdir_p) $(1)
+
+# Ensures the existence of the directory where the target of a rule is located in.
+# This function references an automatic variable so it should only be used inside recipes.
+ensure_target_directory_exists = $(call ensure_directory_exists,$(@D))
