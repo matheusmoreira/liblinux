@@ -2,6 +2,18 @@
 # Should not fail if the directory already exists, and create its parent directories as needed.
 mkdir_p := mkdir -p
 
+# Determines whether the given path exists and is a directory.
+#
+# Only existing directories contain a "." entry.
+#
+# $(1) = path to check
+#
+# References:
+#     MadScientist's answer:
+#         http://stackoverflow.com/a/9456282/512904
+#
+directory? = $(wildcard $(1)/.)
+
 # Generates a command that makes sure the given directory exists.
 # Creates all directories that don't exist. Does nothing if they do.
 #
