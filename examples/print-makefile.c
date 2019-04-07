@@ -5,7 +5,7 @@
 #include <liblinux/system_calls/exit.h>
 #include <liblinux/start.h>
 
-#define MAKEFILE "makefile"
+#define MAKEFILE "GNUmakefile"
 #define OUTPUT 1
 #define ERROR  2
 
