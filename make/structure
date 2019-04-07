@@ -29,6 +29,11 @@ build_dependencies_directory := $(build_root_directory)/dependencies
 
 build_scripts_directory := $(build_root_directory)/$(scripts_directory)
 
+# If the build directory is a symbolic link to another directory,
+# ensure the existence of that directory.
+build_directory_link := $(shell readlink $(build_directory))
+$(if $(build_directory_link),$(call execute,$(call ensure_directory_exists,$(build_directory_link))))
+
 # build
 # └── x86_64
 #     ├── dependencies
