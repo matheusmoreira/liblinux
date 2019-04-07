@@ -1,0 +1,6 @@
+# Echoes a command before executing it with the shell function.
+# Does nothing if given the empty string as input.
+#
+# $(1) = command to echo and execute
+#
+execute = $(if $(1),$(info $(1))$(shell $(1)))
