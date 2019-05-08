@@ -16,9 +16,8 @@ system_call(long number, long _1, long _2, long _3, long _4, long _5, long _6)
 	("syscall"
 
 		: "+r" (rax),
-		  "=r" (r8), "=r" (r9), "=r" (r10)
-		: "r" (rdi), "r" (rsi), "r" (rdx),
-		  "r" (r10), "r" (r8),  "r" (r9)
+		  "+r" (r8), "+r" (r9), "+r" (r10)
+		: "r" (rdi), "r" (rsi), "r" (rdx)
 		: "rcx", "r11", "cc", "memory");
 
 	return rax;
