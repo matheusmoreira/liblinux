@@ -1,3 +1,6 @@
+# Boolean logic in make.
+include make/logic
+
 # Make functions available to the entire build system
 include make/all_functions
 

@@ -1,0 +1,5 @@
+# Definitions of boolean true and false.
+# In Makefiles, the empty string is false and everything else is true.
+#
+true  := ✓
+false :=
