@@ -3,3 +3,13 @@
 #
 true  := ✓
 false :=
+
+# Converts the given data to a truth value.
+#
+# Arguments:
+#   $(1) = the value to test
+#
+# Returns:
+#   $(false) if value is empty, $(true) otherwise
+#
+boolean = $(if $(1),$(true),$(false))
