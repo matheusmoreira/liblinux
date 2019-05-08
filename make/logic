@@ -13,3 +13,13 @@ false :=
 #   $(false) if value is empty, $(true) otherwise
 #
 boolean = $(if $(1),$(true),$(false))
+
+# Inverts the truth value of the given data.
+#
+# Arguments:
+#   $(1) = the value to test
+#
+# Returns:
+#   $(true) if value is empty, $(false) otherwise
+#
+not = $(if $(1),$(false),$(true))
