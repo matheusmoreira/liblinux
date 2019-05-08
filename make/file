@@ -1,8 +1,7 @@
 # Make functions available to the entire build system
 include make/all_functions
 
-# Project information and file system structure
-include make/project
+# Project file system structure
 include make/structure
 
 # Integration with project shell scripts

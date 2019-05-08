@@ -1,4 +1,0 @@
-# Project information
-library := linux
-project := lib$(library)
-architecture := x86_64
