@@ -20,14 +20,14 @@ gcc_code_generation_options = $(if $(call equal?,$(1),static),-fno-PIC,-fPIC)
 gcc_dependency_generation_options = -M -MF $(1) $(foreach target,$(2),-MT $(target))
 
 # Common GCC options
-gcc_dialect_options = $(call gcc_standard_option,$(or $(1),c99)) -ffreestanding
+gcc_dialect_options = $(strip $(call gcc_standard_option,$(or $(1),c99)) $(if $(2),-ffreestanding))
 gcc_warning_options := -Wall -Wextra -Wpedantic
 gcc_preprocessor_options := -I $(include_directory) $(gcc_inhibit_linemarkers_option)
 gcc_optimization_options := -Os -fno-strict-aliasing
 gcc_instrumentation_options := -fno-stack-protector
 
 define gcc_common_options
-$(call gcc_dialect_options,$(C.standard)) \
+$(call gcc_dialect_options,$(C.standard),$(C.freestanding)) \
 $(gcc_warning_options) \
 $(gcc_preprocessor_options) \
 $(gcc_optimization_options) \
