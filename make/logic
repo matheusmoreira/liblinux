@@ -23,3 +23,13 @@ boolean = $(if $(1),$(true),$(false))
 #   $(true) if value is empty, $(false) otherwise
 #
 not = $(if $(1),$(false),$(true))
+
+# User-friendly symbols for true and false.
+#
+# The boolean symbols provide textual representations for truth values
+# because it is inconvenient to output false values as empty text.
+#
+# Both symbols are logically true.
+#
+true.symbol  := $(true)
+false.symbol := ✗
