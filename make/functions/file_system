@@ -1,0 +1,10 @@
+# Determines whether the given path exists and is a file.
+# Files are defined as everything that is not a directory.
+#
+# Arguments:
+#   $(1) = path to check
+#
+# Returns:
+#   whether $(1) refers to an existing file
+#
+file? = $(call boolean,$(and $(wildcard $(1)),$(call not,$(call directory?,$(1)))))
