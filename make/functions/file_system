@@ -33,7 +33,7 @@ file? = $(call boolean,$(and $(wildcard $(1)),$(call not,$(call directory?,$(1))
 #   $(1) = *
 #
 # Returns:
-#   list of paths matching the specified pattern
+#   list of paths matching $(1)
 #
 glob = $(sort $(wildcard $(or $(1),$(glob.default))))
 
