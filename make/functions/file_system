@@ -35,4 +35,7 @@ file? = $(call boolean,$(and $(wildcard $(1)),$(call not,$(call directory?,$(1))
 # Returns:
 #   list of paths matching the specified pattern
 #
-glob = $(sort $(wildcard $(or $(1),*)))
+glob = $(sort $(wildcard $(or $(1),$(glob.default))))
+
+# By default, glob with match everything except hidden files in the current directory.
+glob.default := *
