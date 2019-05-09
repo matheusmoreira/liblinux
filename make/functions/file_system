@@ -23,3 +23,16 @@ directory? = $(call boolean,$(wildcard $(1)/.))
 #   whether $(1) refers to an existing file
 #
 file? = $(call boolean,$(and $(wildcard $(1)),$(call not,$(call directory?,$(1)))))
+
+# Returns a sorted list of unique paths matching the specified pattern.
+#
+# Arguments:
+#   $(1) = pattern entries must match
+#
+# Defaults:
+#   $(1) = *
+#
+# Returns:
+#   list of paths matching the specified pattern
+#
+glob = $(sort $(wildcard $(or $(1),*)))
