@@ -68,3 +68,19 @@ glob.directory = $(call glob,$(addsuffix /$(or $(2),$(glob.default)),$(or $(1),$
 
 # By default, glob.directory operates on the current directory.
 glob.directory.default := .
+
+# Traverses the file system recursively.
+#
+# Arguments:
+#   $(1) = starting directory
+#
+# Defaults:
+#   $(1) = .
+#
+# Returns:
+#   list with the contents of the tree rooted in $(1)
+#
+file_system.traverse = $(call recurse,glob.directory,file?,$(or $(1),$(file_system.traverse.default)))
+
+# By default, file_system.traverse operates on the current directory.
+file_system.traverse.default := .
