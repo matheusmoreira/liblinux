@@ -2,4 +2,5 @@ include make/functions/comparison
 include make/functions/directory
 include make/functions/file_system
 include make/functions/path
+include make/functions/recursion
 include make/functions/shell
