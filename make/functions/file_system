@@ -39,3 +39,32 @@ glob = $(sort $(wildcard $(or $(1),$(glob.default))))
 
 # By default, glob with match everything except hidden files in the current directory.
 glob.default := *
+
+# Returns a sorted list of unique paths inside the specified directory
+# that match the specified pattern.
+#
+# Arguments:
+#   $(1) = list of directories to work with
+#   $(2) = pattern entries must match
+#
+# Defaults:
+#   $(1) = .
+#   $(2) = *
+#
+# Returns:
+#   list of paths in $(1) matching $(2)
+#
+# Example:
+#
+#   # Enumerates all entries in the current directory.
+#   $(call glob.directory)
+#
+# Example:
+#
+#   # Enumerates all entries in the current directory that start with ".git".
+#   $(call glob.directory,,.git*)
+#
+glob.directory = $(call glob,$(addsuffix /$(or $(2),$(glob.default)),$(or $(1),$(glob.directory.default))))
+
+# By default, glob.directory operates on the current directory.
+glob.directory.default := .
