@@ -1,9 +1,0 @@
-# List of liblinux source code
-sources_library := $(wildcard $(source_architecture_directory)/*.c) \
-                   $(wildcard $(source_directory)/system_calls/*.c)
-
-# List of liblinux process startup source code
-sources_start := $(wildcard $(start_architecture_directory)/*.[csS])
-
-# List of example programs that demonstrate how to use liblinux
-sources_examples := $(wildcard $(examples_directory)/*.c)
