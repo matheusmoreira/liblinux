@@ -84,3 +84,24 @@ file_system.traverse = $(call recurse,glob.directory,file?,$(or $(1),$(file_syst
 
 # By default, file_system.traverse operates on the current directory.
 file_system.traverse.default := .
+
+# Walks the directory and returns all files satisfying the predicate function.
+# Behaves just like file_system.traverse if not given a predicate function.
+#
+# Arguments:
+#   $(1) = starting directory
+#   $(2) = optional predicate function
+#
+# Defaults:
+#   $(1) = .
+#   $(2) = true
+#
+# Returns:
+#   list containing paths in $(1) that satisfy $(2)
+#
+# Example:
+#
+#   # Find all source files.
+#   $(call find,source,file?)
+#
+find = $(foreach entry,$(call file_system.traverse,$(1)),$(if $(call $(or $(2),true),$(entry)),$(entry)))
