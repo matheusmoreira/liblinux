@@ -104,4 +104,4 @@ file_system.traverse.default := .
 #   # Find all source files.
 #   $(call find,source,file?)
 #
-find = $(foreach entry,$(call file_system.traverse,$(1)),$(if $(call $(or $(2),true),$(entry)),$(entry)))
+find = $(strip $(foreach entry,$(call file_system.traverse,$(1)),$(if $(call $(or $(2),true),$(entry)),$(entry))))
