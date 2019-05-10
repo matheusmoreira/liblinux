@@ -11,7 +11,7 @@
 #   MadScientist's answer:
 #     http://stackoverflow.com/a/9456282/512904
 #
-directory? = $(call boolean,$(wildcard $(1)/.))
+directory? = $(if $(1),$(call boolean,$(wildcard $(1)/.)))
 
 # Determines whether the given path exists and is a file.
 # Files are defined as everything that is not a directory.
