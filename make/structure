@@ -1,7 +1,5 @@
 # Project file system structure
-examples_directory := examples
 scripts_directory := scripts
-
 scripts_linux_directory := $(scripts_directory)/linux
 
 # Directories for build artifacts
