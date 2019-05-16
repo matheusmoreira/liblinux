@@ -3,6 +3,10 @@ project := lib$(library)
 architecture := x86_64
 C.freestanding := yes
 
+# Library headers
+include_directory := include
+include_liblinux_directory := $(include_directory)/liblinux
+
 headers_library = $(call find,$(include_liblinux_directory),file?)
 
 sources_library = $(call find,$(source_directory),file?)
