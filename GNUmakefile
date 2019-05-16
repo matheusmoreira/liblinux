@@ -39,7 +39,9 @@ sources_examples = $(call glob,$(examples_directory)/*.c)
 examples = $(basename $(notdir $(sources_examples)))
 
 # GCC linker specification file and wrapper script
-gcc_specs_script = $(scripts_directory)/$(project).specs.sh
-gcc_wrapper_script = $(scripts_directory)/$(project)-gcc.sh
+scripts_directory := scripts
+
+gcc_specs_script := $(scripts_directory)/$(project).specs.sh
+gcc_wrapper_script := $(scripts_directory)/$(project)-gcc.sh
 
 include make/file
