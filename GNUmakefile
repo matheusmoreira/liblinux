@@ -51,7 +51,7 @@ checkpatch.pl := $(scripts_linux_directory)/checkpatch.pl
 checkpatch_data_files := $(addprefix $(dir $(checkpatch.pl)),const_structs.checkpatch spelling.txt)
 
 linux_script_url = https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/plain/scripts/$(1)
-download_linux_script = $(call download,$(1),$(call linux_script_url,$(notdir $(1))))
+download_linux_script = $(call download,$(call linux_script_url,$(notdir $(1))),$(1))
 
 $(checkpatch.pl): $(checkpatch_data_files)
 	$(call download_linux_script,$@)

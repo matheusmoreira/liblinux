@@ -10,9 +10,6 @@ include make/all_functions
 # Project file system structure
 include make/structure
 
-# Integration with project shell scripts
-include make/all_scripts
-
 # Compiler and archiver configuration
 include make/compiler
 include make/archiver

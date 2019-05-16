@@ -1,1 +1,0 @@
-download = curl --output $(1) $(2)

@@ -9,3 +9,14 @@
 #   command line that creates $(1)
 #
 mkdir_p = mkdir -p $(1)
+
+# Generates a file download command.
+#
+# Arguments:
+#   $(1) = what to download
+#   $(2) = where to write downloaded data to
+#
+# Returns:
+#   command line that downloads $(1) to $(2)
+#
+download = curl --output $(2) $(1)
