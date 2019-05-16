@@ -1,13 +1,9 @@
-# Command to use to create directories.
-# Should not fail if the directory already exists, and create its parent directories as needed.
-mkdir_p := mkdir -p
-
 # Generates a command that makes sure the given directory exists.
 # Generates the empty string if the directory already exists.
 #
 # $(1) = path to directory to create
 #
-ensure_directory_exists = $(if $(call directory?,$(1)),,$(mkdir_p) $(1))
+ensure_directory_exists = $(if $(call directory?,$(1)),,$(call mkdir_p,$(1)))
 
 # Ensures the existence of the directory where the target of a rule is located in.
 # This function references an automatic variable so it should only be used inside recipes.

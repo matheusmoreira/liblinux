@@ -1,0 +1,11 @@
+# Generates a directory creation command.
+# Does not fail if the directory already exists.
+# Creates all parent directories as needed.
+#
+# Arguments:
+#   $(1) = directories to create
+#
+# Returns:
+#   command line that creates $(1)
+#
+mkdir_p = mkdir -p $(1)
