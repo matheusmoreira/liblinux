@@ -1,6 +1,3 @@
-# Project file system structure
-scripts_linux_directory := $(scripts_directory)/linux
-
 # Directories for build artifacts
 build_directory := build
 build_root_directory := $(build_directory)/$(architecture)
