@@ -1,9 +1,7 @@
 # Project file system structure
-start_directory := start
 examples_directory := examples
 scripts_directory := scripts
 
-start_architecture_directory := $(start_directory)/$(architecture)
 scripts_linux_directory := $(scripts_directory)/linux
 
 # Directories for build artifacts
