@@ -1,10 +1,8 @@
 # Project file system structure
-source_directory := source
 start_directory := start
 examples_directory := examples
 scripts_directory := scripts
 
-source_architecture_directory := $(source_directory)/arch/$(architecture)
 start_architecture_directory := $(start_directory)/$(architecture)
 scripts_linux_directory := $(scripts_directory)/linux
 

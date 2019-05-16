@@ -9,10 +9,13 @@ include_liblinux_directory := $(include_directory)/liblinux
 
 headers_library = $(call find,$(include_liblinux_directory),file?)
 
-sources_library = $(call find,$(source_directory),file?)
+# Library sources and objects
+source_directory := source
+source_architecture_directory := $(source_directory)/arch/$(architecture)
 sources_start = $(call find,$(start_architecture_directory),file?)
 sources_examples = $(call glob,$(examples_directory)/*.c)
 
+sources_library = $(call find,$(source_directory),file?)
 examples = $(basename $(notdir $(sources_examples)))
 
 objects_static_library = $(call source_to_static_object,$(sources_library))
