@@ -1,4 +1,4 @@
-# Boolean logic in make.
+# Boolean logic in make
 include make/logic
 
 # Commands used by the build system
