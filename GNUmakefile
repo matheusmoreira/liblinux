@@ -17,4 +17,8 @@ objects_start = $(call source_to_start_object,$(sources_start))
 objects_libraries = $(objects_static_library) $(objects_dynamic_library)
 objects = $(objects_libraries) $(objects_start)
 
+# GCC linker specification file and wrapper script
+gcc_specs_script = $(scripts_directory)/$(project).specs.sh
+gcc_wrapper_script = $(scripts_directory)/$(project)-gcc.sh
+
 include make/file
