@@ -1,4 +1,4 @@
-include make/compilers/gcc
+include .make/compilers/gcc
 
 default_compiler := gcc
 compiler := $(default_compiler)

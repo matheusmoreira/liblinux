@@ -1,0 +1,26 @@
+# Object files resulting from the compilation of translation units
+include .make/targets/objects
+
+# The main build targets are the static and dynamic libraries
+include .make/targets/static_library
+include .make/targets/dynamic_library
+
+# Targets for the liblinux process startup files
+include .make/targets/start
+
+# GCC wrapper script and the specs file used by it
+include .make/targets/gcc_wrapper
+
+# Targets for library usage examples
+include .make/targets/examples
+
+# Targets for dependency data
+include .make/targets/dependencies
+
+# System call lists
+include .make/targets/system_calls/available
+include .make/targets/system_calls/implemented
+include .make/targets/system_calls/missing
+
+# Phony targets
+include .make/targets/all_phony

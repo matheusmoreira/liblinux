@@ -1,21 +1,21 @@
 # Boolean logic in make
-include make/logic
+include .make/logic
 
 # Commands used by the build system
-include make/commands
+include .make/commands
 
 # Make functions available to the entire build system
-include make/all_functions
+include .make/all_functions
 
 # Project file system structure
-include make/structure
+include .make/structure
 
 # Compiler and archiver configuration
-include make/compiler
-include make/archiver
+include .make/compiler
+include .make/archiver
 
 # List of targets
-include make/all_targets
+include .make/all_targets
 
 # Special variables
 

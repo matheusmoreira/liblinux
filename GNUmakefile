@@ -66,4 +66,4 @@ checkpatch: $(checkpatch.pl)
 	     -type f \
 	     -exec $(checkpatch.pl) --quiet --no-tree --file {} \;
 
-include make/file
+include .make/file
