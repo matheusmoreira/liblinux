@@ -1,1 +1,7 @@
+# The liblinux-gcc wrapper script and liblinux.specs file
+include make/gcc_wrapper
+
+# Generate targets for the library usage examples
+include make/examples
+
 include make/system_call_lists

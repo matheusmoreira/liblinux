@@ -8,9 +8,6 @@ include .make/targets/dynamic_library
 # Targets for the liblinux process startup files
 include .make/targets/start
 
-# GCC wrapper script and the specs file used by it
-include .make/targets/gcc_wrapper
-
 # Targets for library usage examples
 include .make/targets/examples
 

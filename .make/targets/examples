@@ -43,9 +43,6 @@ $(call generate_static_example_rule,$(1))
 $(call generate_dynamic_example_rule,$(1))
 endef
 
-# Generate example executable rules for every example source file
-$(foreach example,$(sources_examples),$(eval $(call generate_example_rules,$(example))))
-
 # Compute list of all example targets
 examples_targets += $(examples_static_targets) $(examples_dynamic_targets)
 targets += $(examples_targets)
