@@ -17,6 +17,9 @@ include .make/archiver
 # List of targets
 include .make/all_targets
 
+# Include the user's makefile, if it exists
+include $(wildcard make/file)
+
 # Special variables
 
 .DEFAULT_GOAL := libraries
