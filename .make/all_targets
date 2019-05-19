@@ -17,10 +17,5 @@ include .make/targets/examples
 # Targets for dependency data
 include .make/targets/dependencies
 
-# System call lists
-include .make/targets/system_calls/available
-include .make/targets/system_calls/implemented
-include .make/targets/system_calls/missing
-
 # Phony targets
 include .make/targets/all_phony

@@ -29,4 +29,3 @@ clean:
 	rm -rf $(build_directory)/
 
 include .make/targets/phony/examples
-include .make/targets/phony/system_calls
