@@ -10,9 +10,6 @@ objects_dynamic_library = $(call source_to_dynamic_object,$(sources_library))
 objects_libraries = $(objects_static_library) $(objects_dynamic_library)
 
 # Process start code
-start_directory := start
-start_architecture_directory := $(start_directory)/$(architecture)
-
 sources_start = $(call find,$(start_architecture_directory),file?)
 
 objects_start = $(call source_to_start_object,$(sources_start))
