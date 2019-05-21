@@ -21,9 +21,6 @@ endef
 #
 generate_dependency_file_rule = $(call dependency_file_rule_template,$(1),$(call source_to_dependency,$(1)),$(2))
 
-# Generate dependency file rules for process startup code.
-$(foreach file,$(sources_start),$(eval $(call generate_dependency_file_rule,$(file),source_to_start_object)))
-
 targets += $(dependency_files)
 
 # The wildcard function returns existing files that match its parameters.
