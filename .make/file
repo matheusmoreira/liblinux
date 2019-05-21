@@ -1,3 +1,6 @@
+# Disable all predefined rules and variables
+MAKEFLAGS += --no-builtin-rules --no-builtin-variables
+
 # Boolean logic in make
 include .make/logic
 
