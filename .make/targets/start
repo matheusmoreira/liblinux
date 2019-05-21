@@ -9,9 +9,7 @@
 # $(2) = path to start object file
 #
 define start_object_rule_template
-$(2) : $(1) $(3)
-	$$(call ensure_target_directory_exists)
-	$$(call compiler.compile_startup_object,$$@,$$<)
+$(call rule_template,$(2),$$(call compiler.compile_startup_object,$$@,$$<),$(1) $(3))
 endef
 
 # Computes the parameters for and evaluates the start object rule template.
