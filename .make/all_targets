@@ -1,3 +1,6 @@
+# Template that all generated rules follow
+include .make/targets/template
+
 # Object files resulting from the compilation of translation units
 include .make/targets/objects
 

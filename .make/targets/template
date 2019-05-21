@@ -1,0 +1,16 @@
+# Common rule template that all generated rules follow.
+# All rules ensure that their target's directory exist.
+#
+# Arguments:
+#   $(1) = path to target file
+#   $(2) = command that generates $(1)
+#   $(3) = optional dependencies list
+#
+# Returns:
+#   generated rule text for the given parameters
+#
+define rule_template
+$(1) : $(3)
+	$$(call ensure_target_directory_exists)
+	$(2)
+endef
