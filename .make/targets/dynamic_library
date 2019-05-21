@@ -1,5 +1,3 @@
-dynamic_library := $(build_libraries_directory)/$(project).so
-
 $(dynamic_library) : $(objects_dynamic_library)
 	$(call ensure_target_directory_exists)
 	$(call compiler.compile_dynamic_library,$@,$^)
