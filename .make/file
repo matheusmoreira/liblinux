@@ -10,7 +10,7 @@ include .make/commands
 # Make functions available to the entire build system
 include .make/all_functions
 
-# Project file system structure
+# File system structure of the build tree
 include .make/structure
 
 # Compiler and archiver configuration
