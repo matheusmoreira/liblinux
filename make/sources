@@ -1,1 +1,2 @@
 sources_library = $(call find,$(source_directory),file?)
+sources_start = $(call find,$(start_architecture_directory),file?)
