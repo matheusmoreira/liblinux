@@ -1,0 +1,1 @@
+sources_library = $(call find,$(source_directory),file?)
