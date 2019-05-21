@@ -29,7 +29,9 @@ include $(wildcard make/file)
 # Include all generated dependency files
 include .make/dependencies
 
+# Additional phony targets and .PHONY variable
+include .make/phony
+
 # Special variables
 
 .DEFAULT_GOAL := libraries
-.PHONY: $(phony_targets)

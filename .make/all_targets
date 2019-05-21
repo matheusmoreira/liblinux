@@ -1,6 +1,3 @@
 # The main build targets are the static and dynamic libraries
 include .make/targets/static_library
 include .make/targets/dynamic_library
-
-# Phony targets
-include .make/targets/all_phony
