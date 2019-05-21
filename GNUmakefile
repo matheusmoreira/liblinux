@@ -3,12 +3,6 @@ project := lib$(library)
 architecture := x86_64
 C.freestanding := yes
 
-# Library headers
-include_directory := include
-include_liblinux_directory := $(include_directory)/liblinux
-
-headers_library = $(call find,$(include_liblinux_directory),file?)
-
 # Library sources and objects
 source_directory := source
 source_architecture_directory := $(source_directory)/arch/$(architecture)

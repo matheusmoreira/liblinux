@@ -1,2 +1,5 @@
+include_directory := include
+include_liblinux_directory := $(include_directory)/liblinux
+
 scripts_directory := scripts
 scripts_linux_directory := $(scripts_directory)/linux
