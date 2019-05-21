@@ -1,21 +1,21 @@
 # Directories for build artifacts
-build_directory := build
-build_root_directory := $(build_directory)/$(architecture)
+build_directory ?= build
+build_root_directory = $(build_directory)/$(architecture)
 
-build_objects_directory := $(build_root_directory)/objects
-build_objects_static_directory := $(build_objects_directory)/static
-build_objects_dynamic_directory := $(build_objects_directory)/dynamic
+build_objects_directory = $(build_root_directory)/objects
+build_objects_static_directory = $(build_objects_directory)/static
+build_objects_dynamic_directory = $(build_objects_directory)/dynamic
 
-build_libraries_directory := $(build_root_directory)/libraries
-build_start_directory := $(build_libraries_directory)/$(start_directory)
+build_libraries_directory = $(build_root_directory)/libraries
+build_start_directory = $(build_libraries_directory)/$(start_directory)
 
-build_examples_directory := $(build_root_directory)/$(examples_directory)
-build_examples_static_directory := $(build_examples_directory)/static
-build_examples_dynamic_directory := $(build_examples_directory)/dynamic
+build_examples_directory = $(build_root_directory)/$(examples_directory)
+build_examples_static_directory = $(build_examples_directory)/static
+build_examples_dynamic_directory = $(build_examples_directory)/dynamic
 
-build_dependencies_directory := $(build_root_directory)/dependencies
+build_dependencies_directory = $(build_root_directory)/dependencies
 
-build_scripts_directory := $(build_root_directory)/$(scripts_directory)
+build_scripts_directory = $(build_root_directory)/$(scripts_directory)
 
 # If the build directory is a symbolic link to another directory,
 # ensure the existence of that directory.

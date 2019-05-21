@@ -10,7 +10,7 @@ include .make/commands
 # Make functions available to the entire build system
 include .make/all_functions
 
-# Project file system structure
+# File system structure of the build tree
 include .make/structure
 
 # Compiler and archiver configuration
@@ -18,10 +18,7 @@ include .make/compiler
 include .make/archiver
 
 # Rule templates
-include $(addprefix .make/rules/,template objects dependencies examples)
-
-# List of targets
-include .make/all_targets
+include $(addprefix .make/rules/,template objects libraries dependencies examples)
 
 # Include the user's makefile, if it exists
 include $(wildcard make/file)
@@ -31,7 +28,3 @@ include .make/dependencies
 
 # Additional phony targets and .PHONY variable
 include .make/phony
-
-# Special variables
-
-.DEFAULT_GOAL := libraries

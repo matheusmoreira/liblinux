@@ -1,11 +1,27 @@
+library := linux
+project := lib$(library)
+architecture := x86_64
+C.freestanding := yes
+
+.DEFAULT_GOAL := libraries
+
 # Project file system structure
 include make/structure
+
+# Library sources
+include make/sources
 
 # Object files resulting from the compilation of translation units
 include make/objects
 
+# Static and dynamic libraries
+include make/libraries
+
 # Targets for the liblinux process startup files
 include make/start
+
+# All objects
+objects = $(objects_libraries) $(objects_start)
 
 # The liblinux-gcc wrapper script and liblinux.specs file
 include make/gcc_wrapper
