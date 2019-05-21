@@ -2,3 +2,4 @@ static_library := $(build_libraries_directory)/$(project).a
 dynamic_library := $(build_libraries_directory)/$(project).so
 
 $(call evaluate_library_rule,$(static_library),$(objects_static_library),static)
+$(call evaluate_library_rule,$(dynamic_library),$(objects_dynamic_library),dynamic)
