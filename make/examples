@@ -1,2 +1,2 @@
 # Generate example executable rules for every example source file
-$(foreach example,$(sources_examples),$(eval $(call generate_example_rules,$(example))))
+$(foreach example,$(sources_examples),$(eval $(call generate_example_rules,$(example))) $(eval $(call generate_dependency_file_rule,$(example),example_to_executables)))
