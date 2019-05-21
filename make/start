@@ -1,3 +1,5 @@
+objects_start = $(call source_to_start_object,$(sources_start))
+
 # Build targets for the liblinux process startup objects:
 #
 #     _start.o

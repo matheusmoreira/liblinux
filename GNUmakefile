@@ -3,9 +3,6 @@ project := lib$(library)
 architecture := x86_64
 C.freestanding := yes
 
-# Process start code
-objects_start = $(call source_to_start_object,$(sources_start))
-
 # All objects
 objects = $(objects_libraries) $(objects_start)
 
