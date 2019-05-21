@@ -9,6 +9,17 @@
 #
 static_library_rule_template = $(call rule_template,$(1),$$(call archiver.create,$$@,$$^),$(2))
 
+# Rule template for dynamic libraries.
+#
+# Arguments:
+#   $(1) = path to dynamic library
+#   $(2) = list of object files
+#
+# Returns:
+#   rules for generating dynamic library $(1) from the objects in $(2)
+#
+dynamic_library_rule_template = $(call rule_template,$(1),$$(call compiler.compile_dynamic_library,$$@,$$^),$(2))
+
 # Evaluates a library rule template.
 #
 # Arguments:
