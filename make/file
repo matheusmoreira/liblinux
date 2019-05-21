@@ -1,3 +1,6 @@
+# Targets for the liblinux process startup files
+include make/start
+
 # The liblinux-gcc wrapper script and liblinux.specs file
 include make/gcc_wrapper
 

@@ -8,9 +8,6 @@ include .make/targets/objects
 include .make/targets/static_library
 include .make/targets/dynamic_library
 
-# Targets for the liblinux process startup files
-include .make/targets/start
-
 # Targets for library usage examples
 include .make/targets/examples
 
