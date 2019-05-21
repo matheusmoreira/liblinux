@@ -23,7 +23,7 @@ gcc_dependency_generation_options = -M -MF $(1) $(foreach target,$(2),-MT $(targ
 # Common GCC options
 gcc_dialect_options = $(strip $(call gcc_standard_option,$(or $(1),c99)) $(if $(2),-ffreestanding))
 gcc_warning_options := -Wall -Wextra -Wpedantic
-gcc_preprocessor_options := $(call gcc_include_directory_option,$(include_directory)) $(gcc_inhibit_linemarkers_option)
+gcc_preprocessor_options = $(call gcc_include_directory_option,$(include_directory)) $(gcc_inhibit_linemarkers_option)
 gcc_optimization_options := -Os -fno-strict-aliasing
 gcc_instrumentation_options := -fno-stack-protector
 
