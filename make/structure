@@ -1,0 +1,2 @@
+scripts_directory := scripts
+scripts_linux_directory := $(scripts_directory)/linux

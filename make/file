@@ -1,3 +1,6 @@
+# Project file system structure
+include make/structure
+
 # Object files resulting from the compilation of translation units
 include make/objects
 
