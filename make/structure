@@ -1,5 +1,8 @@
 include_directory := include
 include_liblinux_directory := $(include_directory)/liblinux
 
+source_directory := source
+source_architecture_directory := $(source_directory)/arch/$(architecture)
+
 scripts_directory := scripts
 scripts_linux_directory := $(scripts_directory)/linux

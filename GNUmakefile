@@ -4,9 +4,6 @@ architecture := x86_64
 C.freestanding := yes
 
 # Library sources and objects
-source_directory := source
-source_architecture_directory := $(source_directory)/arch/$(architecture)
-
 sources_library = $(call find,$(source_directory),file?)
 
 objects_static_library = $(call source_to_static_object,$(sources_library))
