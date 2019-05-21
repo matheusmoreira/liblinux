@@ -1,2 +1,2 @@
-# Generate object file rules for every source file
-$(foreach source,$(sources_library),$(eval $(call generate_object_rules,$(source))))
+# Generate rules for object files and their dependency files
+$(foreach source,$(sources_library),$(eval $(call generate_object_rules,$(source)) $(eval $(call generate_dependency_file_rule,$(source),source_to_objects))))
