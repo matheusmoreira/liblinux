@@ -1,5 +1,0 @@
-$(static_library) : $(objects_static_library)
-	$(call ensure_target_directory_exists)
-	$(call archiver.create,$@,$^)
-
-targets += $(static_library)
