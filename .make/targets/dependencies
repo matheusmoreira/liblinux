@@ -22,18 +22,3 @@ endef
 generate_dependency_file_rule = $(call dependency_file_rule_template,$(1),$(call source_to_dependency,$(1)),$(2))
 
 targets += $(dependency_files)
-
-# The wildcard function returns existing files that match its parameters.
-# This prevents make from including files that don't exist.
-#
-# Make tries to rebuild included files, without the wildcard function
-# the dependency data files would be generated with every invocation of make,
-# even make clean.
-#
-# References:
-#
-#     https://www.gnu.org/software/make/manual/html_node/Remaking-Makefiles.html
-#     https://make.mad-scientist.net/papers/advanced-auto-dependency-generation/#include
-#     https://make.mad-scientist.net/constructed-include-files/
-#
-include $(wildcard $(dependency_files))
