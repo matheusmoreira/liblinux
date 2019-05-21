@@ -10,8 +10,6 @@ objects_start = $(call source_to_start_object,$(sources_start))
 objects = $(objects_libraries) $(objects_start)
 
 # Library usage examples
-sources_examples = $(call glob,$(examples_directory)/*.c)
-
 examples = $(basename $(notdir $(sources_examples)))
 
 # GCC linker specification file and wrapper script
