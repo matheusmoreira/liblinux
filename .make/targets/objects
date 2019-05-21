@@ -1,5 +1,3 @@
-# Automatic build rule generation for object files
-
 # Rule template for object files.
 #
 # The reason why objects depend on their dependency data file
