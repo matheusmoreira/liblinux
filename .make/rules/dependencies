@@ -1,5 +1,3 @@
-# Build rules for dependency files
-
 # Rule template for dependency data files.
 #
 # $(1) = path to source file

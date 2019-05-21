@@ -1,18 +1,6 @@
-# Template that all generated rules follow
-include .make/targets/template
-
-# Object files resulting from the compilation of translation units
-include .make/targets/objects
-
 # The main build targets are the static and dynamic libraries
 include .make/targets/static_library
 include .make/targets/dynamic_library
-
-# Targets for library usage examples
-include .make/targets/examples
-
-# Targets for dependency data
-include .make/targets/dependencies
 
 # Phony targets
 include .make/targets/all_phony
