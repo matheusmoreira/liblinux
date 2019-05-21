@@ -1,5 +1,0 @@
-$(dynamic_library) : $(objects_dynamic_library)
-	$(call ensure_target_directory_exists)
-	$(call compiler.compile_dynamic_library,$@,$^)
-
-targets += $(dynamic_library)
