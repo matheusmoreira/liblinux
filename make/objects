@@ -1,0 +1,2 @@
+# Generate object file rules for every source file
+$(foreach source,$(sources_library),$(eval $(call generate_object_rules,$(source))))

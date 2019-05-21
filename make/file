@@ -1,3 +1,6 @@
+# Object files resulting from the compilation of translation units
+include make/objects
+
 # Targets for the liblinux process startup files
 include make/start
 

@@ -39,5 +39,3 @@ $(call generate_static_object_rule,$(1))
 $(call generate_dynamic_object_rule,$(1))
 endef
 
-# Generate object file rules for every source file
-$(foreach source,$(sources_library),$(eval $(call generate_object_rules,$(source))))
