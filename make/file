@@ -14,3 +14,6 @@ include make/gcc_wrapper
 include make/examples
 
 include make/system_call_lists
+
+# Linux kernel checkpatch script integration
+include make/checkpatch
