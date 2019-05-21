@@ -1,0 +1,1 @@
+static_library := $(build_libraries_directory)/$(project).a

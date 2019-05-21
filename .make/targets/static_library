@@ -1,5 +1,3 @@
-static_library := $(build_libraries_directory)/$(project).a
-
 $(static_library) : $(objects_static_library)
 	$(call ensure_target_directory_exists)
 	$(call archiver.create,$@,$^)
