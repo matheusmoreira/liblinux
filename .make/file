@@ -18,7 +18,7 @@ include .make/compiler
 include .make/archiver
 
 # Rule templates
-include $(addprefix .make/rules/,template objects dependencies examples)
+include $(addprefix .make/rules/,template objects libraries dependencies examples)
 
 # List of targets
 include .make/all_targets
