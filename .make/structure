@@ -1,5 +1,5 @@
 # Directories for build artifacts
-build_directory := build
+build_directory ?= build
 build_root_directory := $(build_directory)/$(architecture)
 
 build_objects_directory := $(build_root_directory)/objects
