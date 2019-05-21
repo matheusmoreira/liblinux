@@ -1,9 +1,9 @@
 # Rule template for example executables.
 #
 # The reason why the executables depend on their dependency data file
-# is to trigger the generation of dependency data when it is updated.
-# Once generated, future executions of make will benefit from the dependency data.
-# Dependency data file generation rules are defined in make/targets/dependencies.
+# is to trigger the generation of their dependency data when they are updated.
+# Once generated, future executions of make will include and benefit from the dependency data.
+# Dependency data file generation rules are defined in .make/targets/dependencies.
 #
 # $(1) = path to source file
 # $(2) = path to executable file
