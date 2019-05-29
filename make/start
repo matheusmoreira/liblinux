@@ -1,3 +1,14 @@
+# Converts the path to a startfile source to the path of its target.
+# May be written in assembly or C.
+#
+# Arguments:
+#   $(1) = path to process startup source file
+#
+# Returns:
+#   path to the startfile target
+#
+source_to_start_object = $(patsubst $(start_architecture_directory)/%,$(build_start_directory)/%.o,$(basename $(1)))
+
 objects_start = $(call source_to_start_object,$(sources_start))
 
 # Build targets for the liblinux process startup objects:
