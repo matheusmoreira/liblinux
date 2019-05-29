@@ -1,1 +1,1 @@
-configuration = $(architecture)
+configuration = $(architecture)-$(linkage)

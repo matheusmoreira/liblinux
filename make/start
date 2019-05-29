@@ -29,7 +29,7 @@ endef
 #
 # $(1) = path to start code file
 #
-generate_start_object_rule = $(call start_object_rule_template,$(1),$(call source_to_start_object,$(1)),$(call source_to_dependency,$(1)))
+generate_start_object_rule = $(call start_object_rule_template,$(1),$(call source_to_start_object,$(1)),$(call to_dependency,$(1)))
 
 # Generate start object rules for all start code files
 $(foreach file,$(sources_start),$(eval $(call generate_start_object_rule,$(file))) $(eval $(call generate_dependency_file_rule,$(file),source_to_start_object)))

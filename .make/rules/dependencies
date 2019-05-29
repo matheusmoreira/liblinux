@@ -17,6 +17,6 @@ endef
 # $(2) = make function that converts a path to a source file
 #        to a list of paths to all its targets
 #
-generate_dependency_file_rule = $(call dependency_file_rule_template,$(1),$(call source_to_dependency,$(1)),$(2))
+generate_dependency_file_rule = $(call dependency_file_rule_template,$(1),$(call to_dependency,$(1)),$(2))
 
 targets += $(dependency_files)

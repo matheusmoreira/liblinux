@@ -1,11 +1,11 @@
-library := linux
-project := lib$(library)
+library_name := linux
+project := lib$(library_name)
 C.freestanding := yes
 
 architecture ?= x86_64
 linkage ?= static
 
-.DEFAULT_GOAL := libraries
+.DEFAULT_GOAL := library
 
 # Project file system structure
 include make/structure

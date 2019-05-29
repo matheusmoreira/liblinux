@@ -1,7 +1,4 @@
-objects_static_library = $(call source_to_static_object,$(sources_library))
-objects_dynamic_library = $(call source_to_dynamic_object,$(sources_library))
-
-objects_libraries = $(objects_static_library) $(objects_dynamic_library)
+objects_library = $(call to_object,$(sources_library))
 
 # Generate rules for object files and their dependency files
-$(foreach source,$(sources_library),$(eval $(call generate_object_rules,$(source)) $(eval $(call generate_dependency_file_rule,$(source),source_to_objects))))
+$(foreach source,$(sources_library),$(eval $(call generate_object_rule,$(source)) $(eval $(call generate_dependency_file_rule,$(source),to_object))))
