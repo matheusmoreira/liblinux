@@ -1,0 +1,14 @@
+library.prefix := lib
+library.extension.static := .a
+library.extension.dynamic := .so
+
+# Computes the file name for the given library name and type.
+#
+# Arguments:
+#   $(1) = library name
+#   $(2) = linkage type: static | dynamic
+#
+# Returns:
+#   the file name for the $(1) library
+#
+library.file_name = $(addsuffix $(library.extension.$(2)),$(addprefix $(library.prefix),$(1)))
