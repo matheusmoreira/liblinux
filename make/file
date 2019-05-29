@@ -1,7 +1,9 @@
 library := linux
 project := lib$(library)
-architecture := x86_64
 C.freestanding := yes
+
+architecture ?= x86_64
+linkage ?= static
 
 .DEFAULT_GOAL := libraries
 
