@@ -9,6 +9,13 @@
 to_object = $(addprefix $(build_objects_directory)/,$(addsuffix .o,$(basename $(1))))
 
 # Converts the path to a source file to the path to its corresponding dependency data file
+#
+# Arguments:
+#   $(1) = path to a source file
+#
+# Returns:
+#   path to the dependency file
+#
 to_dependency = $(addprefix $(build_dependencies_directory)/,$(addsuffix .d,$(basename $(1))))
 
 # Converts a library name to the path to its corresponding library file.
