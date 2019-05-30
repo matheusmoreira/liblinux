@@ -2,7 +2,7 @@
 #
 # $(1) = path to source file
 #
-to_object = $(patsubst $(source_directory)/%,$(build_objects_directory)/%.o,$(basename $(1)))
+to_object = $(addprefix $(build_objects_directory)/,$(addsuffix .o,$(basename $(1))))
 
 # Converts the path to a source file to the path to its corresponding dependency data file
 to_dependency = $(addprefix $(build_dependencies_directory)/,$(addsuffix .d,$(basename $(1))))
