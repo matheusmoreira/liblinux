@@ -1,6 +1,10 @@
 # Converts a source file path to its corresponding object file path.
 #
-# $(1) = path to source file
+# Arguments:
+#   $(1) = path to source file
+#
+# Returns:
+#   path to the object file
 #
 to_object = $(addprefix $(build_objects_directory)/,$(addsuffix .o,$(basename $(1))))
 
