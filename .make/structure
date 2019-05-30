@@ -7,7 +7,7 @@ build_objects_directory = $(build_root_directory)/objects
 build_libraries_directory = $(build_root_directory)/libraries
 build_start_directory = $(build_libraries_directory)/$(start_directory)
 
-build_examples_directory = $(build_root_directory)/$(examples_directory)
+build_executables_directory = $(build_root_directory)/executables
 
 build_dependencies_directory = $(build_root_directory)/dependencies
 

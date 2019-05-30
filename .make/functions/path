@@ -28,4 +28,4 @@ to_library = $(addprefix $(build_libraries_directory)/,$(call library.file_name,
 #
 # $(1) = path to example source file
 #
-to_executable = $(patsubst $(examples_directory)/%,$(build_examples_directory)/%,$(basename $(1)))
+to_executable = $(addprefix $(build_executables_directory)/,$(basename $(1)))

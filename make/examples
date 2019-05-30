@@ -1,5 +1,2 @@
-# Library usage examples
-examples = $(basename $(notdir $(sources_examples)))
-
 # Generate example executable rules for every example source file
 $(foreach example,$(sources_examples),$(eval $(call generate_example_rule,$(example))) $(eval $(call generate_dependency_file_rule,$(example),to_executable)))
