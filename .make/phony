@@ -16,6 +16,4 @@ phony_targets += clean
 clean:
 	rm -rf $(build_directory)/
 
-include .make/targets/phony/examples
-
 .PHONY: $(phony_targets)

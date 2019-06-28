@@ -21,7 +21,7 @@ include .make/compiler
 include .make/archiver
 
 # Rule templates
-include $(addprefix .make/rules/,template objects libraries dependencies examples)
+include $(addprefix .make/rules/,template objects libraries dependencies examples run)
 
 # Include the user's makefile, if it exists
 include $(wildcard make/file)
