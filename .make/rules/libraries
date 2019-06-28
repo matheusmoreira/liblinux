@@ -20,6 +20,20 @@ static_library_rule_template = $(call rule_template,$(1),$$(call archiver.create
 #
 dynamic_library_rule_template = $(call rule_template,$(1),$$(call compiler.compile_dynamic_library,$$@,$$^),$(2))
 
+# Rule template for libraries corresponding to the current linkage.
+#
+# Arguments:
+#   $(1) = library name
+#   $(2) = list of object files
+#
+# Variables:
+#   $(linkage) = linkage type: static | dynamic
+#
+# Returns:
+#   rules for generating library $(1) from the objects in $(2)
+#
+library_rule_template = $(call $(linkage)_library_rule_template,$(call to_library,$(1)),$(2))
+
 # Evaluates a library rule template for the current linkage.
 #
 # Arguments:
@@ -32,4 +46,4 @@ dynamic_library_rule_template = $(call rule_template,$(1),$$(call compiler.compi
 # Returns:
 #   ε
 #
-evaluate_library_rule = $(eval $(call $(linkage)_library_rule_template,$(call to_library,$(1)),$(2)))
+evaluate_library_rule = $(eval $(call library_rule_template,$(1),$(2)))
