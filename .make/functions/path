@@ -18,6 +18,19 @@ to_object = $(addprefix $(build_objects_directory)/,$(addsuffix .o,$(basename $(
 #
 to_dependency = $(addprefix $(build_dependencies_directory)/,$(addsuffix .d,$(basename $(1))))
 
+# Converts the path to a library to the path to its corresponding target file.
+#
+# Arguments:
+#   $(1) = path to a library
+#
+# Variables:
+#   $(linkage) = linkage type: static | dynamic
+#
+# Returns:
+#   path to the library target
+#
+to_library = $(addprefix $(build_libraries_directory)/,$(1))
+
 # Converts a library name to the path to its corresponding library file.
 #
 # Arguments:
@@ -29,7 +42,7 @@ to_dependency = $(addprefix $(build_dependencies_directory)/,$(addsuffix .d,$(ba
 # Returns:
 #   path to the library target
 #
-to_library = $(addprefix $(build_libraries_directory)/,$(call library.file_name,$(1),$(linkage)))
+as_library = $(call to_library,$(call library.file_name,$(1),$(linkage)))
 
 # Converts an example source file path to its corresponding executable file path.
 #

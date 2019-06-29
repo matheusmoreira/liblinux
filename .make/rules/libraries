@@ -32,7 +32,7 @@ dynamic_library_rule_template = $(call rule_template,$(1),$$(call compiler.compi
 # Returns:
 #   rules for generating library $(1) from the objects in $(2)
 #
-library_rule_template = $(call $(linkage)_library_rule_template,$(call to_library,$(1)),$(2))
+library_rule_template = $(call $(linkage)_library_rule_template,$(call as_library,$(1)),$(2))
 
 # Evaluates a library rule template for the current linkage.
 #
