@@ -44,12 +44,12 @@ to_library = $(addprefix $(build_libraries_directory)/,$(1))
 #
 as_library = $(call to_library,$(call library.file_name,$(1),$(linkage)))
 
-# Converts an example source file path to its corresponding executable file path.
+# Converts an executable name to its corresponding executable file path.
 #
 # Arguments:
-#   $(1) = path to executable source file
+#   $(1) = name of the executable
 #
 # Returns:
 #   path to the executable file
 #
-to_executable = $(addprefix $(build_executables_directory)/,$(basename $(1)))
+to_executable = $(addprefix $(build_executables_directory)/,$(1))
