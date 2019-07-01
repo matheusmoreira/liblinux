@@ -1,0 +1,218 @@
+project = $(call project.evaluate,$(1))
+
+# Generates and evaluates rules for the given project.
+#
+# Arguments:
+#   $(1) = name of the project
+#
+project.evaluate = $(eval $(call project.generate,$(1)))
+
+# Generates rules for the given project.
+#
+# Arguments:
+#   $(1) = the project
+#
+# Variables:
+#   $($(1).targets) = targets to define rules for
+#
+define project.generate
+
+# $(0)
+# $(1)
+
+$(call project.targets,$($(1).targets))
+
+.PHONY : all
+all : $($(1).targets)
+
+.PHONY : clean
+clean:
+	rm -rf $(build_directory)/
+
+# end $(0)
+
+endef
+
+# Generates rules for the given targets.
+#
+# Arguments:
+#   $(1) = the project's targets
+#
+project.targets = $(foreach target,$(1),$(call project.target,$(target)))
+
+# Generates rules appropriate for the given target's type.
+#
+# Arguments:
+#   $(1) = the project's target
+#
+# Variables:
+#   $($(1).type) = the type of the target: object | executable | library | recipe
+#
+project.target = $(call project.target.$($(1).type),$(1))
+
+# Generates rules for compiling the given sources into objects.
+#
+# Generates a phony target to refer to the objects.
+#
+# Arguments:
+#   $(1) = the project's object target
+#
+# Variables:
+#   $($(1).sources) = source files to compile
+#
+define project.target.object
+
+# $(0)
+# $(1)
+
+$(call project.target.object.rules,$(1))
+
+.PHONY : $(1)
+$(1) : $(call to_object,$($(1).sources))
+
+# end $(0)
+
+endef
+
+# Generates rules for compiling the given sources into objects and dependency data files.
+#
+# Arguments:
+#   $(1) = the project's object target
+#
+# Variables:
+#   $($(1).sources) = source files to compile
+#
+define project.target.object.rules
+
+# $(0)
+# $(1)
+
+$(foreach source,$($(1).sources),$(call generate_object_rule,$(source))$(\n)$(\n)$(call generate_dependency_file_rule,$(source),to_object)$(\n)$(\n))
+
+# end $(0)
+
+endef
+
+# Generates rules for compiling the given sources into objects
+# and for compiling the resulting objects into an executable.
+#
+# Generates a phony target to refer to the executable.
+# Generates a phony target to run the executable.
+#
+# Arguments:
+#   $(1) = the project's executable target
+#
+# Variables:
+#   $($(1).sources) = source files to compile
+#
+define project.target.executable
+
+# $(0)
+# $(1)
+
+$(call project.target.executable.rules,$(1))
+
+.PHONY : $(1)
+$(1) : $(call to_executable,$(1))
+
+$(call generate_run_executable_rule,$(1))
+
+# end $(0)
+
+endef
+
+# Generates rules for compiling the given sources into objects
+# and for compiling the resulting objects into an executable.
+#
+# Arguments:
+#   $(1) = the project's executable target
+#
+# Variables:
+#   $($(1).sources) = source files to compile
+#   $($(1).dependencies) = additional dependencies for the executable target
+#
+define project.target.executable.rules
+
+# $(0)
+# $(1)
+
+$(call project.target.object.rules,$(1))
+
+$(call generate_executable_rule,$(1),$($(1).sources),$($(1).dependencies))
+
+# end $(0)
+
+endef
+
+
+# Generates rules for compiling the given sources into objects
+# and for compiling the resulting objects into a library.
+#
+# Generates a phony target to refer to the library.
+#
+# Arguments:
+#   $(1) = the project's library target
+#
+# Variables:
+#   $($(1).sources) = source files to compile
+#
+define project.target.library
+
+# $(0)
+# $(1)
+
+$(call project.target.library.rules,$(1))
+
+.PHONY : $(1)
+$(1) : $(call as_library,$($(1).name))
+
+# end $(0)
+
+endef
+
+# Generates rules for the given library.
+#
+# Arguments:
+#   $(1) = the project's library target
+#
+# Variables:
+#   $($(1).name) = the name of the library
+#   $($(1).sources) = source files to compile
+#
+define project.target.library.rules
+
+# $(0)
+# $(1)
+
+$(call project.target.object.rules,$(1))
+
+$(call library_rule_template,$($(1).name),$(call to_object,$($(1).sources)))
+
+# end $(0)
+
+endef
+
+# Includes the given recipe in the generated rules.
+#
+# Generates a phony target to refer to the specified targets.
+#
+# Arguments:
+#   $(1) = the project's recipe target
+#
+# Variables:
+#   $($(1).recipe) = the recipe to include in the generated rules
+#   $($(1).targets) = the prerequisites of the phony target
+#
+define project.target.recipe
+
+# $(0)
+# $(1)
+
+$($(1).recipe)
+
+.PHONY : $(1)
+$(1) : $($(1).targets)
+
+# end $(0)
+
+endef

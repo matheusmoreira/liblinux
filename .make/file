@@ -24,13 +24,13 @@ include .make/compiler
 include .make/archiver
 
 # Rule templates
-include $(addprefix .make/rules/,template objects libraries dependencies examples run)
+include $(addprefix .make/rules/,template objects executable libraries dependencies run)
+
+# Project interface
+include .make/project
 
 # Include the user's makefile, if it exists
 include $(wildcard make/file)
 
 # Include all generated dependency files
 include .make/dependencies
-
-# Additional phony targets and .PHONY variable
-include .make/phony

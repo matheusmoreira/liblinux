@@ -10,26 +10,58 @@ linkage ?= static
 # Project file system structure
 include make/structure
 
-# Library sources
-include make/sources
+liblinux.targets :=
 
-# Object files resulting from the compilation of translation units
-include make/objects
+# System call library
+liblinux.targets += library
+library.type := library
+library.name := linux
+library.sources := $(call find,$(source_directory),file?)
 
-# Static and dynamic libraries
-include make/libraries
+# Process startup code
+liblinux.targets += startfiles
+startfiles.type := object
+startfiles.sources := $(call find,$(start_architecture_directory),file?)
 
-# Targets for the liblinux process startup files
-include make/start
+# GCC linker specification file and wrapper script
+# Makes it easy to build programs using liblinux
+gcc_specs_script := $(scripts_directory)/liblinux.specs.sh
+gcc_wrapper_script := $(scripts_directory)/liblinux-gcc.sh
 
-# All objects
-objects = $(objects_libraries) $(objects_start)
+gcc_wrapper := $(call to_executable,liblinux-gcc)
+gcc_specs := $(call to_library,liblinux.specs)
 
-# The liblinux-gcc wrapper script and liblinux.specs file
-include make/gcc_wrapper
+liblinux.targets += liblinux-gcc
+liblinux-gcc.type := recipe
+liblinux-gcc.targets := $(gcc_wrapper)
 
-# Generate targets for the library usage examples
-include make/examples
+define liblinux-gcc.recipe :=
+
+$(gcc_wrapper) : $(gcc_specs) $(gcc_wrapper_script)
+	$(call mkdir_p,$(dir $(gcc_wrapper)))
+	$(gcc_wrapper_script) $(gcc_specs) > $(gcc_wrapper)
+	chmod +x $(gcc_wrapper)
+
+$(gcc_specs) : $(gcc_specs_script) $(call as_library,linux) $(call to_object,$(startfiles.sources))
+	$(call mkdir_p,$(dir $(gcc_specs)))
+	$(gcc_specs_script) $(build_libraries_directory) $(call to_object,$(startfiles.sources)) > $(gcc_specs)
+
+endef
+
+# Library usage examples
+define examples_template
+
+liblinux.targets += $(1)
+
+$(1).type := executable
+$(1).sources := $(2)
+$(1).dependencies := $(call to_executable,liblinux-gcc)
+
+endef
+
+$(foreach example,$(call glob,$(examples_directory)/*.c),$(eval $(call examples_template,$(basename $(notdir $(example))),$(example))))
+
+$(call project,liblinux)
 
 include make/system_call_lists
 

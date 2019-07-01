@@ -1,12 +1,10 @@
 configure_dynamic_loader = $(if $(call equal?,$(linkage),dynamic),LD_LIBRARY_PATH=$$(build_libraries_directory))
 
-define generate_run_example_rule
-.PHONY : run-$(2)
+define run_executable_rule_template
+.PHONY : run-$(1)
 
-run-$(2) : $(1)
-	$(call configure_dynamic_loader) $(1)
+run-$(1) : $(2)
+	$(call configure_dynamic_loader) $(2)
 endef
 
-$(foreach example,$(sources_examples),$(eval $(call generate_run_example_rule,$(call to_executable,$(example)),$(basename $(example)))))
-
-undefine generate_run_example_rule
+generate_run_executable_rule = $(call run_executable_rule_template,$(1),$(call to_executable,$(1)))

@@ -1,0 +1,31 @@
+# Rule template for executables.
+#
+# The reason why the executables depend on their dependency data file
+# is to trigger the generation of their dependency data when they are updated.
+# Once generated, future executions of make will include and benefit from the dependency data.
+# Dependency data file generation rules are defined in .make/targets/dependencies.
+#
+# $(1) = path to the executable file
+# $(2) = paths to the object files
+# $(3) = additional dependencies
+#
+# Returns:
+#   rules for compiling the objects in $(2) into the executable $(1)
+#
+# References:
+#
+#     https://make.mad-scientist.net/papers/advanced-auto-dependency-generation/#depdelete
+#
+executable_rule_template = $(call rule_template,$(1),$$(call gcc.compile_example,$$@,$(2),$$(linkage)),$(2) $(3))
+
+# Computes the parameters for and evaluates the executable rule template.
+#
+# $(1) = executable name
+# $(2) = executable sources
+# $(3) = additional dependencies
+#
+# Returns:
+#   rules for compiling the objects generated from the sources in $(2)
+#   into the executable named $(1)
+#
+generate_executable_rule = $(call executable_rule_template,$(call to_executable,$(1)),$(call to_object,$(2)),$(3))
