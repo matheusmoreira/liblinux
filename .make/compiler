@@ -13,11 +13,14 @@ compiler_nostdlib_option := $($(compiler)_nostdlib_option)
 compiler_output_option = $($(compiler)_output_option)
 compiler_link_option = $($(compiler)_link_option)
 
+compiler.options.dependency_data_generation = $(call $(compiler)_dependency_generation_options,$(1),$(2))
+
 define compiler.compile_object
 $(compiler) \
 $(compiler_common_options) \
+$(call compiler.options.dependency_data_generation,$(3),$(1)) \
 $(compiler_nostdlib_option) \
-$(call compiler_code_generation_options,$(3)) \
+$(call compiler_code_generation_options,$(4)) \
 $(call compiler_output_option,$(1)) \
 $(compiler_compile_option) $(2)
 endef

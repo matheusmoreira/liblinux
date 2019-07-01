@@ -24,7 +24,7 @@ include .make/compiler
 include .make/archiver
 
 # Rule templates
-include $(addprefix .make/rules/,template objects executable libraries dependencies run)
+include $(addprefix .make/rules/,template objects executable libraries run)
 
 # Project interface
 include .make/project

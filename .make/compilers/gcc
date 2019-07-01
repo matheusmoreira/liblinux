@@ -18,7 +18,7 @@ gcc_link_option = -l $(1)
 gcc_specs_option = -specs=$(1)
 
 gcc_code_generation_options = $(if $(call equal?,$(1),static),-fno-PIC,-fPIC)
-gcc_dependency_generation_options = -M -MF $(1) $(foreach target,$(2),-MT $(target))
+gcc_dependency_generation_options = -MD -MF $(1) $(foreach target,$(2),-MT $(target))
 
 # Common GCC options
 gcc_dialect_options = $(strip $(call gcc_standard_option,$(or $(1),c99)) $(if $(2),-ffreestanding))

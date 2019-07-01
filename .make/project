@@ -90,7 +90,7 @@ define project.target.object.rules
 # $(0)
 # $(1)
 
-$(foreach source,$($(1).sources),$(call generate_object_rule,$(source))$(\n)$(\n)$(call generate_dependency_file_rule,$(source),to_object)$(\n)$(\n))
+$(foreach source,$($(1).sources),$(call generate_object_rule,$(source))$(\n)$(\n))
 
 # end $(0)
 
