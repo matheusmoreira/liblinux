@@ -13,7 +13,7 @@
 #
 #     https://make.mad-scientist.net/papers/advanced-auto-dependency-generation/#depdelete
 #
-object_rule_template = $(call rule_template,$(2),$$(call compiler.compile_object,$$@,$$<,$$(linkage)),$(1) $(3))
+object_rule_template = $(call rule_template,$(2),$$(call compiler.compile_object,$$@,$$<,$$(linkage)),$(1) $(3),$(dir $(2) $(3)))
 
 # Computes the parameters for and evaluates the object rule template.
 #

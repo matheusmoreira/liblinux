@@ -16,7 +16,7 @@
 #
 #     https://make.mad-scientist.net/papers/advanced-auto-dependency-generation/#depdelete
 #
-executable_rule_template = $(call rule_template,$(1),$$(call gcc.compile_example,$$@,$(2),$$(linkage)),$(2) $(3))
+executable_rule_template = $(call rule_template,$(1),$$(call gcc.compile_example,$$@,$(2),$$(linkage)),$(2) $(3),$(dir $(1)))
 
 # Computes the parameters for and evaluates the executable rule template.
 #

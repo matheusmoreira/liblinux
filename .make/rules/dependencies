@@ -7,7 +7,7 @@
 #
 define dependency_file_rule_template
 
-$(call rule_template,$(2),$$(call compiler.generate_dependency_data,$$@,$$<,$$(call $(3),$$<)),$(1))
+$(call rule_template,$(2),$$(call compiler.generate_dependency_data,$$@,$$<,$$(call $(3),$$<)),$(1),$(dir $(2)))
 
 endef
 
