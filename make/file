@@ -1,5 +1,3 @@
-library_name := linux
-project := lib$(library_name)
 C.freestanding := yes
 
 architecture ?= x86_64
