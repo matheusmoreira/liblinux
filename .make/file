@@ -4,6 +4,9 @@ MAKEFLAGS += --no-builtin-rules --no-builtin-variables
 # Boolean logic in make
 include .make/logic
 
+# Useful variables
+include .make/definitions
+
 # Commands used by the build system
 include .make/commands
 
