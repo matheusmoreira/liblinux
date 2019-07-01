@@ -11,4 +11,7 @@
 #     https://make.mad-scientist.net/papers/advanced-auto-dependency-generation/#include
 #     https://make.mad-scientist.net/constructed-include-files/
 #
-include $(wildcard $(dependency_files))
+
+dependency_file? = $(call boolean,$(and $(call equal?,$(suffix $(1)),.d),$(call file?,$(1))))
+
+include $(call find,$(build_dependency_directory),dependency_file?)

@@ -6,9 +6,9 @@
 #        to a list of paths to all its targets
 #
 define dependency_file_rule_template
-dependency_files += $(2)
 
 $(call rule_template,$(2),$$(call compiler.generate_dependency_data,$$@,$$<,$$(call $(3),$$<)),$(1))
+
 endef
 
 # Computes the parameters for and evaluates the dependency file rule template.
@@ -18,5 +18,3 @@ endef
 #        to a list of paths to all its targets
 #
 generate_dependency_file_rule = $(call dependency_file_rule_template,$(1),$(call to_dependency,$(1)),$(2))
-
-targets += $(dependency_files)
