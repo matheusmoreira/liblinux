@@ -3,8 +3,6 @@ C.freestanding := yes
 architecture ?= x86_64
 linkage ?= static
 
-.DEFAULT_GOAL := library
-
 # Project file system structure
 include make/structure
 

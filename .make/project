@@ -14,6 +14,7 @@ project.evaluate = $(eval $(call project.generate,$(1)))
 #
 # Variables:
 #   $($(1).targets) = targets to define rules for
+#   $($(1).targets.default) = used as the default target if specified
 #
 define project.generate
 
@@ -21,6 +22,8 @@ define project.generate
 # $(1)
 
 $(call project.targets,$($(1).targets))
+
+.DEFAULT_GOAL := $(or $($(1).targets.default),$(firstword $($(1).targets)))
 
 .PHONY : all
 all : $($(1).targets)
