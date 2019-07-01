@@ -1,4 +1,4 @@
-configure_dynamic_loader = $(if $(call equal?,$(linkage),dynamic),LD_LIBRARY_PATH=$$(build_libraries_directory))
+configure_dynamic_loader = $(if $(call equal?,$(linkage),dynamic),LD_LIBRARY_PATH=$(build_libraries_directory))
 
 define run_executable_rule_template
 .PHONY : run-$(1)

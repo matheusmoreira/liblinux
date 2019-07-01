@@ -7,7 +7,7 @@
 # Returns:
 #   rules for generating static library $(1) from the objects in $(2)
 #
-static_library_rule_template = $(call rule_template,$(1),$$(call archiver.create,$(1),$(2)),$(2),$(dir $(1)))
+static_library_rule_template = $(call rule_template,$(1),$(call archiver.create,$(1),$(2)),$(2),$(dir $(1)))
 
 # Rule template for dynamic libraries.
 #
@@ -18,7 +18,7 @@ static_library_rule_template = $(call rule_template,$(1),$$(call archiver.create
 # Returns:
 #   rules for generating dynamic library $(1) from the objects in $(2)
 #
-dynamic_library_rule_template = $(call rule_template,$(1),$$(call compiler.compile_dynamic_library,$(1),$(2)),$(2),$(dir $(1)))
+dynamic_library_rule_template = $(call rule_template,$(1),$(call compiler.compile_dynamic_library,$(1),$(2)),$(2),$(dir $(1)))
 
 # Rule template for libraries corresponding to the current linkage.
 #
