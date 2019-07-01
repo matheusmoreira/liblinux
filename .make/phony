@@ -1,19 +1,17 @@
 # Phony targets
 
-phony_targets += library
+.PHONY: library
 library: $(library)
 
-phony_targets += startfiles
+.PHONY: startfiles
 startfiles: $(objects_start)
 
-phony_targets += examples
+.PHONY: examples
 examples: $(examples_targets)
 
-phony_targets += all
+.PHONY: all
 all: library startfiles examples
 
-phony_targets += clean
+.PHONY: clean
 clean:
 	rm -rf $(build_directory)/
-
-.PHONY: $(phony_targets)

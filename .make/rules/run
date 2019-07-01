@@ -1,7 +1,7 @@
 configure_dynamic_loader = $(if $(call equal?,$(linkage),dynamic),LD_LIBRARY_PATH=$$(build_libraries_directory))
 
 define generate_run_example_rule
-phony_targets += run-$(2)
+.PHONY : run-$(2)
 
 run-$(2) : $(1)
 	$(call configure_dynamic_loader) $(1)

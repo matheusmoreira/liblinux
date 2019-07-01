@@ -11,7 +11,7 @@ $(checkpatch.pl): $(checkpatch_data_files)
 $(checkpatch_data_files):
 	$(call download_linux_script,$@)
 
-phony_targets += checkpatch
+.PHONY : checkpatch
 checkpatch: $(checkpatch.pl)
 	find $(include_directory) $(source_directory) $(start_directory) $(examples_directory) \
 	     -type f \
