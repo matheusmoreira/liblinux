@@ -12,3 +12,17 @@
 #
 dereference = $($(1))
 * = $(call dereference,$(1))
+
+# Resolves a composite variable name.
+#
+# Arguments:
+#   $(1) = list of variable name components in order
+#   $(2) = separator
+#
+# Defaults:
+#   $(2) = .
+#
+# Returns:
+#   the name of the variable
+#
+resolve.name = $(subst $(space),$(or $(2),.),$(strip $(1)))
