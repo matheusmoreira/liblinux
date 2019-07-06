@@ -26,3 +26,23 @@ dereference = $($(1))
 #   the name of the variable
 #
 resolve.name = $(subst $(space),$(or $(2),.),$(strip $(1)))
+
+# Tests whether the given variable is undefined.
+#
+# Arguments:
+#   $(1) = name of the variable
+#
+# Returns:
+#   whether the $(1) variable is undefined
+#
+undefined? = $(call boolean,$(call equal?,undefined,$(flavor $(1))))
+
+# Tests whether the given variable is defined.
+#
+# Arguments:
+#   $(1) = name of the variable
+#
+# Returns:
+#   whether the $(1) variable is defined
+#
+defined? = $(call not,$(call undefined?,$(1)))
