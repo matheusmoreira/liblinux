@@ -14,4 +14,4 @@
 
 dependency_file? = $(call boolean,$(and $(call equal?,$(suffix $(1)),.d),$(call file?,$(1))))
 
-include $(call find,$(build_dependency_directory),dependency_file?)
+include $(call find,$(build_dependencies_directory),dependency_file?)
