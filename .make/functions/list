@@ -8,3 +8,13 @@
 #   results of calling the $(1) function on each value of the $(2) list
 #
 map = $(foreach value,$(strip $(2)),$(call $(1),$(value)))
+
+# Removes the first element of the list and returns the rest.
+#
+# Arguments:
+#   $(1) = list of values
+#
+# Returns:
+#   the list without the first element
+#
+rest =  $(wordlist 2,$(words $(1)),$(1))
