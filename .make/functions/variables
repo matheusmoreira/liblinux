@@ -1,0 +1,14 @@
+# Accesses the value associated with the given name.
+# Useful for functional composition.
+#
+# Arguments:
+#   $(1) = name of the variable to dereference
+#
+# Variables:
+#   $($(1)) = the value that will be accessed
+#
+# Returns:
+#   the valuable of the variable
+#
+dereference = $($(1))
+* = $(call dereference,$(1))

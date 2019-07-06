@@ -5,3 +5,4 @@ include .make/functions/library
 include .make/functions/path
 include .make/functions/recursion
 include .make/functions/shell
+include .make/functions/variables
