@@ -1,0 +1,10 @@
+# Maps the given function to all values in the given list.
+#
+# Arguments:
+#   $(1) = function to map to values
+#   $(2) = list of values
+#
+# Returns:
+#   results of calling the $(1) function on each value of the $(2) list
+#
+map = $(foreach value,$(strip $(2)),$(call $(1),$(value)))
