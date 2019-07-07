@@ -13,6 +13,26 @@
 dereference = $($(1))
 * = $(call dereference,$(1))
 
+# Tests whether the given variable is undefined.
+#
+# Arguments:
+#   $(1) = name of the variable
+#
+# Returns:
+#   whether the $(1) variable is undefined
+#
+undefined? = $(call boolean,$(call equal?,undefined,$(flavor $(1))))
+
+# Tests whether the given variable is defined.
+#
+# Arguments:
+#   $(1) = name of the variable
+#
+# Returns:
+#   whether the $(1) variable is defined
+#
+defined? = $(call not,$(call undefined?,$(1)))
+
 # Resolves a composite variable name.
 #
 # Arguments:
@@ -56,26 +76,6 @@ resolve.value = $($(call resolve.name,$(1),$(2)))
 #   the values bound to the variable $(1) inside all the namespaces in $(2)
 #
 resolve = $(strip $(foreach ns,$(1),$(call resolve.value,$(ns) $(2),$(3))))
-
-# Tests whether the given variable is undefined.
-#
-# Arguments:
-#   $(1) = name of the variable
-#
-# Returns:
-#   whether the $(1) variable is undefined
-#
-undefined? = $(call boolean,$(call equal?,undefined,$(flavor $(1))))
-
-# Tests whether the given variable is defined.
-#
-# Arguments:
-#   $(1) = name of the variable
-#
-# Returns:
-#   whether the $(1) variable is defined
-#
-defined? = $(call not,$(call undefined?,$(1)))
 
 # Resolves the value of the first defined variable in a list of namespaces.
 # A namespace is the first component of a composite variable name.
