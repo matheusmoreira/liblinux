@@ -41,6 +41,22 @@ resolve.name = $(subst $(space),$(or $(2),.),$(strip $(1)))
 #
 resolve.value = $($(call resolve.name,$(1),$(2)))
 
+# Resolves a variable in a list of namespaces and retrieves their values.
+# A namespace is the first component of a composite variable name.
+#
+# Arguments:
+#   $(1) = list of namespaces
+#   $(2) = variable to resolve
+#   $(3) = separator
+#
+# Defaults:
+#   $(3) = .
+#
+# Returns:
+#   the values bound to the variable $(1) inside all the namespaces in $(2)
+#
+resolve = $(strip $(foreach ns,$(1),$(call resolve.value,$(ns) $(2),$(3))))
+
 # Tests whether the given variable is undefined.
 #
 # Arguments:
