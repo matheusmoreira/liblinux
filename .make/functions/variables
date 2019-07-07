@@ -76,3 +76,20 @@ undefined? = $(call boolean,$(call equal?,undefined,$(flavor $(1))))
 #   whether the $(1) variable is defined
 #
 defined? = $(call not,$(call undefined?,$(1)))
+
+# Resolves the value of the first defined variable in a list of namespaces.
+# A namespace is the first component of a composite variable name.
+#
+# Arguments:
+#   $(1) = list of namespaces in order
+#   $(2) = variable to resolve
+#   $(3) = separator
+#
+# Defaults:
+#   $(3) = .
+#
+# Returns:
+#   the value of the first defined variable $(1) in the $(2) namespaces
+#
+resolve.first* = $(if $(call defined?,$(4)),$($(4)),$(call resolve.first,$(call rest,$(1)),$(2),$(3)))
+resolve.first  = $(if $(1),$(call $(0)*,$(1),$(2),$(3),$(call resolve.name,$(firstword $(1)) $(2),$(3))))
