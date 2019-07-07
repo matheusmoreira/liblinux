@@ -75,7 +75,7 @@ resolve.value = $($(call resolve.name,$(1),$(2)))
 # Returns:
 #   the values bound to the variable $(1) inside all the namespaces in $(2)
 #
-resolve = $(strip $(foreach ns,$(1),$(call resolve.value,$(ns) $(2),$(3))))
+resolve.all = $(strip $(foreach ns,$(1),$(call resolve.value,$(ns) $(2),$(3))))
 
 # Resolves the value of the first defined variable in a list of namespaces.
 # A namespace is the first component of a composite variable name.
