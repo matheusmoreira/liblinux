@@ -27,6 +27,20 @@ dereference = $($(1))
 #
 resolve.name = $(subst $(space),$(or $(2),.),$(strip $(1)))
 
+# Resolves a composite variable name and retrieves its value.
+#
+# Arguments:
+#   $(1) = list of variable name components in order
+#   $(2) = separator
+#
+# Defaults:
+#   $(2) = .
+#
+# Returns:
+#   the value bound to the variable
+#
+resolve.value = $($(call resolve.name,$(1),$(2)))
+
 # Tests whether the given variable is undefined.
 #
 # Arguments:
