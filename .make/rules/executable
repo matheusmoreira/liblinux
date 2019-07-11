@@ -5,9 +5,10 @@
 # Once generated, future executions of make will include and benefit from the dependency data.
 # Dependency data file generation rules are defined in .make/targets/dependencies.
 #
-# $(1) = path to the executable file
-# $(2) = paths to the object files
-# $(3) = additional dependencies
+# Arguments:
+#   $(1) = path to the executable file
+#   $(2) = paths to the object files
+#   $(3) = additional dependencies
 #
 # Returns:
 #   rules for compiling the objects in $(2) into the executable $(1)
@@ -20,9 +21,10 @@ executable_rule_template = $(call rule_template,$(1),$(call gcc.compile_example,
 
 # Computes the parameters for and evaluates the executable rule template.
 #
-# $(1) = executable name
-# $(2) = executable sources
-# $(3) = additional dependencies
+# Arguments:
+#   $(1) = executable name
+#   $(2) = executable sources
+#   $(3) = additional dependencies
 #
 # Returns:
 #   rules for compiling the objects generated from the sources in $(2)
