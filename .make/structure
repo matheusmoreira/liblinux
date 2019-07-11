@@ -2,13 +2,13 @@
 build_directory ?= build
 build_root_directory = $(call path.join,$(build_directory) $(configuration.current))
 
-build_objects_directory = $(build_root_directory)/objects
+build_objects_directory = $(call path.join,$(build_root_directory) objects)
 
-build_libraries_directory = $(build_root_directory)/libraries
+build_libraries_directory = $(call path.join,$(build_root_directory) libraries)
 
-build_executables_directory = $(build_root_directory)/executables
+build_executables_directory = $(call path.join,$(build_root_directory) executables)
 
-build_dependencies_directory = $(build_root_directory)/dependencies
+build_dependencies_directory = $(call path.join,$(build_root_directory) dependencies)
 
 # If the build directory is a symbolic link to another directory,
 # ensure the existence of that directory.
