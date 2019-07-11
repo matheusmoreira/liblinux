@@ -1,1 +1,2 @@
-configuration = $(architecture)-$(linkage)
+configuration.separator ?= -
+configuration = $(architecture)$(configuration.separator)$(linkage)
