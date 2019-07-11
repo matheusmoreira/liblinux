@@ -21,7 +21,7 @@ define project.generate
 # $(0)
 # $(1)
 
-$(call project.targets,$($(1).targets))
+$(call project.targets,$($(1).targets),$(1))
 
 .DEFAULT_GOAL := $(or $($(1).targets.default),$(firstword $($(1).targets)))
 
@@ -40,18 +40,20 @@ endef
 #
 # Arguments:
 #   $(1) = the project's targets
+#   $(2) = build stack
 #
-project.targets = $(foreach target,$(1),$(call project.target,$(target)))
+project.targets = $(foreach target,$(1),$(call project.target,$(target),$(2) $(target)))
 
 # Generates rules appropriate for the given target's type.
 #
 # Arguments:
 #   $(1) = the project's target
+#   $(2) = build stack
 #
 # Variables:
 #   $($(1).type) = the type of the target: object | executable | library | recipe
 #
-project.target = $(call project.target.$($(1).type),$(1))
+project.target = $(call project.target.$($(1).type),$(1),$(2))
 
 # Generates rules for compiling the given sources into objects.
 #
@@ -59,6 +61,7 @@ project.target = $(call project.target.$($(1).type),$(1))
 #
 # Arguments:
 #   $(1) = the project's object target
+#   $(2) = build stack
 #
 # Variables:
 #   $($(1).sources) = source files to compile
@@ -67,8 +70,9 @@ define project.target.object
 
 # $(0)
 # $(1)
+# $(2)
 
-$(call project.target.object.rules,$(1))
+$(call project.target.object.rules,$(1),$(2))
 
 .PHONY : $(1)
 $(1) : $(call to_object,$($(1).sources))
@@ -81,6 +85,7 @@ endef
 #
 # Arguments:
 #   $(1) = the project's object target
+#   $(2) = build stack
 #
 # Variables:
 #   $($(1).sources) = source files to compile
@@ -89,6 +94,7 @@ define project.target.object.rules
 
 # $(0)
 # $(1)
+# $(2)
 
 $(foreach source,$($(1).sources),$(call generate_object_rule,$(source))$(\n)$(\n))
 
@@ -104,6 +110,7 @@ endef
 #
 # Arguments:
 #   $(1) = the project's executable target
+#   $(2) = build stack
 #
 # Variables:
 #   $($(1).sources) = source files to compile
@@ -112,8 +119,9 @@ define project.target.executable
 
 # $(0)
 # $(1)
+# $(2)
 
-$(call project.target.executable.rules,$(1))
+$(call project.target.executable.rules,$(1),$(2))
 
 .PHONY : $(1)
 $(1) : $(call to_executable,$(1))
@@ -129,6 +137,7 @@ endef
 #
 # Arguments:
 #   $(1) = the project's executable target
+#   $(2) = build stack
 #
 # Variables:
 #   $($(1).sources) = source files to compile
@@ -138,8 +147,9 @@ define project.target.executable.rules
 
 # $(0)
 # $(1)
+# $(2)
 
-$(call project.target.object.rules,$(1))
+$(call project.target.object.rules,$(1),$(2))
 
 $(call generate_executable_rule,$(1),$($(1).sources),$($(1).dependencies))
 
@@ -155,6 +165,7 @@ endef
 #
 # Arguments:
 #   $(1) = the project's library target
+#   $(2) = build stack
 #
 # Variables:
 #   $($(1).sources) = source files to compile
@@ -163,8 +174,9 @@ define project.target.library
 
 # $(0)
 # $(1)
+# $(2)
 
-$(call project.target.library.rules,$(1))
+$(call project.target.library.rules,$(1),$(2))
 
 .PHONY : $(1)
 $(1) : $(call as_library,$($(1).name))
@@ -177,6 +189,7 @@ endef
 #
 # Arguments:
 #   $(1) = the project's library target
+#   $(2) = build stack
 #
 # Variables:
 #   $($(1).name) = the name of the library
@@ -186,8 +199,9 @@ define project.target.library.rules
 
 # $(0)
 # $(1)
+# $(2)
 
-$(call project.target.object.rules,$(1))
+$(call project.target.object.rules,$(1),$(2))
 
 $(call library_rule_template,$($(1).name),$(call to_object,$($(1).sources)))
 
@@ -201,6 +215,7 @@ endef
 #
 # Arguments:
 #   $(1) = the project's recipe target
+#   $(2) = build stack
 #
 # Variables:
 #   $($(1).recipe) = the recipe to include in the generated rules
@@ -210,6 +225,7 @@ define project.target.recipe
 
 # $(0)
 # $(1)
+# $(2)
 
 $($(1).recipe)
 
