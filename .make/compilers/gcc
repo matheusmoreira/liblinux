@@ -63,3 +63,23 @@ $(gcc_list_macro_names_option) \
 $(call gcc_include_macros_option,$(1)) \
 $(gcc_null_input)
 endef
+
+# Generates a GCC command line that compiles a source file into an object file.
+#
+# Arguments:
+#   $(1) = source file
+#   $(2) = object file
+#   $(3) = dependency data file
+#   $(4) = options
+#   $(5) = GCC executable to use
+#
+# Returns:
+#   command line that compiles $(1) into $(2) using the options in $(4)
+#
+define gcc.compile
+$(or $(5),$(gcc)) \
+$(4) \
+$(call gcc_dependency_generation_options,$(3),$(2)) \
+$(call gcc_output_option,$(2)) \
+$(gcc_compile_option) $(1)
+endef
