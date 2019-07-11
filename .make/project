@@ -96,7 +96,25 @@ define project.target.object.rules
 # $(1)
 # $(2)
 
-$(foreach source,$($(1).sources),$(call generate_object_rule,$(source))$(\n)$(\n))
+$(foreach source,$($(1).sources),$(call $(0).file,$(source),$(2) $(call to_object,$(source))))
+
+# end $(0)
+
+endef
+
+# Generates rules for compiling the given source into object and dependency data files.
+#
+# Arguments:
+#   $(1) = the source file
+#   $(2) = build stack
+#
+define project.target.object.rules.file
+
+# $(0)
+# $(1)
+# $(2)
+
+$(call generate_object_rule,$(1))
 
 # end $(0)
 
