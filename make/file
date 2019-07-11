@@ -3,6 +3,8 @@ C.freestanding := yes
 architecture ?= x86_64
 linkage ?= static
 
+configuration := $(architecture) $(linkage)
+
 # Project file system structure
 include make/structure
 

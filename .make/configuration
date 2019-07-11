@@ -1,2 +1,2 @@
 configuration.separator ?= -
-configuration = $(architecture)$(configuration.separator)$(linkage)
+configuration.current = $(call coalesce,$(configuration),$(configuration.separator))
