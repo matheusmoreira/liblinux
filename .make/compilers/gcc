@@ -83,3 +83,21 @@ $(call gcc_dependency_generation_options,$(3),$(2)) \
 $(call gcc_output_option,$(2)) \
 $(gcc_compile_option) $(1)
 endef
+
+# Generates a GCC command line that links object files.
+#
+# Arguments:
+#   $(1) = object files
+#   $(2) = output file
+#   $(3) = options
+#   $(4) = GCC executable to use
+#
+# Returns:
+#   command line that compiles $(1) into $(2) using the options in $(4)
+#
+define gcc.link
+$(or $(4),$(gcc)) \
+$(3) \
+$(call gcc_output_option,$(2)) \
+$(1)
+endef
