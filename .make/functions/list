@@ -28,3 +28,15 @@ rest =  $(wordlist 2,$(words $(1)),$(1))
 #   the reversed list reversed
 #
 reverse = $(if $(word 2,$(1)),$(call reverse,$(call rest,$(1))) $(firstword $(1)),$(1))
+
+# Joins all elements of the given list.
+#
+# Arguments:
+#   $(1) = list of values
+#   $(2) = optional separator
+#
+# Returns:
+#   elements of $(1) combined into one
+#
+coalesce* = $(if $(2),$(addprefix $(addsuffix $(3),$(1)),$(2)),$(1))
+coalesce  = $(if $(word 2,$(1)),$(call $(0)*,$(firstword $(1)),$(call $(0),$(call rest,$(1)),$(2)),$(2)),$(1))
