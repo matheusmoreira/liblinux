@@ -117,7 +117,49 @@ define project.target.object.rules.file
 # $(2)
 # $(3)
 
-$(call generate_object_rule,$(1),$(3))
+$(call $(0)*,$(1),$(2),$(3),$(call resolve.first,$(call reverse,$(2)),compiler))
+
+# end $(0)
+
+endef
+
+# Arguments:
+#   $(1) = the source file
+#   $(2) = build stack
+#   $(3) = additional dependencies for the object
+#   $(4) = compiler to use
+#
+define project.target.object.rules.file*
+
+# $(0)
+# $(1)
+# $(2)
+# $(3)
+# $(4)
+
+$(call $(0)*,$(1),$(3),$(4),$(call resolve.all,$(2),compiler $(4) options),$(call resolve.first,$(call reverse,$(2)),compiler $(4)))
+
+# end $(0)
+
+endef
+
+# Arguments:
+#   $(1) = the source file
+#   $(2) = additional dependencies for the object
+#   $(3) = compiler to use
+#   $(4) = compiler options
+#   $(5) = compiler executable
+#
+define project.target.object.rules.file**
+
+# $(0)
+# $(1)
+# $(2)
+# $(3)
+# $(4)
+# $(5)
+
+$(call generate_object_rule,$(1),$(2),$(3),$(4),$(5))
 
 # end $(0)
 
@@ -172,12 +214,57 @@ define project.target.executable.rules
 
 $(call project.target.object.rules,$(1),$(2))
 
-$(call generate_executable_rule,$(1),$($(1).sources),$($(1).dependencies))
+$(call $(0).file,$(1),$(2),$($(1).sources),$($(1).dependencies),$(call resolve.first,$(call reverse,$(2)),linker))
 
 # end $(0)
 
 endef
 
+# Arguments:
+#   $(1) = the project's executable target
+#   $(2) = build stack
+#   $(3) = sources
+#   $(4) = additional dependencies
+#   $(5) = linker to use
+#
+define project.target.executable.rules.file
+
+# $(0)
+# $(1)
+# $(2)
+# $(3)
+# $(4)
+# $(5)
+
+$(call $(0)*,$(1),$(3),$(4),$(5),$(call resolve.all,$(2),linker $(5) options),$(call resolve.first,$(call reverse,$(2)),linker $(5)))
+
+# end $(0)
+
+endef
+
+# Arguments:
+#   $(1) = the project's executable target
+#   $(2) = sources
+#   $(3) = additional dependencies
+#   $(4) = compiler to use
+#   $(5) = compiler options
+#   $(6) = compiler executable
+#
+define project.target.executable.rules.file*
+
+# $(0)
+# $(1)
+# $(2)
+# $(3)
+# $(4)
+# $(5)
+# $(6)
+
+$(call generate_executable_rule,$(1),$(2),$(3),$(4),$(5),$(6))
+
+# end $(0)
+
+endef
 
 # Generates rules for compiling the given sources into objects
 # and for compiling the resulting objects into a library.
@@ -225,7 +312,57 @@ define project.target.library.rules
 
 $(call project.target.object.rules,$(1),$(2))
 
-$(call library_rule_template,$($(1).name),$(call to_object,$($(1).sources)),$($(1).dependencies))
+$(call $(0).file,$(1),$(2),$($(1).name),$(call to_object,$($(1).sources)),$($(1).dependencies),$(call resolve.first,$(call reverse,$(2)),linker))
+
+# end $(0)
+
+endef
+
+# Generates rules for the given library.
+#
+# Arguments:
+#   $(1) = the project's library target
+#   $(2) = build stack
+#   $(3) = library name
+#   $(4) = library objects
+#   $(5) = additional dependencies
+#   $(6) = linker to use
+#
+define project.target.library.rules.file
+
+# $(0)
+# $(1)
+# $(2)
+# $(3)
+# $(4)
+# $(5)
+# $(6)
+
+$(call $(0)*,$(3),$(4),$(5),$(6),$(call resolve.all,$(2),linker $(6) options),$(call resolve.first,$(call reverse,$(2)),linker $(6)))
+
+# end $(0)
+
+endef
+
+# Arguments:
+#   $(1) = library name
+#   $(2) = library objects
+#   $(3) = additional dependencies
+#   $(4) = linker to use
+#   $(5) = linker options
+#   $(6) = linker executable
+#
+define project.target.library.rules.file*
+
+# $(0)
+# $(1)
+# $(2)
+# $(3)
+# $(4)
+# $(5)
+# $(6)
+
+$(call library_rule_template,$(1),$(2),$(3),$(4),$(5),$(6))
 
 # end $(0)
 

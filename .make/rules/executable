@@ -9,6 +9,9 @@
 #   $(1) = path to the executable file
 #   $(2) = paths to the object files
 #   $(3) = additional dependencies
+#   $(4) = compiler
+#   $(5) = compiler options
+#   $(6) = compiler executable
 #
 # Returns:
 #   rules for compiling the objects in $(2) into the executable $(1)
@@ -17,7 +20,7 @@
 #
 #     https://make.mad-scientist.net/papers/advanced-auto-dependency-generation/#depdelete
 #
-executable_rule_template = $(call rule_template,$(1),$(call gcc.compile_example,$(1),$(2),$(linkage)),$(2) $(3),$(dir $(1)))
+executable_rule_template = $(call rule_template,$(1),$(call $(4).link,$(2),$(1),$(5),$(6)),$(2) $(3),$(dir $(1)))
 
 # Computes the parameters for and evaluates the executable rule template.
 #
@@ -25,9 +28,12 @@ executable_rule_template = $(call rule_template,$(1),$(call gcc.compile_example,
 #   $(1) = executable name
 #   $(2) = executable sources
 #   $(3) = additional dependencies
+#   $(4) = compiler
+#   $(5) = compiler options
+#   $(6) = compiler executable
 #
 # Returns:
 #   rules for compiling the objects generated from the sources in $(2)
 #   into the executable named $(1)
 #
-generate_executable_rule = $(call executable_rule_template,$(call to_executable,$(1)),$(call to_object,$(2)),$(3))
+generate_executable_rule = $(call executable_rule_template,$(call to_executable,$(1)),$(call to_object,$(2)),$(3),$(4),$(5),$(6))

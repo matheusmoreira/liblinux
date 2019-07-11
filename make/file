@@ -11,16 +11,32 @@ include make/structure
 
 liblinux.targets :=
 
+liblinux.compiler := $(compiler)
+liblinux.compiler.gcc.options := -std=c99 -ffreestanding \
+                                 -Wall -Wextra -Wpedantic \
+                                 -I $(include_directory) \
+                                 -Os \
+                                 $(if $(call equal?,$(linkage),static),-static -fno-PIC,-shared -fPIC) \
+                                 -fno-strict-aliasing -fno-stack-protector
+
+liblinux.linker := $(compiler)
+liblinux.linker.gcc.options := $(if $(call equal?,$(linkage),static),-static -fno-PIC,-shared -fPIC) \
+                               -Os -fno-strict-aliasing -fno-stack-protector
+
 # System call library
 liblinux.targets += library
 library.type := library
 library.name := linux
 library.sources := $(call find,$(source_directory),file?)
 
+library.linker.gcc.options := -nostdlib
+
 # Process startup code
 liblinux.targets += startfiles
 startfiles.type := object
 startfiles.sources := $(call find,$(start_architecture_directory),file?)
+
+$(call to_object,$(start_architecture_directory)/_start.S).gcc.options := -P
 
 # GCC linker specification file and wrapper script
 # Makes it easy to build programs using liblinux
@@ -54,7 +70,10 @@ liblinux.targets += $(1)
 
 $(1).type := executable
 $(1).sources := $(2)
-$(1).dependencies := $(call to_executable,liblinux-gcc)
+$(1).dependencies := $(gcc_wrapper)
+
+$(1).compiler.gcc := $(gcc_wrapper)
+$(1).linker.gcc := $(gcc_wrapper)
 
 endef
 
