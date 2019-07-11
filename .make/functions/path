@@ -1,6 +1,20 @@
 # File system path separator. Specific to each operating system.
 path.separator ?= /
 
+# Forms a new path by joining all the given elements.
+#
+# Arguments:
+#   $(1) = list of paths to join
+#   $(2) = path separator
+#
+# Defaults:
+#   $(2) = $(path.separator)
+#
+# Returns:
+#   all elements in $(1) joined into one path
+#
+path.join = $(call coalesce,$(1),$(or $(2),$(path.separator)))
+
 # Converts a source file path to its corresponding object file path.
 #
 # Arguments:
