@@ -1,3 +1,6 @@
+# File system path separator. Specific to each operating system.
+path.separator ?= /
+
 # Converts a source file path to its corresponding object file path.
 #
 # Arguments:
