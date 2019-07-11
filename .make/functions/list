@@ -18,3 +18,13 @@ map = $(foreach value,$(strip $(2)),$(call $(1),$(value)))
 #   the list without the first element
 #
 rest =  $(wordlist 2,$(words $(1)),$(1))
+
+# Inverts the order of the elements of the list.
+#
+# Arguments:
+#   $(1) = list of values
+#
+# Returns:
+#   the reversed list reversed
+#
+reverse = $(if $(word 2,$(1)),$(call reverse,$(call rest,$(1))) $(firstword $(1)),$(1))
