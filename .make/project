@@ -89,6 +89,7 @@ endef
 #
 # Variables:
 #   $($(1).sources) = source files to compile
+#   $($(1).dependencies) = additional dependencies for the objects
 #
 define project.target.object.rules
 
@@ -96,7 +97,7 @@ define project.target.object.rules
 # $(1)
 # $(2)
 
-$(foreach source,$($(1).sources),$(call $(0).file,$(source),$(2) $(call to_object,$(source))))
+$(foreach source,$($(1).sources),$(call $(0).file,$(source),$(2) $(call to_object,$(source)),$($(1).dependencies)))
 
 # end $(0)
 
@@ -107,14 +108,16 @@ endef
 # Arguments:
 #   $(1) = the source file
 #   $(2) = build stack
+#   $(3) = additional dependencies for the object
 #
 define project.target.object.rules.file
 
 # $(0)
 # $(1)
 # $(2)
+# $(3)
 
-$(call generate_object_rule,$(1))
+$(call generate_object_rule,$(1),$(3))
 
 # end $(0)
 
@@ -212,6 +215,7 @@ endef
 # Variables:
 #   $($(1).name) = the name of the library
 #   $($(1).sources) = source files to compile
+#   $($(1).dependencies) = additional dependencies for the library
 #
 define project.target.library.rules
 
@@ -221,7 +225,7 @@ define project.target.library.rules
 
 $(call project.target.object.rules,$(1),$(2))
 
-$(call library_rule_template,$($(1).name),$(call to_object,$($(1).sources)))
+$(call library_rule_template,$($(1).name),$(call to_object,$($(1).sources)),$($(1).dependencies))
 
 # end $(0)
 

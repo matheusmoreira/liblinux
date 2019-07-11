@@ -9,17 +9,18 @@
 #   $(1) = path to source file
 #   $(2) = path to object file
 #   $(3) = path to dependency data file
+#   $(4) = additional dependencies
 #
 # References:
 #
 #     https://make.mad-scientist.net/papers/advanced-auto-dependency-generation/#depdelete
 #
-object_rule_template = $(call rule_template,$(2),$(call compiler.compile_object,$(2),$(1),$(3),$(linkage)),$(1),$(dir $(2) $(3)))
+object_rule_template = $(call rule_template,$(2),$(call compiler.compile_object,$(2),$(1),$(3),$(linkage)),$(1) $(4),$(dir $(2) $(3)))
 
 # Computes the parameters for and evaluates the object rule template.
 #
 # Arguments:
 #   $(1) = path to source file
+#   $(2) = additional dependencies
 #
-generate_object_rule = $(call object_rule_template,$(1),$(call to_object,$(1)),$(call to_dependency,$(1)))
-
+generate_object_rule = $(call object_rule_template,$(1),$(call to_object,$(1)),$(call to_dependency,$(1)),$(2))
