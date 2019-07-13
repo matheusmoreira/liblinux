@@ -1,32 +1,32 @@
 # System calls available on the system
 
 system-calls.available.sh := $(scripts_directory)/system-calls.available.sh
-system-calls.available := $(build_scripts_directory)/system-calls.available
+system-calls.available := $(build_root_directory)/system-calls.available
 
 definitions.h := $(include_liblinux_directory)/definitions.h
 
 $(system-calls.available) : $(system-calls.available.sh) $(definitions.h)
-	$(call ensure_target_directory_exists)
+	$(call mkdir_p,$(dir $@))
 	$(call gcc.list_defined_macros,$(definitions.h)) | $< > $@
 
 # System calls implemented in liblinux
 
 system-calls.implemented.sh := $(scripts_directory)/system-calls.implemented.sh
-system-calls.implemented := $(build_scripts_directory)/system-calls.implemented
+system-calls.implemented := $(build_root_directory)/system-calls.implemented
 
 liblinux_system_calls := $(basename $(notdir $(wildcard $(include_liblinux_directory)/system_calls/*.h)))
 
 $(system-calls.implemented) : $(system-calls.implemented.sh)
-	$(call ensure_target_directory_exists)
+	$(call mkdir_p,$(dir $@))
 	$< $(liblinux_system_calls) > $@
 
 # System calls missing from liblinux
 
 system-calls.missing.sh := $(scripts_directory)/system-calls.missing.sh
-system-calls.missing := $(build_scripts_directory)/system-calls.missing
+system-calls.missing := $(build_root_directory)/system-calls.missing
 
 $(system-calls.missing) : $(system-calls.missing.sh) $(system-calls.available) $(system-calls.implemented)
-	$(call ensure_target_directory_exists)
+	$(call mkdir_p,$(dir $@))
 	$< $(system-calls.available) $(system-calls.implemented) > $@
 
 # Phony targets
