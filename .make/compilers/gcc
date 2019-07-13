@@ -14,15 +14,6 @@ gcc.options.dump.macro_names := -dN
 gcc.redirect_input_to = - < $(1)
 gcc.null_input := $(call gcc.redirect_input_to,/dev/null)
 
-gcc_inhibit_linemarkers_option := -P
-gcc_shared_library_option := -shared
-gcc_nostdlib_option := -nostdlib
-gcc_static_option = $(if $(call equal?,$(1),static),-static)
-gcc_link_option = -l $(1)
-gcc_specs_option = -specs=$(1)
-
-gcc_code_generation_options = $(if $(call equal?,$(1),static),-fno-PIC,-fPIC)
-
 # Common GCC options
 gcc_dialect_options = $(strip $(call gcc.options.standard,$(or $(1),c99)) $(if $(2),-ffreestanding))
 gcc_warning_options := -Wall -Wextra -Wpedantic
