@@ -2,28 +2,31 @@
 gcc := gcc
 
 # GCC option variable and function definitions
-gcc_standard_option = -std=$(1)
-gcc_library_directory_option = -L$(1)
-gcc_include_directory_option = -I $(include_directory)
-gcc_compile_option := -c
-gcc_preprocess_option := -E
+gcc.options.output = -o $(1)
+gcc.options.compile := -c
+gcc.options.preprocess := -E
+gcc.options.dependency_generation = -MD -MF $(1) $(foreach target,$(2),-MT $(target))
+gcc.options.standard = -std=$(1)
+gcc.options.directory.include = -I $(1)
+gcc.options.directory.library = -L$(1)
+gcc.options.include.macros = -imacros $(1)
+gcc.options.dump.macro_names := -dN
+gcc.redirect_input_to = - < $(1)
+gcc.null_input := $(call gcc.redirect_input_to,/dev/null)
+
 gcc_inhibit_linemarkers_option := -P
-gcc_include_macros_option = -imacros $(1)
-gcc_list_macro_names_option := -dN
 gcc_shared_library_option := -shared
 gcc_nostdlib_option := -nostdlib
-gcc_output_option = -o $(1)
 gcc_static_option = $(if $(call equal?,$(1),static),-static)
 gcc_link_option = -l $(1)
 gcc_specs_option = -specs=$(1)
 
 gcc_code_generation_options = $(if $(call equal?,$(1),static),-fno-PIC,-fPIC)
-gcc_dependency_generation_options = -MD -MF $(1) $(foreach target,$(2),-MT $(target))
 
 # Common GCC options
-gcc_dialect_options = $(strip $(call gcc_standard_option,$(or $(1),c99)) $(if $(2),-ffreestanding))
+gcc_dialect_options = $(strip $(call gcc.options.standard,$(or $(1),c99)) $(if $(2),-ffreestanding))
 gcc_warning_options := -Wall -Wextra -Wpedantic
-gcc_preprocessor_options = $(call gcc_include_directory_option,$(include_directory)) $(gcc_inhibit_linemarkers_option)
+gcc_preprocessor_options = $(call gcc.options.directory.include,$(include_directory)) $(gcc_inhibit_linemarkers_option)
 gcc_optimization_options := -Os -fno-strict-aliasing
 gcc_instrumentation_options := -fno-stack-protector
 
@@ -35,17 +38,13 @@ $(gcc_optimization_options) \
 $(gcc_instrumentation_options)
 endef
 
-redirect_input_to = < $(1)
-gcc_read_from_standard_input := -
-gcc_null_input := $(gcc_read_from_standard_input) $(call redirect_input_to,/dev/null)
-
 define gcc.list_defined_macros
 $(gcc) \
 $(gcc_common_options) \
-$(gcc_preprocess_option) \
-$(gcc_list_macro_names_option) \
-$(call gcc_include_macros_option,$(1)) \
-$(gcc_null_input)
+$(gcc.options.preprocess) \
+$(gcc.options.dump.macro_names) \
+$(call gcc.options.include.macros,$(1)) \
+$(gcc.null_input)
 endef
 
 # Generates a GCC command line that compiles a source file into an object file.
@@ -63,9 +62,9 @@ endef
 define gcc.compile
 $(or $(5),$(gcc)) \
 $(4) \
-$(call gcc_dependency_generation_options,$(3),$(2)) \
-$(call gcc_output_option,$(2)) \
-$(gcc_compile_option) $(1)
+$(call gcc.options.dependency_generation,$(3),$(2)) \
+$(call gcc.options.output,$(2)) \
+$(gcc.options.compile) $(1)
 endef
 
 # Generates a GCC command line that links object files.
@@ -82,6 +81,6 @@ endef
 define gcc.link
 $(or $(4),$(gcc)) \
 $(3) \
-$(call gcc_output_option,$(2)) \
+$(call gcc.options.output,$(2)) \
 $(1)
 endef
