@@ -1,3 +1,0 @@
-library := $(call to_library,$(library_name))
-
-$(call evaluate_library_rule,$(library_name),$(objects_library))

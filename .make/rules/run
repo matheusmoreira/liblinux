@@ -1,0 +1,10 @@
+configure_dynamic_loader = $(if $(call equal?,$(linkage),dynamic),LD_LIBRARY_PATH=$(build_libraries_directory))
+
+define run_executable_rule_template
+.PHONY : run-$(1)
+
+run-$(1) : $(2)
+	$(call configure_dynamic_loader) $(2)
+endef
+
+generate_run_executable_rule = $(call run_executable_rule_template,$(1),$(call to_executable,$(1)))

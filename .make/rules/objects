@@ -5,19 +5,28 @@
 # Once generated, future executions of make will include and benefit from the dependency data.
 # Dependency data file generation rules are defined in .make/targets/dependencies.
 #
-# $(1) = path to source file
-# $(2) = path to object file
-# $(3) = path to dependency data file
+# Arguments:
+#   $(1) = path to source file
+#   $(2) = path to object file
+#   $(3) = path to dependency data file
+#   $(4) = additional dependencies
+#   $(5) = compiler
+#   $(6) = compiler options
+#   $(7) = compiler executable
 #
 # References:
 #
 #     https://make.mad-scientist.net/papers/advanced-auto-dependency-generation/#depdelete
 #
-object_rule_template = $(call rule_template,$(2),$$(call compiler.compile_object,$$@,$$<,$$(linkage)),$(1) $(3))
+object_rule_template = $(call rule_template,$(2),$(call $(5).compile,$(1),$(2),$(3),$(6),$(7)),$(1) $(4),$(dir $(2) $(3)))
 
 # Computes the parameters for and evaluates the object rule template.
 #
-# $(1) = path to source file
+# Arguments:
+#   $(1) = path to source file
+#   $(2) = additional dependencies
+#   $(3) = compiler
+#   $(4) = compiler options
+#   $(5) = compiler executable
 #
-generate_object_rule = $(call object_rule_template,$(1),$(call to_object,$(1)),$(call to_dependency,$(1)))
-
+generate_object_rule = $(call object_rule_template,$(1),$(call to_object,$(1)),$(call to_dependency,$(1)),$(2),$(3),$(4),$(5))

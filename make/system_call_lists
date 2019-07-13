@@ -32,7 +32,7 @@ $(system-calls.missing) : $(system-calls.missing.sh) $(system-calls.available) $
 # Phony targets
 
 define system_call_list_rule_template
-phony_targets += system-calls.$(1)
+.PHONY : system-calls.$(1)
 
 system-calls.$(1) : $$(system-calls.$(1))
 	cat $$<

@@ -1,3 +1,20 @@
+# File system path separator. Specific to each operating system.
+path.separator ?= /
+
+# Forms a new path by joining all the given elements.
+#
+# Arguments:
+#   $(1) = list of paths to join
+#   $(2) = path separator
+#
+# Defaults:
+#   $(2) = $(path.separator)
+#
+# Returns:
+#   all elements in $(1) joined into one path
+#
+path.join = $(call coalesce,$(1),$(or $(2),$(path.separator)))
+
 # Converts a source file path to its corresponding object file path.
 #
 # Arguments:
@@ -18,6 +35,19 @@ to_object = $(addprefix $(build_objects_directory)/,$(addsuffix .o,$(basename $(
 #
 to_dependency = $(addprefix $(build_dependencies_directory)/,$(addsuffix .d,$(basename $(1))))
 
+# Converts the path to a library to the path to its corresponding target file.
+#
+# Arguments:
+#   $(1) = path to a library
+#
+# Variables:
+#   $(linkage) = linkage type: static | dynamic
+#
+# Returns:
+#   path to the library target
+#
+to_library = $(addprefix $(build_libraries_directory)/,$(1))
+
 # Converts a library name to the path to its corresponding library file.
 #
 # Arguments:
@@ -29,14 +59,14 @@ to_dependency = $(addprefix $(build_dependencies_directory)/,$(addsuffix .d,$(ba
 # Returns:
 #   path to the library target
 #
-to_library = $(addprefix $(build_libraries_directory)/,$(call library.file_name,$(1),$(linkage)))
+as_library = $(call to_library,$(call library.file_name,$(1),$(linkage)))
 
-# Converts an example source file path to its corresponding executable file path.
+# Converts an executable name to its corresponding executable file path.
 #
 # Arguments:
-#   $(1) = path to executable source file
+#   $(1) = name of the executable
 #
 # Returns:
 #   path to the executable file
 #
-to_executable = $(addprefix $(build_executables_directory)/,$(basename $(1)))
+to_executable = $(addprefix $(build_executables_directory)/,$(1))
