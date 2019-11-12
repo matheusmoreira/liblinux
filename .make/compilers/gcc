@@ -29,15 +29,6 @@ $(gcc_optimization_options) \
 $(gcc_instrumentation_options)
 endef
 
-define gcc.list_defined_macros
-$(gcc) \
-$(gcc_common_options) \
-$(gcc.options.preprocess) \
-$(gcc.options.dump.macro_names) \
-$(call gcc.options.include.macros,$(1)) \
-$(gcc.null_input)
-endef
-
 # Generates a GCC command line that compiles a source file into an object file.
 #
 # Arguments:
@@ -74,4 +65,24 @@ $(or $(4),$(gcc)) \
 $(3) \
 $(call gcc.options.output,$(2)) \
 $(1)
+endef
+
+# Generates a GCC command line that lists all defined macros.
+#
+# Arguments:
+#   $(1) = files to include
+#   $(2) = options
+#   $(3) = GCC executable to use
+#
+# Returns:
+#   command line that uses $(3) with the options in $(2)
+#   to list all macros defined after including the files in $(1)
+#
+define gcc.list_defined_macros
+$(or $(3),$(gcc)) \
+$(gcc.options.preprocess) \
+$(gcc.options.dump.macro_names) \
+$(call gcc.options.include.macros,$(1)) \
+$(2) \
+$(gcc.null_input)
 endef
