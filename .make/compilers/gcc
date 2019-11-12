@@ -21,14 +21,6 @@ gcc_preprocessor_options = $(call gcc.options.directory.include,$(include_direct
 gcc_optimization_options := -Os -fno-strict-aliasing
 gcc_instrumentation_options := -fno-stack-protector
 
-define gcc_common_options
-$(call gcc_dialect_options,$(C.standard),$(C.freestanding)) \
-$(gcc_warning_options) \
-$(gcc_preprocessor_options) \
-$(gcc_optimization_options) \
-$(gcc_instrumentation_options)
-endef
-
 # Generates a GCC command line that compiles a source file into an object file.
 #
 # Arguments:
