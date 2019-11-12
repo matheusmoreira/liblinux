@@ -25,10 +25,8 @@ $(call project.targets,$($(1).targets),$(1))
 
 .DEFAULT_GOAL := $(or $($(1).targets.default),$(firstword $($(1).targets)))
 
-.PHONY : all
-all : $($(1).targets)
-
-.PHONY : clean
+.PHONY : all clean
+all: $($(1).targets)
 clean:
 	rm -rf $(build_directory)/
 
