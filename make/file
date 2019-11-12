@@ -1,5 +1,3 @@
-C.freestanding := yes
-
 architecture ?= x86_64
 linkage ?= static
 compiler ?= gcc
