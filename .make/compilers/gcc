@@ -28,7 +28,8 @@ gcc_preprocessor_options = $(call gcc.options.directory.include,$(include_direct
 #   $(5) = GCC executable to use
 #
 # Returns:
-#   command line that compiles $(1) into $(2) using the options in $(4)
+#   command line that uses $(5) with the options in $(4)
+#   to compile $(1) into $(2) and emit dependency data to $(3)
 #
 define gcc.compile
 $(or $(5),$(gcc)) \
