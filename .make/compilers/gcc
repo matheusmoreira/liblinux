@@ -9,7 +9,7 @@ gcc.options.dependency_generation = -MD -MF $(1) $(foreach target,$(2),-MT $(tar
 gcc.options.standard = -std=$(1)
 gcc.options.directory.include = -I $(1)
 gcc.options.directory.library = -L$(1)
-gcc.options.include.macros = -imacros $(1)
+gcc.options.include.macros = $(foreach file,$(1),-imacros $(file))
 gcc.options.dump.macro_names := -dN
 gcc.redirect_input_to = - < $(1)
 gcc.null_input := $(call gcc.redirect_input_to,/dev/null)
