@@ -48,7 +48,8 @@ endef
 #   $(4) = GCC executable to use
 #
 # Returns:
-#   command line that compiles $(1) into $(2) using the options in $(4)
+#   command line that uses $(4) with the options in $(3)
+#   to link $(1) into $(2)
 #
 define gcc.link
 $(or $(4),$(gcc)) \
