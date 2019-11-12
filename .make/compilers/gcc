@@ -14,12 +14,9 @@ gcc.options.dump.macro_names := -dN
 gcc.redirect_input_to = - < $(1)
 gcc.null_input := $(call gcc.redirect_input_to,/dev/null)
 
-# Common GCC options
 gcc_dialect_options = $(strip $(call gcc.options.standard,$(or $(1),c99)) $(if $(2),-ffreestanding))
 gcc_warning_options := -Wall -Wextra -Wpedantic
 gcc_preprocessor_options = $(call gcc.options.directory.include,$(include_directory)) $(gcc_inhibit_linemarkers_option)
-gcc_optimization_options := -Os -fno-strict-aliasing
-gcc_instrumentation_options := -fno-stack-protector
 
 # Generates a GCC command line that compiles a source file into an object file.
 #
