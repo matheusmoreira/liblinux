@@ -94,6 +94,41 @@ resolve.value = $($(call resolve.name,$(1),$(2)))
 #
 resolve.value.first = $($(call resolve.name.first,$(1),$(2),$(3)))
 
+# Resolves the value of the first defined variable in a list of namespaces
+# in addition to the value of the variable in the global namespace.
+# A namespace is the first component of a composite variable name.
+#
+# Arguments:
+#   $(1) = list of namespaces
+#   $(2) = variable to resolve
+#   $(3) = separator
+#
+# Defaults:
+#   $(3) = .
+#
+# Returns:
+#   the the value of $(1) in the global namespace
+#   and the value the first defined $(1) variable inside all $(2) namespaces
+#
+resolve.stack+ = $(strip $(call resolve.value,global $(2),$(3)) $(call resolve.value.first,$(1),$(2),$(3)))
+
+# Resolves the value of the first defined variable in a list of namespaces and the global namespace.
+# A namespace is the first component of a composite variable name.
+#
+# Arguments:
+#   $(1) = list of namespaces
+#   $(2) = variable to resolve
+#   $(3) = separator
+#
+# Defaults:
+#   $(3) = .
+#
+# Returns:
+#   the value the first defined $(1) variable inside all $(2) namespaces
+#   or the value of $(1) in the global namespace
+#
+resolve.stack- = $(call resolve.value.first,$(1) global,$(2),$(3))
+
 # Resolves a variable in a list of namespaces and retrieves their values.
 # A namespace is the first component of a composite variable name.
 #
