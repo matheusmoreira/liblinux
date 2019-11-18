@@ -1,8 +1,0 @@
-system-calls.implemented.sh := $(scripts_directory)/system-calls.implemented.sh
-system-calls.implemented := $(build_scripts_directory)/system-calls.implemented
-
-liblinux_system_calls := $(basename $(notdir $(wildcard $(include_liblinux_directory)/system_calls/*.h)))
-
-$(system-calls.implemented) : $(system-calls.implemented.sh)
-	$(call ensure_target_directory_exists)
-	$< $(liblinux_system_calls) > $@

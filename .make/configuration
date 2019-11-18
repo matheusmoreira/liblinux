@@ -1,0 +1,2 @@
+configuration.separator ?= -
+configuration.current = $(call coalesce,$(configuration),$(configuration.separator))

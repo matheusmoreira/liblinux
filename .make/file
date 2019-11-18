@@ -1,0 +1,36 @@
+# Disable all predefined rules and variables
+MAKEFLAGS += --no-builtin-rules --no-builtin-variables
+
+# Boolean logic in make
+include .make/logic
+
+# Useful variables
+include .make/definitions
+
+# Commands used by the build system
+include .make/commands
+
+# Make functions available to the entire build system
+include .make/all_functions
+
+# Build configuration
+include .make/configuration
+
+# File system structure of the build tree
+include .make/structure
+
+# Compiler and archiver configuration
+include .make/compiler
+include .make/archiver
+
+# Rule templates
+include $(addprefix .make/rules/,template objects executable libraries run)
+
+# Project interface
+include .make/project
+
+# Include the user's makefile, if it exists
+include $(wildcard make/file)
+
+# Include all generated dependency files
+include .make/dependencies

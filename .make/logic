@@ -1,0 +1,46 @@
+# Definitions of boolean true and false.
+# In Makefiles, the empty string is false and everything else is true.
+#
+true  := ✓
+false :=
+
+# Converts the given data to a truth value.
+#
+# Arguments:
+#   $(1) = the value to test
+#
+# Returns:
+#   $(false) if value is empty, $(true) otherwise
+#
+boolean = $(if $(1),$(true),$(false))
+
+# Inverts the truth value of the given data.
+#
+# Arguments:
+#   $(1) = the value to test
+#
+# Returns:
+#   $(true) if value is empty, $(false) otherwise
+#
+not = $(if $(1),$(false),$(true))
+
+# User-friendly symbols for true and false.
+#
+# The boolean symbols provide textual representations for truth values
+# because it is inconvenient to output false values as empty text.
+#
+# Both symbols are logically true.
+#
+true.symbol  := $(true)
+false.symbol := ✗
+
+# Converts the given data to its symbolic truth value.
+# The result of this function is never logically false.
+#
+# Arguments:
+#   $(1) = the value to test
+#
+# Returns:
+#   $(false.symbol) if value is empty, $(true.symbol) otherwise
+#
+boolean.symbol = $(if $(1),$(true.symbol),$(false.symbol))

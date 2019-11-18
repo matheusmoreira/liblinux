@@ -1,0 +1,64 @@
+# Directories for build artifacts
+build_directory ?= build
+build_root_directory = $(call path.join,$(build_directory) $(configuration.current))
+
+build_objects_directory = $(call path.join,$(build_root_directory) objects)
+
+build_libraries_directory = $(call path.join,$(build_root_directory) libraries)
+
+build_executables_directory = $(call path.join,$(build_root_directory) executables)
+
+build_dependencies_directory = $(call path.join,$(build_root_directory) dependencies)
+
+# If the build directory is a symbolic link to another directory,
+# ensure the existence of that directory.
+build_directory_link := $(shell readlink $(build_directory))
+$(if $(build_directory_link),$(call execute,$(call ensure_directory_exists,$(build_directory_link))))
+
+# build
+# └── x86_64
+#     ├── dependencies
+#     │   ├── examples
+#     │   │   ├── hello-world.d
+#     │   │   └── ...
+#     │   └── source
+#     │       ├── arch
+#     │       │   └── x86_64
+#     │       │       └── system_call.d
+#     │       └── system_calls
+#     │           ├── exit.d
+#     │           └── ...
+#     ├── examples
+#     │   ├── dynamic
+#     │   │   ├── hello-world
+#     │   │   └── ...
+#     │   └── static
+#     │       ├── hello-world
+#     │       └── ...
+#     ├── libraries
+#     │   ├── liblinux.a
+#     │   ├── liblinux.so
+#     │   ├── liblinux.specs
+#     │   └── start
+#     │       ├── liblinux_start.o
+#     │       └── _start.o
+#     ├── objects
+#     │   ├── dynamic
+#     │   │   ├── arch
+#     │   │   │   └── x86_64
+#     │   │   │       └── system_call.o
+#     │   │   └── system_calls
+#     │   │       ├── exit.o
+#     │   │       └── ...
+#     │   └── static
+#     │       ├── arch
+#     │       │   └── x86_64
+#     │       │       └── system_call.o
+#     │       └── system_calls
+#     │           ├── exit.o
+#     │           └── ...
+#     └── scripts
+#         ├── liblinux-gcc
+#         ├── system-calls.available
+#         ├── system-calls.implemented
+#         └── system-calls.missing

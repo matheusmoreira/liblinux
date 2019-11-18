@@ -1,0 +1,396 @@
+project = $(call project.evaluate,$(1))
+
+# Generates and evaluates rules for the given project.
+#
+# Arguments:
+#   $(1) = name of the project
+#
+project.evaluate = $(eval $(call project.generate,$(1)))
+
+# Generates rules for the given project.
+#
+# Arguments:
+#   $(1) = the project
+#
+# Variables:
+#   $($(1).targets) = targets to define rules for
+#   $($(1).targets.default) = used as the default target if specified
+#
+define project.generate
+
+# $(0)
+# $(1)
+
+$(call project.targets,$($(1).targets),$(1))
+
+.DEFAULT_GOAL := $(or $($(1).targets.default),$(firstword $($(1).targets)))
+
+.PHONY : all
+all : $($(1).targets)
+
+.PHONY : clean
+clean:
+	rm -rf $(build_directory)/
+
+# end $(0)
+
+endef
+
+# Generates rules for the given targets.
+#
+# Arguments:
+#   $(1) = the project's targets
+#   $(2) = build stack
+#
+project.targets = $(foreach target,$(1),$(call project.target,$(target),$(target) $(2)))
+
+# Generates rules appropriate for the given target's type.
+#
+# Arguments:
+#   $(1) = the project's target
+#   $(2) = build stack
+#
+# Variables:
+#   $($(1).type) = the type of the target: object | executable | library | recipe
+#
+project.target = $(call project.target.$($(1).type),$(1),$(2))
+
+# Generates rules for compiling the given sources into objects.
+#
+# Generates a phony target to refer to the objects.
+#
+# Arguments:
+#   $(1) = the project's object target
+#   $(2) = build stack
+#
+# Variables:
+#   $($(1).sources) = source files to compile
+#
+define project.target.object
+
+# $(0)
+# $(1)
+# $(2)
+
+$(call project.target.object.rules,$(1),$(2))
+
+.PHONY : $(1)
+$(1) : $(call to_object,$($(1).sources))
+
+# end $(0)
+
+endef
+
+# Generates rules for compiling the given sources into objects and dependency data files.
+#
+# Arguments:
+#   $(1) = the project's object target
+#   $(2) = build stack
+#
+# Variables:
+#   $($(1).sources) = source files to compile
+#   $($(1).dependencies) = additional dependencies for the objects
+#
+define project.target.object.rules
+
+# $(0)
+# $(1)
+# $(2)
+
+$(foreach source,$($(1).sources),$(call $(0).file,$(source),$(call to_object,$(source)) $(2),$($(1).dependencies)))
+
+# end $(0)
+
+endef
+
+# Generates rules for compiling the given source into object and dependency data files.
+#
+# Arguments:
+#   $(1) = the source file
+#   $(2) = build stack
+#   $(3) = additional dependencies for the object
+#
+define project.target.object.rules.file
+
+# $(0)
+# $(1)
+# $(2)
+# $(3)
+
+$(call $(0)*,$(1),$(2),$(3),$(call resolve.stack-,$(2),compiler))
+
+# end $(0)
+
+endef
+
+# Arguments:
+#   $(1) = the source file
+#   $(2) = build stack
+#   $(3) = additional dependencies for the object
+#   $(4) = compiler to use
+#
+define project.target.object.rules.file*
+
+# $(0)
+# $(1)
+# $(2)
+# $(3)
+# $(4)
+
+$(call $(0)*,$(1),$(3),$(4),$(call resolve.stack+,$(2),compiler $(4) options),$(call resolve.stack-,$(2),compiler $(4)))
+
+# end $(0)
+
+endef
+
+# Arguments:
+#   $(1) = the source file
+#   $(2) = additional dependencies for the object
+#   $(3) = compiler to use
+#   $(4) = compiler options
+#   $(5) = compiler executable
+#
+define project.target.object.rules.file**
+
+# $(0)
+# $(1)
+# $(2)
+# $(3)
+# $(4)
+# $(5)
+
+$(call generate_object_rule,$(1),$(2),$(3),$(4),$(5))
+
+# end $(0)
+
+endef
+
+# Generates rules for compiling the given sources into objects
+# and for compiling the resulting objects into an executable.
+#
+# Generates a phony target to refer to the executable.
+# Generates a phony target to run the executable.
+#
+# Arguments:
+#   $(1) = the project's executable target
+#   $(2) = build stack
+#
+# Variables:
+#   $($(1).sources) = source files to compile
+#
+define project.target.executable
+
+# $(0)
+# $(1)
+# $(2)
+
+$(call project.target.executable.rules,$(1),$(2))
+
+.PHONY : $(1)
+$(1) : $(call to_executable,$(1))
+
+$(call generate_run_executable_rule,$(1))
+
+# end $(0)
+
+endef
+
+# Generates rules for compiling the given sources into objects
+# and for compiling the resulting objects into an executable.
+#
+# Arguments:
+#   $(1) = the project's executable target
+#   $(2) = build stack
+#
+# Variables:
+#   $($(1).sources) = source files to compile
+#   $($(1).dependencies) = additional dependencies for the executable target
+#
+define project.target.executable.rules
+
+# $(0)
+# $(1)
+# $(2)
+
+$(call project.target.object.rules,$(1),$(2))
+
+$(call $(0).file,$(1),$(2),$($(1).sources),$($(1).dependencies),$(call resolve.stack-,$(2),linker))
+
+# end $(0)
+
+endef
+
+# Arguments:
+#   $(1) = the project's executable target
+#   $(2) = build stack
+#   $(3) = sources
+#   $(4) = additional dependencies
+#   $(5) = linker to use
+#
+define project.target.executable.rules.file
+
+# $(0)
+# $(1)
+# $(2)
+# $(3)
+# $(4)
+# $(5)
+
+$(call $(0)*,$(1),$(3),$(4),$(5),$(call resolve.stack+,$(2),linker $(5) options),$(call resolve.stack-,$(2),linker $(5)))
+
+# end $(0)
+
+endef
+
+# Arguments:
+#   $(1) = the project's executable target
+#   $(2) = sources
+#   $(3) = additional dependencies
+#   $(4) = compiler to use
+#   $(5) = compiler options
+#   $(6) = compiler executable
+#
+define project.target.executable.rules.file*
+
+# $(0)
+# $(1)
+# $(2)
+# $(3)
+# $(4)
+# $(5)
+# $(6)
+
+$(call generate_executable_rule,$(1),$(2),$(3),$(4),$(5),$(6))
+
+# end $(0)
+
+endef
+
+# Generates rules for compiling the given sources into objects
+# and for compiling the resulting objects into a library.
+#
+# Generates a phony target to refer to the library.
+#
+# Arguments:
+#   $(1) = the project's library target
+#   $(2) = build stack
+#
+# Variables:
+#   $($(1).sources) = source files to compile
+#
+define project.target.library
+
+# $(0)
+# $(1)
+# $(2)
+
+$(call project.target.library.rules,$(1),$(2))
+
+.PHONY : $(1)
+$(1) : $(call as_library,$($(1).name))
+
+# end $(0)
+
+endef
+
+# Generates rules for the given library.
+#
+# Arguments:
+#   $(1) = the project's library target
+#   $(2) = build stack
+#
+# Variables:
+#   $($(1).name) = the name of the library
+#   $($(1).sources) = source files to compile
+#   $($(1).dependencies) = additional dependencies for the library
+#
+define project.target.library.rules
+
+# $(0)
+# $(1)
+# $(2)
+
+$(call project.target.object.rules,$(1),$(2))
+
+$(call $(0).file,$(1),$(2),$($(1).name),$(call to_object,$($(1).sources)),$($(1).dependencies),$(call resolve.stack-,$(2),linker))
+
+# end $(0)
+
+endef
+
+# Generates rules for the given library.
+#
+# Arguments:
+#   $(1) = the project's library target
+#   $(2) = build stack
+#   $(3) = library name
+#   $(4) = library objects
+#   $(5) = additional dependencies
+#   $(6) = linker to use
+#
+define project.target.library.rules.file
+
+# $(0)
+# $(1)
+# $(2)
+# $(3)
+# $(4)
+# $(5)
+# $(6)
+
+$(call $(0)*,$(3),$(4),$(5),$(6),$(call resolve.stack+,$(2),linker $(6) options),$(call resolve.stack-,$(2),linker $(6)))
+
+# end $(0)
+
+endef
+
+# Arguments:
+#   $(1) = library name
+#   $(2) = library objects
+#   $(3) = additional dependencies
+#   $(4) = linker to use
+#   $(5) = linker options
+#   $(6) = linker executable
+#
+define project.target.library.rules.file*
+
+# $(0)
+# $(1)
+# $(2)
+# $(3)
+# $(4)
+# $(5)
+# $(6)
+
+$(call library_rule_template,$(1),$(2),$(3),$(4),$(5),$(6))
+
+# end $(0)
+
+endef
+
+# Includes the given recipe in the generated rules.
+#
+# Generates a phony target to refer to the specified targets.
+#
+# Arguments:
+#   $(1) = the project's recipe target
+#   $(2) = build stack
+#
+# Variables:
+#   $($(1).recipe) = the recipe to include in the generated rules
+#   $($(1).targets) = the prerequisites of the phony target
+#
+define project.target.recipe
+
+# $(0)
+# $(1)
+# $(2)
+
+$($(1).recipe)
+
+.PHONY : $(1)
+$(1) : $($(1).targets)
+
+# end $(0)
+
+endef

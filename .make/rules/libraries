@@ -1,0 +1,59 @@
+# Rule template for static libraries.
+#
+# Arguments:
+#   $(1) = path to static library
+#   $(2) = list of object files
+#   $(3) = additional dependencies
+#
+# Returns:
+#   rules for generating static library $(1) from the objects in $(2)
+#
+static_library_rule_template = $(call rule_template,$(1),$(call archiver.create,$(1),$(2)),$(2) $(3),$(dir $(1)))
+
+# Rule template for dynamic libraries.
+#
+# Arguments:
+#   $(1) = path to dynamic library
+#   $(2) = list of object files
+#   $(3) = additional dependencies
+#   $(4) = linker
+#   $(5) = linker options
+#   $(6) = linker executable
+#
+# Returns:
+#   rules for generating dynamic library $(1) from the objects in $(2)
+#
+dynamic_library_rule_template = $(call rule_template,$(1),$(call $(4).link,$(2),$(1),$(5),$(6)),$(2) $(3),$(dir $(1)))
+
+# Rule template for libraries corresponding to the current linkage.
+#
+# Arguments:
+#   $(1) = library name
+#   $(2) = list of object files
+#   $(3) = additional dependencies
+#   $(4) = linker
+#   $(5) = linker options
+#   $(6) = linker executable
+#
+# Variables:
+#   $(linkage) = linkage type: static | dynamic
+#
+# Returns:
+#   rules for generating library $(1) from the objects in $(2)
+#
+library_rule_template = $(call $(linkage)_library_rule_template,$(call as_library,$(1)),$(2),$(3),$(4),$(5),$(6))
+
+# Evaluates a library rule template for the current linkage.
+#
+# Arguments:
+#   $(1) = library name
+#   $(2) = list of object files
+#   $(3) = additional dependencies
+#
+# Variables:
+#   $(linkage) = linkage type: static | dynamic
+#
+# Returns:
+#   ε
+#
+evaluate_library_rule = $(eval $(call library_rule_template,$(1),$(2),$(3)))

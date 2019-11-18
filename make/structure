@@ -1,83 +1,13 @@
-# Project file system structure
-source_directory := source
 include_directory := include
-start_directory := start
-examples_directory := examples
-scripts_directory := scripts
-build_directory := build
-
-source_architecture_directory := $(source_directory)/arch/$(architecture)
 include_liblinux_directory := $(include_directory)/liblinux
+
+source_directory := source
+source_architecture_directory := $(source_directory)/arch/$(architecture)
+
+start_directory := start
 start_architecture_directory := $(start_directory)/$(architecture)
+
+examples_directory := examples
+
+scripts_directory := scripts
 scripts_linux_directory := $(scripts_directory)/linux
-
-# Directories for build artifacts
-build_root_directory := $(build_directory)/$(architecture)
-
-build_objects_directory := $(build_root_directory)/objects
-build_objects_static_directory := $(build_objects_directory)/static
-build_objects_dynamic_directory := $(build_objects_directory)/dynamic
-
-build_libraries_directory := $(build_root_directory)/libraries
-build_start_directory := $(build_libraries_directory)/$(start_directory)
-
-build_examples_directory := $(build_root_directory)/$(examples_directory)
-build_examples_static_directory := $(build_examples_directory)/static
-build_examples_dynamic_directory := $(build_examples_directory)/dynamic
-
-build_dependencies_directory := $(build_root_directory)/dependencies
-
-build_scripts_directory := $(build_root_directory)/$(scripts_directory)
-
-# If the build directory is a symbolic link to another directory,
-# ensure the existence of that directory.
-build_directory_link := $(shell readlink $(build_directory))
-$(if $(build_directory_link),$(call execute,$(call ensure_directory_exists,$(build_directory_link))))
-
-# build
-# └── x86_64
-#     ├── dependencies
-#     │   ├── examples
-#     │   │   ├── hello-world.d
-#     │   │   └── ...
-#     │   └── source
-#     │       ├── arch
-#     │       │   └── x86_64
-#     │       │       └── system_call.d
-#     │       └── system_calls
-#     │           ├── exit.d
-#     │           └── ...
-#     ├── examples
-#     │   ├── dynamic
-#     │   │   ├── hello-world
-#     │   │   └── ...
-#     │   └── static
-#     │       ├── hello-world
-#     │       └── ...
-#     ├── libraries
-#     │   ├── liblinux.a
-#     │   ├── liblinux.so
-#     │   ├── liblinux.specs
-#     │   └── start
-#     │       ├── liblinux_start.o
-#     │       └── _start.o
-#     ├── objects
-#     │   ├── dynamic
-#     │   │   ├── arch
-#     │   │   │   └── x86_64
-#     │   │   │       └── system_call.o
-#     │   │   └── system_calls
-#     │   │       ├── exit.o
-#     │   │       └── ...
-#     │   └── static
-#     │       ├── arch
-#     │       │   └── x86_64
-#     │       │       └── system_call.o
-#     │       └── system_calls
-#     │           ├── exit.o
-#     │           └── ...
-#     └── scripts
-#         ├── liblinux-gcc
-#         ├── system-calls.available
-#         ├── system-calls.implemented
-#         └── system-calls.missing

@@ -1,0 +1,42 @@
+# Maps the given function to all values in the given list.
+#
+# Arguments:
+#   $(1) = function to map to values
+#   $(2) = list of values
+#
+# Returns:
+#   results of calling the $(1) function on each value of the $(2) list
+#
+map = $(foreach value,$(strip $(2)),$(call $(1),$(value)))
+
+# Removes the first element of the list and returns the rest.
+#
+# Arguments:
+#   $(1) = list of values
+#
+# Returns:
+#   the list without the first element
+#
+rest =  $(wordlist 2,$(words $(1)),$(1))
+
+# Inverts the order of the elements of the list.
+#
+# Arguments:
+#   $(1) = list of values
+#
+# Returns:
+#   the reversed list reversed
+#
+reverse = $(if $(word 2,$(1)),$(call reverse,$(call rest,$(1))) $(firstword $(1)),$(1))
+
+# Joins all elements of the given list.
+#
+# Arguments:
+#   $(1) = list of values
+#   $(2) = optional separator
+#
+# Returns:
+#   elements of $(1) combined into one
+#
+coalesce* = $(if $(2),$(addprefix $(addsuffix $(3),$(1)),$(2)),$(1))
+coalesce  = $(if $(word 2,$(1)),$(call $(0)*,$(firstword $(1)),$(call $(0),$(call rest,$(1)),$(2)),$(2)),$(1))

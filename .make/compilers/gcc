@@ -1,0 +1,79 @@
+# GCC executable
+gcc := gcc
+
+# GCC option variable and function definitions
+gcc.options.output = -o $(1)
+gcc.options.compile := -c
+gcc.options.preprocess := -E
+gcc.options.dependency_generation = -MD -MF $(1) $(foreach target,$(2),-MT $(target))
+gcc.options.standard = -std=$(1)
+gcc.options.directory.include = -I $(1)
+gcc.options.directory.library = -L$(1)
+gcc.options.include.macros = $(foreach file,$(1),-imacros $(file))
+gcc.options.dump.macro_names := -dN
+gcc.redirect_input_to = - < $(1)
+gcc.null_input := $(call gcc.redirect_input_to,/dev/null)
+
+gcc_dialect_options = $(strip $(call gcc.options.standard,$(or $(1),c99)) $(if $(2),-ffreestanding))
+gcc_warning_options := -Wall -Wextra -Wpedantic
+gcc_preprocessor_options = $(call gcc.options.directory.include,$(include_directory)) $(gcc_inhibit_linemarkers_option)
+
+# Generates a GCC command line that compiles a source file into an object file.
+#
+# Arguments:
+#   $(1) = source file
+#   $(2) = object file
+#   $(3) = dependency data file
+#   $(4) = options
+#   $(5) = GCC executable to use
+#
+# Returns:
+#   command line that uses $(5) with the options in $(4)
+#   to compile $(1) into $(2) and emit dependency data to $(3)
+#
+define gcc.compile
+$(or $(5),$(gcc)) \
+$(4) \
+$(call gcc.options.dependency_generation,$(3),$(2)) \
+$(call gcc.options.output,$(2)) \
+$(gcc.options.compile) $(1)
+endef
+
+# Generates a GCC command line that links object files.
+#
+# Arguments:
+#   $(1) = object files
+#   $(2) = output file
+#   $(3) = options
+#   $(4) = GCC executable to use
+#
+# Returns:
+#   command line that uses $(4) with the options in $(3)
+#   to link $(1) into $(2)
+#
+define gcc.link
+$(or $(4),$(gcc)) \
+$(3) \
+$(call gcc.options.output,$(2)) \
+$(1)
+endef
+
+# Generates a GCC command line that lists all defined macros.
+#
+# Arguments:
+#   $(1) = files to include
+#   $(2) = options
+#   $(3) = GCC executable to use
+#
+# Returns:
+#   command line that uses $(3) with the options in $(2)
+#   to list all macros defined after including the files in $(1)
+#
+define gcc.list_defined_macros
+$(or $(3),$(gcc)) \
+$(gcc.options.preprocess) \
+$(gcc.options.dump.macro_names) \
+$(call gcc.options.include.macros,$(1)) \
+$(2) \
+$(gcc.null_input)
+endef

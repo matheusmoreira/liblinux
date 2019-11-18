@@ -1,0 +1,7 @@
+space :=
+space +=
+
+define \n :=
+
+
+endef
