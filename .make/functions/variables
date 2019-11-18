@@ -78,6 +78,22 @@ resolve.name.first  = $(if $(1),$(call $(0)*,$(1),$(2),$(3),$(call resolve.name,
 #
 resolve.value = $($(call resolve.name,$(1),$(2)))
 
+# Resolves the value of the first defined variable in a list of namespaces.
+# A namespace is the first component of a composite variable name.
+#
+# Arguments:
+#   $(1) = list of namespaces in order
+#   $(2) = variable to resolve
+#   $(3) = separator
+#
+# Defaults:
+#   $(3) = .
+#
+# Returns:
+#   the value of the first defined variable $(1) in the $(2) namespaces
+#
+resolve.value.first = $($(call resolve.name.first,$(1),$(2),$(3)))
+
 # Resolves a variable in a list of namespaces and retrieves their values.
 # A namespace is the first component of a composite variable name.
 #
@@ -93,19 +109,3 @@ resolve.value = $($(call resolve.name,$(1),$(2)))
 #   the values bound to the variable $(1) inside all the namespaces in $(2)
 #
 resolve.all = $(strip $(foreach ns,$(1),$(call resolve.value,$(ns) $(2),$(3))))
-
-# Resolves the value of the first defined variable in a list of namespaces.
-# A namespace is the first component of a composite variable name.
-#
-# Arguments:
-#   $(1) = list of namespaces in order
-#   $(2) = variable to resolve
-#   $(3) = separator
-#
-# Defaults:
-#   $(3) = .
-#
-# Returns:
-#   the value of the first defined variable $(1) in the $(2) namespaces
-#
-resolve.first = $($(call resolve.name.first,$(1),$(2),$(3)))
