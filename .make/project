@@ -42,7 +42,7 @@ endef
 #   $(1) = the project's targets
 #   $(2) = build stack
 #
-project.targets = $(foreach target,$(1),$(call project.target,$(target),$(2) $(target)))
+project.targets = $(foreach target,$(1),$(call project.target,$(target),$(target) $(2)))
 
 # Generates rules appropriate for the given target's type.
 #
@@ -97,7 +97,7 @@ define project.target.object.rules
 # $(1)
 # $(2)
 
-$(foreach source,$($(1).sources),$(call $(0).file,$(source),$(2) $(call to_object,$(source)),$($(1).dependencies)))
+$(foreach source,$($(1).sources),$(call $(0).file,$(source),$(call to_object,$(source)) $(2),$($(1).dependencies)))
 
 # end $(0)
 
@@ -117,7 +117,7 @@ define project.target.object.rules.file
 # $(2)
 # $(3)
 
-$(call $(0)*,$(1),$(2),$(3),$(call resolve.first,$(call reverse,$(2)),compiler))
+$(call $(0)*,$(1),$(2),$(3),$(call resolve.first,$(2),compiler))
 
 # end $(0)
 
@@ -137,7 +137,7 @@ define project.target.object.rules.file*
 # $(3)
 # $(4)
 
-$(call $(0)*,$(1),$(3),$(4),$(call resolve.all,$(2),compiler $(4) options),$(call resolve.first,$(call reverse,$(2)),compiler $(4)))
+$(call $(0)*,$(1),$(3),$(4),$(call resolve.all,$(2),compiler $(4) options),$(call resolve.first,$(2),compiler $(4)))
 
 # end $(0)
 
@@ -214,7 +214,7 @@ define project.target.executable.rules
 
 $(call project.target.object.rules,$(1),$(2))
 
-$(call $(0).file,$(1),$(2),$($(1).sources),$($(1).dependencies),$(call resolve.first,$(call reverse,$(2)),linker))
+$(call $(0).file,$(1),$(2),$($(1).sources),$($(1).dependencies),$(call resolve.first,$(2),linker))
 
 # end $(0)
 
@@ -236,7 +236,7 @@ define project.target.executable.rules.file
 # $(4)
 # $(5)
 
-$(call $(0)*,$(1),$(3),$(4),$(5),$(call resolve.all,$(2),linker $(5) options),$(call resolve.first,$(call reverse,$(2)),linker $(5)))
+$(call $(0)*,$(1),$(3),$(4),$(5),$(call resolve.all,$(2),linker $(5) options),$(call resolve.first,$(2),linker $(5)))
 
 # end $(0)
 
@@ -312,7 +312,7 @@ define project.target.library.rules
 
 $(call project.target.object.rules,$(1),$(2))
 
-$(call $(0).file,$(1),$(2),$($(1).name),$(call to_object,$($(1).sources)),$($(1).dependencies),$(call resolve.first,$(call reverse,$(2)),linker))
+$(call $(0).file,$(1),$(2),$($(1).name),$(call to_object,$($(1).sources)),$($(1).dependencies),$(call resolve.first,$(2),linker))
 
 # end $(0)
 
@@ -338,7 +338,7 @@ define project.target.library.rules.file
 # $(5)
 # $(6)
 
-$(call $(0)*,$(3),$(4),$(5),$(6),$(call resolve.all,$(2),linker $(6) options),$(call resolve.first,$(call reverse,$(2)),linker $(6)))
+$(call $(0)*,$(3),$(4),$(5),$(6),$(call resolve.all,$(2),linker $(6) options),$(call resolve.first,$(2),linker $(6)))
 
 # end $(0)
 
