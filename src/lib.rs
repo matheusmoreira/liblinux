@@ -82,3 +82,27 @@ macro_rules! system_call {
         )
     };
 }
+
+#[cfg(test)]
+mod tests {
+    use crate::definitions;
+
+    #[test]
+    fn the_macro_selects_correct_primitive() {
+        let pid = unsafe { system_call!(definitions::__NR_getpid) };
+        assert_eq!(pid, std::process::id() as isize);
+
+        const F_OK: usize = 0;
+        const AT_FDCWD: isize = -100;
+        let path = c".";
+        let result = unsafe {
+            system_call!(
+                definitions::__NR_faccessat,
+                AT_FDCWD as usize,
+                path.as_ptr() as usize,
+                F_OK
+            )
+        };
+        assert_eq!(result, 0);
+    }
+}

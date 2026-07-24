@@ -257,3 +257,161 @@ pub unsafe fn system_call_6(
 
     result
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn getpid_matches_std() {
+        let std_pid = std::process::id() as isize;
+
+        // getpid takes no arguments and cannot fail
+        let liblinux_pid = unsafe { system_call_0(definitions::__NR_getpid) };
+
+        assert_eq!(liblinux_pid, std_pid);
+    }
+
+    #[test]
+    fn dup_then_close_the_duplicate() {
+        let standard_input: usize = 0;
+
+        // duplicate the standard input file descriptor then close it
+        let duplicate = unsafe { system_call_1(definitions::__NR_dup, standard_input) };
+
+        assert!(duplicate > 2);
+
+        let closed = unsafe { system_call_1(definitions::__NR_close, duplicate as usize) };
+
+        assert_eq!(closed, 0);
+    }
+
+    #[test]
+    fn access_reports_that_root_exists() {
+        const F_OK: usize = 0;
+
+        // File system root always exists
+        let path = c"/";
+        let result =
+            unsafe { system_call_2(definitions::__NR_access, path.as_ptr() as usize, F_OK) };
+
+        assert_eq!(result, 0);
+    }
+
+    #[test]
+    fn faccessat_resolves_a_relative_path() {
+        const F_OK: usize = 0;
+        const AT_FDCWD: isize = -100;
+        const EBADF: isize = 9;
+
+        // use a relative path so the kernel doesn't ignore the descriptor
+
+        let path = c".";
+        let result = unsafe {
+            system_call_3(
+                definitions::__NR_faccessat,
+                AT_FDCWD as usize,
+                path.as_ptr() as usize,
+                F_OK,
+            )
+        };
+
+        assert_eq!(result, 0);
+
+        // the only check that a failure comes back as a negative number
+        let invalid = unsafe {
+            system_call_3(
+                definitions::__NR_faccessat,
+                usize::MAX,
+                path.as_ptr() as usize,
+                F_OK,
+            )
+        };
+
+        assert_eq!(invalid, -EBADF);
+    }
+
+    #[test]
+    fn prlimit_reads_the_descriptor_limit() {
+        const RLIMIT_NOFILE: usize = 7;
+
+        let pid_self: usize = 0;
+        let null_new: usize = 0;
+
+        // struct rlimit is two u64 values: soft, hard
+        let mut old = [0u64; 2];
+
+        // query own limits
+        let result = unsafe {
+            system_call_4(
+                definitions::__NR_prlimit64,
+                pid_self,
+                RLIMIT_NOFILE,
+                null_new,
+                old.as_mut_ptr() as usize,
+            )
+        };
+
+        assert_eq!(result, 0);
+        assert!(old[0] > 0); // a real soft limit would be positive
+    }
+
+    #[test]
+    fn mmap_mremap_munmap() {
+        const PROT_READ_WRITE: usize = 0x1 | 0x2;
+        const MAP_PRIVATE_ANONYMOUS: usize = 0x2 | 0x20;
+        const MREMAP_MAYMOVE: usize = 0x1;
+        const MREMAP_FIXED: usize = 0x2;
+        const PAGE: usize = 4096;
+
+        let no_fd: usize = usize::MAX;
+        let offset: usize = 0;
+
+        // one page to move, and a two page window to move it into
+        let mapped = unsafe {
+            system_call_6(
+                definitions::__NR_mmap,
+                0,
+                PAGE,
+                PROT_READ_WRITE,
+                MAP_PRIVATE_ANONYMOUS,
+                no_fd,
+                offset,
+            )
+        };
+
+        assert!(mapped > 0);
+
+        let window = unsafe {
+            system_call_6(
+                definitions::__NR_mmap,
+                0,
+                PAGE * 2,
+                PROT_READ_WRITE,
+                MAP_PRIVATE_ANONYMOUS,
+                no_fd,
+                offset,
+            )
+        };
+
+        assert!(window > 0);
+
+        // kernel ignores new address without MREMAP_FIXED
+        let remapped = unsafe {
+            system_call_5(
+                definitions::__NR_mremap,
+                mapped as usize,
+                PAGE,
+                PAGE * 2,
+                MREMAP_MAYMOVE | MREMAP_FIXED,
+                window as usize,
+            )
+        };
+
+        assert_eq!(remapped, window);
+
+        let freed = unsafe { system_call_2(definitions::__NR_munmap, remapped as usize, PAGE * 2) };
+
+        assert_eq!(freed, 0);
+    }
+}
