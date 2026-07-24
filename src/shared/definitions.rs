@@ -1057,14 +1057,37 @@ pub const EHWPOISON: u16 = 133;
 /// Linux >= 7.2-rc1
 pub const EFTYPE: u16 = 134;
 
-/// A Unix domain socket address: a family tag and a 108 byte path
+// Socket address structures.
+
+/// Size of [`sockaddr_un::sun_path`] in bytes.
+/// TODO: pin down Linux version
+pub const UNIX_PATH_MAX: usize = 108;
+
+/// A Unix domain socket address:
+/// family tag and 108 byte path.
 #[repr(C)]
 pub struct sockaddr_un {
-    /// Always [`AF_UNIX`]
+    /// Always [`AF_UNIX`].
     pub sun_family: u16,
 
-    /// The socket path:
-    /// NUL-terminated file system path, or
-    /// leading NUL for the abstract name space
-    pub sun_path: [u8; 108],
+    /// The socket name.
+    ///
+    /// A file system address begins with a non-NUL byte
+    /// and contains the file system path. Linux accepts
+    /// the pathname with or without a terminating NUL byte
+    /// and appends one internally when absent.
+    ///
+    /// A Linux abstract address *begins* with a NUL byte.
+    /// Every subsequent byte included in the socket address
+    /// length is part of the socket's abstract name.
+    /// NUL bytes have no special meaning within it,
+    /// the abstract name could be arbitrary binary data.
+    ///
+    /// Although this variable has `UNIX_PATH_MAX` bytes,
+    /// Linux accepts smaller path buffers, and passing
+    /// zero length `sun_path` to bind makes it autobind.
+    /// Only bytes covered by the socket address length
+    /// are significant, and those bytes could encompass
+    /// just [`sockaddr_un::sun_family`].
+    pub sun_path: [u8; UNIX_PATH_MAX],
 }

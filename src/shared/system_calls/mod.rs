@@ -7,6 +7,7 @@
 //! and may or may not override symbols.
 
 system_calls! {
+    bind,
     close,
     read,
     socket,
