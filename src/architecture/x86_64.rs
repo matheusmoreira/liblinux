@@ -2,6 +2,11 @@
 
 /// x86_64 Linux kernel definitions.
 /// Symbols match those in UAPI headers.
+///
+/// System call numbers are architecture specific.
+/// All other definitions are either re-exports
+/// of the generic Linux UAPI definitions
+/// or architecture specific overrides.
 pub mod definitions {
     #![allow(non_upper_case_globals)]
 
@@ -20,6 +25,8 @@ pub mod definitions {
     pub const __NR_prlimit64: usize = 302;
     pub const __NR_renameat2: usize = 316;
     pub const __NR_faccessat2: usize = 439;
+
+    pub use crate::generic::definitions::*;
 }
 
 /// Perform a x86_64 Linux system call with 0 arguments.

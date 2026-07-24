@@ -11,6 +11,7 @@
 //! The standard library is linked only in test configuration.
 
 pub mod architecture;
+pub mod generic;
 
 // The definitions of the configured target architecture's Linux kernel
 // are re-exported as linux::definitions::* for convenience and readability.
