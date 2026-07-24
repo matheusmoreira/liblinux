@@ -9,6 +9,7 @@
 system_calls! {
     bind,
     close,
+    listen,
     read,
     socket,
     write,
