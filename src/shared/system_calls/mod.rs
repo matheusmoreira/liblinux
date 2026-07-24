@@ -9,5 +9,6 @@
 system_calls! {
     close,
     read,
+    socket,
     write,
 }

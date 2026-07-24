@@ -20,6 +20,7 @@ pub mod definitions {
     pub const __NR_mremap: usize = 25;
     pub const __NR_dup: usize = 32;
     pub const __NR_getpid: usize = 39;
+    pub const __NR_socket: usize = 41;
     pub const __NR_setsockopt: usize = 54;
     pub const __NR_faccessat: usize = 269;
     pub const __NR_prlimit64: usize = 302;
