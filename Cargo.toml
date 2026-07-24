@@ -1,15 +1,12 @@
 [package]
 name = "liblinux"
-version = "0.2.0"
+version = "0.3.0"
+edition = "2024"
 description = "Linux system calls"
-authors = ["Matheus Afonso Martins Moreira <matheus.a.m.moreira@gmail.com>"]
-edition = "2018"
-repository = "https://github.com/matheusmoreira/liblinux-rs"
+repository = "https://github.com/matheusmoreira/liblinux"
+license = "MIT"
 keywords = ["linux", "syscall"]
 categories = ["os"]
-license = "MIT"
 
 [lib]
 name = "linux"
-
-[dependencies]
