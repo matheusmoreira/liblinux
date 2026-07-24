@@ -10,6 +10,7 @@ system_calls! {
     accept4,
     bind,
     close,
+    connect,
     listen,
     read,
     socket,
