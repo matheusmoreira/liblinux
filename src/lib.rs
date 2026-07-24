@@ -13,6 +13,10 @@
 pub mod architecture;
 pub mod generic;
 
+// The errno type is surfaced at the crate root as linux::Errno
+mod errno;
+pub use errno::Errno;
+
 // The definitions of the configured target architecture's Linux kernel
 // are re-exported as linux::definitions::* for convenience and readability.
 // Definitions are sourced from architecture specific modules which either

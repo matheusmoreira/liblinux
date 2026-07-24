@@ -489,9 +489,9 @@ pub const SOCK_CLOEXEC: i32 = 0o2000000;
 pub const SOCK_NONBLOCK: i32 = 0o0004000;
 
 // Error numbers. The kernel returns these negated in the result register.
-// These are generic and shared by every architecture, with only one exception:
-// for some reason, alpha swaps EAGAIN with EDEADLK. All other values come from
-// MINIX and have never changed.
+// These are the generic Linux UAPI assignments. Architecture modules
+// override them when an architecture uses different error numbers.
+// Several Linux architectures use different assignments.
 
 /// Operation not permitted
 /// Linux >= 0.01
@@ -629,6 +629,418 @@ pub const EDOM: u16 = 33;
 /// Numerical result out of range
 /// Linux >= 0.01
 pub const ERANGE: u16 = 34;
+
+/// Resource deadlock would occur
+/// Linux >= 2.6.12
+pub const EDEADLK: u16 = 35;
+
+/// File name too long
+/// Linux >= 2.6.12
+pub const ENAMETOOLONG: u16 = 36;
+
+/// No record locks available
+/// Linux >= 2.6.12
+pub const ENOLCK: u16 = 37;
+
+/// Invalid system call number
+/// Linux >= 2.6.12
+pub const ENOSYS: u16 = 38;
+
+/// Directory not empty
+/// Linux >= 2.6.12
+pub const ENOTEMPTY: u16 = 39;
+
+/// Too many symbolic links encountered
+/// Linux >= 2.6.12
+pub const ELOOP: u16 = 40;
+
+/// Operation would block
+/// Alias of [`EAGAIN`]
+/// Linux >= 2.6.12
+pub const EWOULDBLOCK: u16 = EAGAIN;
+
+/// No message of desired type
+/// Linux >= 2.6.12
+pub const ENOMSG: u16 = 42;
+
+/// Identifier removed
+/// Linux >= 2.6.12
+pub const EIDRM: u16 = 43;
+
+/// Channel number out of range
+/// Linux >= 2.6.12
+pub const ECHRNG: u16 = 44;
+
+/// Level 2 not synchronized
+/// Linux >= 2.6.12
+pub const EL2NSYNC: u16 = 45;
+
+/// Level 3 halted
+/// Linux >= 2.6.12
+pub const EL3HLT: u16 = 46;
+
+/// Level 3 reset
+/// Linux >= 2.6.12
+pub const EL3RST: u16 = 47;
+
+/// Link number out of range
+/// Linux >= 2.6.12
+pub const ELNRNG: u16 = 48;
+
+/// Protocol driver not attached
+/// Linux >= 2.6.12
+pub const EUNATCH: u16 = 49;
+
+/// No CSI structure available
+/// Linux >= 2.6.12
+pub const ENOCSI: u16 = 50;
+
+/// Level 2 halted
+/// Linux >= 2.6.12
+pub const EL2HLT: u16 = 51;
+
+/// Invalid exchange
+/// Linux >= 2.6.12
+pub const EBADE: u16 = 52;
+
+/// Invalid request descriptor
+/// Linux >= 2.6.12
+pub const EBADR: u16 = 53;
+
+/// Exchange full
+/// Linux >= 2.6.12
+pub const EXFULL: u16 = 54;
+
+/// No anode
+/// Linux >= 2.6.12
+pub const ENOANO: u16 = 55;
+
+/// Invalid request code
+/// Linux >= 2.6.12
+pub const EBADRQC: u16 = 56;
+
+/// Invalid slot
+/// Linux >= 2.6.12
+pub const EBADSLT: u16 = 57;
+
+/// Resource deadlock would occur
+/// Alias of [`EDEADLK`]
+/// Linux >= 2.6.12
+pub const EDEADLOCK: u16 = EDEADLK;
+
+/// Invalid font file format
+/// Linux >= 2.6.12
+pub const EBFONT: u16 = 59;
+
+/// Device not a stream
+/// Linux >= 2.6.12
+pub const ENOSTR: u16 = 60;
+
+/// No data available
+/// Linux >= 2.6.12
+pub const ENODATA: u16 = 61;
+
+/// Timer expired
+/// Linux >= 2.6.12
+pub const ETIME: u16 = 62;
+
+/// Out of streams resources
+/// Linux >= 2.6.12
+pub const ENOSR: u16 = 63;
+
+/// Machine is not on the network
+/// Linux >= 2.6.12
+pub const ENONET: u16 = 64;
+
+/// Package not installed
+/// Linux >= 2.6.12
+pub const ENOPKG: u16 = 65;
+
+/// Object is remote
+/// Linux >= 2.6.12
+pub const EREMOTE: u16 = 66;
+
+/// Link has been severed
+/// Linux >= 2.6.12
+pub const ENOLINK: u16 = 67;
+
+/// Advertise error
+/// Linux >= 2.6.12
+pub const EADV: u16 = 68;
+
+/// Srmount error
+/// Linux >= 2.6.12
+pub const ESRMNT: u16 = 69;
+
+/// Communication error on send
+/// Linux >= 2.6.12
+pub const ECOMM: u16 = 70;
+
+/// Protocol error
+/// Linux >= 2.6.12
+pub const EPROTO: u16 = 71;
+
+/// Multihop attempted
+/// Linux >= 2.6.12
+pub const EMULTIHOP: u16 = 72;
+
+/// RFS specific error
+/// Linux >= 2.6.12
+pub const EDOTDOT: u16 = 73;
+
+/// Not a data message
+/// Linux >= 2.6.12
+pub const EBADMSG: u16 = 74;
+
+/// Invalid CRC detected
+/// Alias of [`EBADMSG`]
+/// Linux >= 7.0-rc1
+pub const EFSBADCRC: u16 = EBADMSG;
+
+/// Value too large for defined data type
+/// Linux >= 2.6.12
+pub const EOVERFLOW: u16 = 75;
+
+/// Name not unique on network
+/// Linux >= 2.6.12
+pub const ENOTUNIQ: u16 = 76;
+
+/// File descriptor in invalid state
+/// Linux >= 2.6.12
+pub const EBADFD: u16 = 77;
+
+/// Remote address changed
+/// Linux >= 2.6.12
+pub const EREMCHG: u16 = 78;
+
+/// Cannot access a needed shared library
+/// Linux >= 2.6.12
+pub const ELIBACC: u16 = 79;
+
+/// Accessing a corrupted shared library
+/// Linux >= 2.6.12
+pub const ELIBBAD: u16 = 80;
+
+/// `.lib` section in a.out corrupted
+/// Linux >= 2.6.12
+pub const ELIBSCN: u16 = 81;
+
+/// Attempting to link in too many shared libraries
+/// Linux >= 2.6.12
+pub const ELIBMAX: u16 = 82;
+
+/// Cannot execute a shared library directly
+/// Linux >= 2.6.12
+pub const ELIBEXEC: u16 = 83;
+
+/// Illegal byte sequence
+/// Linux >= 2.6.12
+pub const EILSEQ: u16 = 84;
+
+/// Interrupted system call should be restarted
+/// Linux >= 2.6.12
+pub const ERESTART: u16 = 85;
+
+/// Streams pipe error
+/// Linux >= 2.6.12
+pub const ESTRPIPE: u16 = 86;
+
+/// Too many users
+/// Linux >= 2.6.12
+pub const EUSERS: u16 = 87;
+
+/// Socket operation on non-socket
+/// Linux >= 2.6.12
+pub const ENOTSOCK: u16 = 88;
+
+/// Destination address required
+/// Linux >= 2.6.12
+pub const EDESTADDRREQ: u16 = 89;
+
+/// Message too long
+/// Linux >= 2.6.12
+pub const EMSGSIZE: u16 = 90;
+
+/// Protocol wrong type for socket
+/// Linux >= 2.6.12
+pub const EPROTOTYPE: u16 = 91;
+
+/// Protocol not available
+/// Linux >= 2.6.12
+pub const ENOPROTOOPT: u16 = 92;
+
+/// Protocol not supported
+/// Linux >= 2.6.12
+pub const EPROTONOSUPPORT: u16 = 93;
+
+/// Socket type not supported
+/// Linux >= 2.6.12
+pub const ESOCKTNOSUPPORT: u16 = 94;
+
+/// Operation not supported on transport endpoint
+/// Linux >= 2.6.12
+pub const EOPNOTSUPP: u16 = 95;
+
+/// Protocol family not supported
+/// Linux >= 2.6.12
+pub const EPFNOSUPPORT: u16 = 96;
+
+/// Address family not supported by protocol
+/// Linux >= 2.6.12
+pub const EAFNOSUPPORT: u16 = 97;
+
+/// Address already in use
+/// Linux >= 2.6.12
+pub const EADDRINUSE: u16 = 98;
+
+/// Cannot assign requested address
+/// Linux >= 2.6.12
+pub const EADDRNOTAVAIL: u16 = 99;
+
+/// Network is down
+/// Linux >= 2.6.12
+pub const ENETDOWN: u16 = 100;
+
+/// Network is unreachable
+/// Linux >= 2.6.12
+pub const ENETUNREACH: u16 = 101;
+
+/// Network dropped connection because of reset
+/// Linux >= 2.6.12
+pub const ENETRESET: u16 = 102;
+
+/// Software caused connection abort
+/// Linux >= 2.6.12
+pub const ECONNABORTED: u16 = 103;
+
+/// Connection reset by peer
+/// Linux >= 2.6.12
+pub const ECONNRESET: u16 = 104;
+
+/// No buffer space available
+/// Linux >= 2.6.12
+pub const ENOBUFS: u16 = 105;
+
+/// Transport endpoint is already connected
+/// Linux >= 2.6.12
+pub const EISCONN: u16 = 106;
+
+/// Transport endpoint is not connected
+/// Linux >= 2.6.12
+pub const ENOTCONN: u16 = 107;
+
+/// Cannot send after transport endpoint shutdown
+/// Linux >= 2.6.12
+pub const ESHUTDOWN: u16 = 108;
+
+/// Too many references: cannot splice
+/// Linux >= 2.6.12
+pub const ETOOMANYREFS: u16 = 109;
+
+/// Connection timed out
+/// Linux >= 2.6.12
+pub const ETIMEDOUT: u16 = 110;
+
+/// Connection refused
+/// Linux >= 2.6.12
+pub const ECONNREFUSED: u16 = 111;
+
+/// Host is down
+/// Linux >= 2.6.12
+pub const EHOSTDOWN: u16 = 112;
+
+/// No route to host
+/// Linux >= 2.6.12
+pub const EHOSTUNREACH: u16 = 113;
+
+/// Operation already in progress
+/// Linux >= 2.6.12
+pub const EALREADY: u16 = 114;
+
+/// Operation now in progress
+/// Linux >= 2.6.12
+pub const EINPROGRESS: u16 = 115;
+
+/// Stale file handle
+/// Linux >= 2.6.12
+pub const ESTALE: u16 = 116;
+
+/// Structure needs cleaning
+/// Linux >= 2.6.12
+pub const EUCLEAN: u16 = 117;
+
+/// File system is corrupted
+/// Alias of [`EUCLEAN`]
+/// Linux >= 7.0-rc1
+pub const EFSCORRUPTED: u16 = EUCLEAN;
+
+/// Not a XENIX named type file
+/// Linux >= 2.6.12
+pub const ENOTNAM: u16 = 118;
+
+/// No XENIX semaphores available
+/// Linux >= 2.6.12
+pub const ENAVAIL: u16 = 119;
+
+/// Is a named type file
+/// Linux >= 2.6.12
+pub const EISNAM: u16 = 120;
+
+/// Remote I/O error
+/// Linux >= 2.6.12
+pub const EREMOTEIO: u16 = 121;
+
+/// Quota exceeded
+/// Linux >= 2.6.12
+pub const EDQUOT: u16 = 122;
+
+/// No medium found
+/// Linux >= 2.6.12
+pub const ENOMEDIUM: u16 = 123;
+
+/// Wrong medium type
+/// Linux >= 2.6.12
+pub const EMEDIUMTYPE: u16 = 124;
+
+/// Operation canceled
+/// Linux >= 2.6.12
+pub const ECANCELED: u16 = 125;
+
+/// Required key not available
+/// Linux >= 2.6.12
+pub const ENOKEY: u16 = 126;
+
+/// Key has expired
+/// Linux >= 2.6.12
+pub const EKEYEXPIRED: u16 = 127;
+
+/// Key has been revoked
+/// Linux >= 2.6.12
+pub const EKEYREVOKED: u16 = 128;
+
+/// Key was rejected by service
+/// Linux >= 2.6.12
+pub const EKEYREJECTED: u16 = 129;
+
+/// Owner died
+/// Linux >= 2.6.12
+pub const EOWNERDEAD: u16 = 130;
+
+/// State not recoverable
+/// Linux >= 2.6.12
+pub const ENOTRECOVERABLE: u16 = 131;
+
+/// Operation not possible due to RF-kill
+/// Linux >= 2.6.31
+pub const ERFKILL: u16 = 132;
+
+/// Memory page has hardware error
+/// Linux >= 2.6.39
+pub const EHWPOISON: u16 = 133;
+
+/// Wrong file type for the intended operation
+/// Linux >= 7.2-rc1
+pub const EFTYPE: u16 = 134;
 
 /// A Unix domain socket address: a family tag and a 108 byte path
 #[repr(C)]
