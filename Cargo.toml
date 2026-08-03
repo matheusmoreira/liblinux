@@ -8,5 +8,7 @@ license = "MIT"
 keywords = ["linux", "syscall"]
 categories = ["os"]
 
+exclude = [".cargo"]
+
 [lib]
 name = "linux"

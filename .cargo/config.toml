@@ -1,0 +1,7 @@
+# Build liblinux in tmpfs by default.
+# To build elsewhere, set the variables
+# CARGO_TARGET_DIR and CARGO_BUILD_DIR.
+
+[build]
+build-dir = "/tmp/liblinux/rust/build"
+target-dir = "/tmp/liblinux/rust/target"
