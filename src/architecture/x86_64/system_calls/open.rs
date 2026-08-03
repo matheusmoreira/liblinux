@@ -51,6 +51,7 @@ pub unsafe fn open(
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::architecture::x86_64::system_calls::close;
 
     #[test]
     fn opening_an_empty_path_reports_no_such_file() {
@@ -72,5 +73,21 @@ mod tests {
             unsafe { open(c"/".as_ptr(), definitions::O_WRONLY, 0) },
             Err(Errno::EISDIR)
         );
+    }
+
+    #[test]
+    fn open_then_close_root() {
+        // SAFETY: Rust C string literals construct
+        // valid NUL-terminated paths that are readable
+        // for the duration of the open system call.
+        let descriptor = unsafe {
+            open(c"/".as_ptr(), definitions::O_RDONLY, 0).unwrap()
+        };
+
+        assert!(descriptor >= 0);
+
+        // SAFETY: `open` just returned a fresh
+        // file descriptor owned by this test function.
+        assert_eq!(unsafe { close(descriptor) }, Ok(()));
     }
 }

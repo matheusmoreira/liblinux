@@ -6,4 +6,6 @@
 //! add their own system calls on top,
 //! and may or may not override symbols.
 
-system_calls! {}
+system_calls! {
+    close,
+}
