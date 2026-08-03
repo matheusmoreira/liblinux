@@ -421,6 +421,21 @@ pub const PF_MCTP: i32 = AF_MCTP;
 /// Linux >= 5.15
 pub const PF_MAX: i32 = AF_MAX;
 
+// File access modes, passed in the flags argument
+// to all of the open system calls.
+
+/// Open for reading only
+/// Linux >= 0.01
+pub const O_RDONLY: i32 = 0;
+
+/// Open for writing only
+/// Linux >= 0.01
+pub const O_WRONLY: i32 = 1;
+
+/// Open for reading and writing
+/// Linux >= 0.01
+pub const O_RDWR: i32 = 2;
+
 // Socket types. The kernel keeps these definitions in include/linux/net.h,
 // which is not a UAPI header and so are never exported to user space.
 // Historically, libraries have simply defined these values themselves.

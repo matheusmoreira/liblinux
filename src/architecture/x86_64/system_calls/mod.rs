@@ -3,4 +3,6 @@
 //! One file per system call. Functions perform
 //! their exact system call and nothing else.
 
-system_calls! {}
+system_calls! {
+    open,
+}

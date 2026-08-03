@@ -30,6 +30,12 @@ pub mod shared;
 mod errno;
 pub use errno::Errno;
 
+/// Linux file descriptor.
+///
+/// File descriptors fall within the range: [0, INT_MAX].
+/// This type does not encode validity, ownership or openness.
+pub type FileDescriptor = i32;
+
 // The definitions of the configured target architecture's Linux kernel
 // are re-exported as linux::definitions::* for convenience and readability.
 // Each architecture module re-exports compatible shared defaults and provides
