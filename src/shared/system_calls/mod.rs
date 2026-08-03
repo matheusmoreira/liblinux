@@ -8,5 +8,6 @@
 
 system_calls! {
     close,
+    read,
     write,
 }
