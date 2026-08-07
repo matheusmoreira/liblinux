@@ -1,8 +1,8 @@
-//! Generic kernel definitions
+//! Shared Linux kernel definitions
 //!
-//! Architecture independent definitions and structures
-//! that may either be re-exported or overridden
-//! by the architecture specific modules.
+//! Architecture modules re-export shared definitions
+//! when they are binary compatible and provide local
+//! replacements when they are not.
 //!
 //! Every definition records the earliest kernel release
 //! that is known to provide it with its current value.

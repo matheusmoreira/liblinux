@@ -11,7 +11,7 @@
 //! The standard library is linked only in test configuration.
 
 pub mod architecture;
-pub mod generic;
+pub mod shared;
 
 // The errno type is surfaced at the crate root as linux::Errno
 mod errno;
@@ -19,8 +19,8 @@ pub use errno::Errno;
 
 // The definitions of the configured target architecture's Linux kernel
 // are re-exported as linux::definitions::* for convenience and readability.
-// Definitions are sourced from architecture specific modules which either
-// re-export generic definitions or override them for just that architecture.
+// Each architecture module re-exports compatible shared defaults and provides
+// local replacements for definitions whose values differ for that architecture.
 // Symbol names match those of the Linux UAPI headers.
 pub use architecture::target::definitions;
 
