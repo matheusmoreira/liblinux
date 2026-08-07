@@ -1,5 +1,8 @@
 #![cfg(target_os = "linux")]
 #![cfg_attr(not(test), no_std)]
+#![warn(missing_docs)]
+#![deny(rustdoc::broken_intra_doc_links)]
+#![deny(rustdoc::private_intra_doc_links)]
 
 //! liblinux - freestanding Linux system calls for Rust
 //!

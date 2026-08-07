@@ -10,25 +10,65 @@
 pub mod definitions {
     #![allow(non_upper_case_globals)]
 
+    /// System call number for `read`.
+    /// Linux >= 2.5.5
     pub const __NR_read: usize = 0;
+    /// System call number for `write`.
+    /// Linux >= 2.5.5
     pub const __NR_write: usize = 1;
+    /// System call number for `open`.
+    /// Linux >= 2.5.5
     pub const __NR_open: usize = 2;
+    /// System call number for `close`.
+    /// Linux >= 2.5.5
     pub const __NR_close: usize = 3;
+    /// System call number for `mmap`.
+    /// Linux >= 2.5.5
     pub const __NR_mmap: usize = 9;
+    /// System call number for `munmap`.
+    /// Linux >= 2.5.5
     pub const __NR_munmap: usize = 11;
+    /// System call number for `access`.
+    /// Linux >= 2.5.5
     pub const __NR_access: usize = 21;
+    /// System call number for `mremap`.
+    /// Linux >= 2.5.5
     pub const __NR_mremap: usize = 25;
+    /// System call number for `dup`.
+    /// Linux >= 2.5.5
     pub const __NR_dup: usize = 32;
+    /// System call number for `getpid`.
+    /// Linux >= 2.5.5
     pub const __NR_getpid: usize = 39;
+    /// System call number for `socket`.
+    /// Linux >= 2.5.5
     pub const __NR_socket: usize = 41;
+    /// System call number for `connect`.
+    /// Linux >= 2.5.5
     pub const __NR_connect: usize = 42;
+    /// System call number for `bind`.
+    /// Linux >= 2.5.5
     pub const __NR_bind: usize = 49;
+    /// System call number for `listen`.
+    /// Linux >= 2.5.5
     pub const __NR_listen: usize = 50;
+    /// System call number for `setsockopt`.
+    /// Linux >= 2.5.5
     pub const __NR_setsockopt: usize = 54;
+    /// System call number for `faccessat`.
+    /// Linux >= 2.6.16
     pub const __NR_faccessat: usize = 269;
+    /// System call number for `accept4`.
+    /// Linux >= 2.6.28
     pub const __NR_accept4: usize = 288;
+    /// System call number for `prlimit64`.
+    /// Linux >= 2.6.36
     pub const __NR_prlimit64: usize = 302;
+    /// System call number for `renameat2`.
+    /// Linux >= 3.15
     pub const __NR_renameat2: usize = 316;
+    /// System call number for `faccessat2`.
+    /// Linux >= 5.8
     pub const __NR_faccessat2: usize = 439;
 
     pub use crate::shared::definitions::*;
