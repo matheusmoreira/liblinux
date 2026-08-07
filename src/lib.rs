@@ -10,6 +10,19 @@
 //! The crate is normally freestanding and compiled with no_std.
 //! The standard library is linked only in test configuration.
 
+/// Declare one module per system call and re-export the system call.
+/// The module remains private. This enables one system call per file
+/// while maintaining ergonomics: `system_calls::open` rather than
+/// `system_calls::open::open`.
+macro_rules! system_calls {
+    ($($name:ident),* $(,)?) => {
+        $(
+            mod $name;
+            pub use $name::$name;
+        )*
+    };
+}
+
 pub mod architecture;
 pub mod shared;
 
@@ -23,6 +36,13 @@ pub use errno::Errno;
 // local replacements for definitions whose values differ for that architecture.
 // Symbol names match those of the Linux UAPI headers.
 pub use architecture::target::definitions;
+
+// The system calls of the configured target architecture's Linux kernel
+// are re-exported as linux::system_calls::* for convenience and readability.
+// Definitions are sourced from architecture specific modules which either
+// re-export shared definitions or override them for just that architecture.
+// Symbol names match Linux system call definitions exactly.
+pub use architecture::target::system_calls;
 
 /// Perform a Linux system call for the target architecture
 /// with up to six arguments.

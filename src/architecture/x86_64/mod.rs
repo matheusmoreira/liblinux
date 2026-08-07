@@ -29,6 +29,11 @@ pub mod definitions {
     pub use crate::shared::definitions::*;
 }
 
+/// The x86_64 Linux system calls.
+/// All shared system calls,
+/// plus the x86_64 exclusives.
+pub mod system_calls;
+
 /// Perform a x86_64 Linux system call with 0 arguments.
 ///
 /// # Safety
