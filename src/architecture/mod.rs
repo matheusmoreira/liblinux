@@ -32,7 +32,11 @@
 //! boundary. Omitting it can silently turn failed system calls
 //! into successful results.
 
+pub mod aarch64;
 pub mod x86_64;
+
+#[cfg(all(target_arch = "aarch64", target_pointer_width = "64"))]
+pub use self::aarch64 as target;
 
 #[cfg(all(target_arch = "x86_64", target_pointer_width = "64"))]
 pub use self::x86_64 as target;

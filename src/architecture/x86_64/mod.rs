@@ -283,11 +283,7 @@ pub unsafe fn system_call_6(
     result
 }
 
-#[cfg(all(
-    test,
-    target_arch = "x86_64",
-    target_pointer_width = "64",
-))]
+#[cfg(all(test, target_arch = "x86_64", target_pointer_width = "64",))]
 mod tests {
     use super::*;
 
