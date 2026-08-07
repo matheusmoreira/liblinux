@@ -6,11 +6,12 @@ use crate::definitions;
 
 /// A Linux error number
 ///
-/// The kernel signals a failed system call by returning
-/// the negated error number in the result register.
-/// [`Errno`] holds any code the kernel can produce
-/// since system calls can theoretically return any
-/// of them, even those not explicitly enumerated here.
+/// System call primitives normalize kernel failures
+/// by returning the negated error number in the result,
+/// in the `[-4095, -1]` interval. [`Errno`] holds any
+/// code the kernel can produce since system calls can
+/// theoretically return any of them, even those not
+/// explicitly enumerated here.
 ///
 /// There is no thread local `errno` global variable.
 /// Negated error numbers from system calls can be decoded
@@ -445,11 +446,11 @@ impl Errno {
     /// Wrong file type for the intended operation
     pub const EFTYPE: Errno = Errno::from_number(definitions::EFTYPE);
 
-    /// Decode a negated error number returned by a system call.
+    /// Decode the normalized result of a system call primitive.
     ///
-    /// The Linux kernel returns error numbers negated on failure,
-    /// in the range `[-4095, -1]`. Every other value is a success:
-    /// zero, a byte count, a descriptor, or even a high address
+    /// The architecture primitives represent failures as negated error
+    /// numbers in the `[-4095, -1]` interval. Every other value is a
+    /// success: zero, a byte count, a descriptor, or even a high address
     /// that looks negative when read as signed.
     pub fn from_system_call(result: isize) -> Result<usize, Errno> {
         if (-4095..=-1).contains(&result) {
