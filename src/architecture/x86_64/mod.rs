@@ -37,6 +37,7 @@ pub mod definitions {
 /// The x86_64 Linux system calls.
 /// All shared system calls,
 /// plus the x86_64 exclusives.
+#[cfg(all(target_arch = "x86_64", target_pointer_width = "64"))]
 pub mod system_calls;
 
 /// Perform a x86_64 Linux system call with 0 arguments.
@@ -50,6 +51,7 @@ pub mod system_calls;
 /// The caller must ensure `number` refers
 /// to a system call that takes no arguments.
 #[inline]
+#[cfg(all(target_arch = "x86_64", target_pointer_width = "64"))]
 pub unsafe fn system_call_0(number: usize) -> isize {
     let result: isize;
 
@@ -77,6 +79,7 @@ pub unsafe fn system_call_0(number: usize) -> isize {
 /// The caller must ensure `number` refers
 /// to a system call that takes one argument.
 #[inline]
+#[cfg(all(target_arch = "x86_64", target_pointer_width = "64"))]
 pub unsafe fn system_call_1(number: usize, argument_1: usize) -> isize {
     let result: isize;
 
@@ -105,6 +108,7 @@ pub unsafe fn system_call_1(number: usize, argument_1: usize) -> isize {
 /// The caller must ensure `number` refers
 /// to a system call that takes two arguments.
 #[inline]
+#[cfg(all(target_arch = "x86_64", target_pointer_width = "64"))]
 pub unsafe fn system_call_2(number: usize, argument_1: usize, argument_2: usize) -> isize {
     let result: isize;
 
@@ -134,6 +138,7 @@ pub unsafe fn system_call_2(number: usize, argument_1: usize, argument_2: usize)
 /// The caller must ensure `number` refers
 /// to a system call that takes three arguments.
 #[inline]
+#[cfg(all(target_arch = "x86_64", target_pointer_width = "64"))]
 pub unsafe fn system_call_3(
     number: usize,
     argument_1: usize,
@@ -169,6 +174,7 @@ pub unsafe fn system_call_3(
 /// The caller must ensure `number` refers
 /// to a system call that takes four arguments.
 #[inline]
+#[cfg(all(target_arch = "x86_64", target_pointer_width = "64"))]
 pub unsafe fn system_call_4(
     number: usize,
     argument_1: usize,
@@ -206,6 +212,7 @@ pub unsafe fn system_call_4(
 /// The caller must ensure `number` refers
 /// to a system call that takes five arguments.
 #[inline]
+#[cfg(all(target_arch = "x86_64", target_pointer_width = "64"))]
 pub unsafe fn system_call_5(
     number: usize,
     argument_1: usize,
@@ -245,6 +252,7 @@ pub unsafe fn system_call_5(
 /// The caller must ensure `number` refers
 /// to a system call that takes six arguments.
 #[inline]
+#[cfg(all(target_arch = "x86_64", target_pointer_width = "64"))]
 pub unsafe fn system_call_6(
     number: usize,
     argument_1: usize,
@@ -275,7 +283,11 @@ pub unsafe fn system_call_6(
     result
 }
 
-#[cfg(test)]
+#[cfg(all(
+    test,
+    target_arch = "x86_64",
+    target_pointer_width = "64",
+))]
 mod tests {
     use super::*;
 

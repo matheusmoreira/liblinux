@@ -34,5 +34,5 @@
 
 pub mod x86_64;
 
-#[cfg(target_arch = "x86_64")]
+#[cfg(all(target_arch = "x86_64", target_pointer_width = "64"))]
 pub use self::x86_64 as target;
