@@ -58,6 +58,9 @@ pub mod definitions {
     /// System call number for `sendto`.
     /// Linux >= 3.7
     pub const __NR_sendto: usize = 206;
+    /// System call number for `recvfrom`.
+    /// Linux >= 3.7
+    pub const __NR_recvfrom: usize = 207;
     /// System call number for `setsockopt`.
     /// Linux >= 3.7
     pub const __NR_setsockopt: usize = 208;

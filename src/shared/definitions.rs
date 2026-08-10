@@ -796,7 +796,56 @@ pub const SOCK_CLOEXEC: i32 = 0o2000000;
 /// Linux >= 2.6.27
 pub const SOCK_NONBLOCK: i32 = 0o0004000;
 
-// Message flags passed to socket send and receive system calls.
+// Message flags passed to or returned by socket send and receive system calls.
+
+/// Request or report urgent or out-of-band data.
+///
+/// Protocol support and exact semantics vary.
+///
+/// Linux >= 0.97.1
+pub const MSG_OOB: i32 = 0x0001;
+
+/// Request observing selected receive data without consuming it.
+///
+/// Protocol and flag-combination semantics vary.
+///
+/// Linux >= 0.97.1
+pub const MSG_PEEK: i32 = 0x0002;
+
+/// Report truncation or request protocol-specific receive behavior.
+///
+/// Receive protocols may set this bit in output message flags
+/// when a message was truncated. As an input flag, supported
+/// message protocols may return the full message length even when
+/// only a prefix fits in the supplied output region. Other protocols
+/// give it different semantics: ordinary TCP may count and discard
+/// bytes without copying them to the output region.
+///
+/// Linux >= 2.1.15
+pub const MSG_TRUNC: i32 = 0x0020;
+
+/// Request non-blocking behavior for this operation.
+///
+/// Unlike `O_NONBLOCK`, this flag applies only to the individual call.
+///
+/// Linux >= 2.1.15
+pub const MSG_DONTWAIT: i32 = 0x0040;
+
+/// Request waiting for the full receive length.
+///
+/// Signals, errors, shutdown, record boundaries,
+/// and protocol rules may still produce a shorter
+/// successful result.
+///
+/// Linux >= 2.1.15
+pub const MSG_WAITALL: i32 = 0x0100;
+
+/// Select or report the socket's asynchronous error queue.
+///
+/// Extended error records are ordinarily returned through ancillary data.
+///
+/// Linux >= 2.1.91
+pub const MSG_ERRQUEUE: i32 = 0x2000;
 
 /// Do not generate `SIGPIPE` when a connection-oriented socket send
 /// finishes with `EPIPE`.
@@ -832,9 +881,11 @@ pub const SO_REUSEADDR: i32 = 2;
 pub const SO_ERROR: i32 = 4;
 
 // Error numbers. The kernel returns these negated in the result register.
-// These are the generic Linux UAPI assignments. Architecture modules
-// override them when an architecture uses different error numbers.
-// Several Linux architectures use different assignments.
+// Most but not all are the generic Linux UAPI assignments. Architecture
+// modules override them when an architecture uses different error numbers.
+// Several Linux architectures use different assignments. Additionally,
+// some internal Linux error numbers, such as ETOOSMALL, were deliberately
+// exposed to userspace but not included in the Linux UAPI.
 
 /// Operation not permitted
 /// Linux >= 0.01
@@ -1384,6 +1435,15 @@ pub const EHWPOISON: u16 = 133;
 /// Wrong file type for the intended operation
 /// Linux >= 7.2-rc1
 pub const EFTYPE: u16 = 134;
+
+/// Buffer or request is too small
+///
+/// This is an internal Linux error that's defined outside the Linux UAPI.
+/// However, commit `18282100d7040614b553f1cad737cb689c04e2b9` deliberately
+/// exposed it to userspace by preserving TCP device memory receive errors.
+///
+/// Linux >= 6.18
+pub const ETOOSMALL: u16 = 525;
 
 // Socket address structures.
 

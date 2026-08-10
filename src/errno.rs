@@ -446,6 +446,13 @@ impl Errno {
     /// Wrong file type for the intended operation
     pub const EFTYPE: Errno = Errno::from_number(definitions::EFTYPE);
 
+    /// Buffer or request is too small
+    ///
+    /// This is an internal Linux error that's defined outside the Linux UAPI.
+    /// However, commit `18282100d7040614b553f1cad737cb689c04e2b9` deliberately
+    /// exposed it to userspace by preserving TCP device memory receive errors.
+    pub const ETOOSMALL: Errno = Errno::from_number(definitions::ETOOSMALL);
+
     /// Decode the normalized result of a system call primitive.
     ///
     /// The architecture primitives represent failures as negated error
