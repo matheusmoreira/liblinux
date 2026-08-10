@@ -807,6 +807,10 @@ pub const SOCK_NONBLOCK: i32 = 0o0004000;
 /// Linux >= 0.97
 pub const SOL_SOCKET: i32 = 1;
 
+/// Allow reuse of local addresses as defined by the socket protocol.
+/// Linux >= 0.97
+pub const SO_REUSEADDR: i32 = 2;
+
 /// Read and clear the socket's pending error.
 ///
 /// When read with [`SOL_SOCKET`], Linux returns an integer error number.
