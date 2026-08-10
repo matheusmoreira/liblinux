@@ -55,6 +55,9 @@ pub mod definitions {
     /// System call number for `connect`.
     /// Linux >= 3.7
     pub const __NR_connect: usize = 203;
+    /// System call number for `sendto`.
+    /// Linux >= 3.7
+    pub const __NR_sendto: usize = 206;
     /// System call number for `setsockopt`.
     /// Linux >= 3.7
     pub const __NR_setsockopt: usize = 208;

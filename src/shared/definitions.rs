@@ -796,6 +796,16 @@ pub const SOCK_CLOEXEC: i32 = 0o2000000;
 /// Linux >= 2.6.27
 pub const SOCK_NONBLOCK: i32 = 0o0004000;
 
+// Message flags passed to socket send and receive system calls.
+
+/// Do not generate `SIGPIPE` when a connection-oriented socket send
+/// finishes with `EPIPE`.
+///
+/// The send operation still fails with `EPIPE`.
+///
+/// Linux >= 2.2
+pub const MSG_NOSIGNAL: i32 = 0x4000;
+
 // Socket option levels and names. These are the generic Linux UAPI
 // assignments. Architecture modules override them when an architecture
 // uses different socket option numbers.
