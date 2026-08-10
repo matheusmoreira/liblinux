@@ -13,6 +13,9 @@ pub mod definitions {
     /// System call number for `epoll_create1`.
     /// Linux >= 3.7
     pub const __NR_epoll_create1: usize = 20;
+    /// System call number for `epoll_ctl`.
+    /// Linux >= 3.7
+    pub const __NR_epoll_ctl: usize = 21;
     /// System call number for `dup`.
     /// Linux >= 3.7
     pub const __NR_dup: usize = 23;
@@ -73,6 +76,16 @@ pub mod definitions {
     /// System call number for `faccessat2`.
     /// Linux >= 5.8
     pub const __NR_faccessat2: usize = 439;
+
+    /// An event exchanged with an epoll instance.
+    #[repr(C)]
+    pub struct epoll_event {
+        /// Events that occurred or are being requested.
+        pub events: u32,
+
+        /// Caller-owned data returned with the event.
+        pub data: u64,
+    }
 
     pub use crate::shared::definitions::*;
 }
@@ -314,6 +327,7 @@ pub unsafe fn system_call_6(
 #[cfg(all(test, target_arch = "aarch64", target_pointer_width = "64"))]
 mod tests {
     use super::*;
+    use definitions::epoll_event;
 
     #[test]
     fn getpid_matches_std() {
@@ -477,5 +491,13 @@ mod tests {
         };
 
         assert_eq!(freed, 0);
+    }
+
+    #[test]
+    fn epoll_event_has_the_aarch64_layout() {
+        assert_eq!(core::mem::size_of::<epoll_event>(), 16);
+        assert_eq!(core::mem::align_of::<epoll_event>(), 8);
+        assert_eq!(core::mem::offset_of!(epoll_event, events), 0);
+        assert_eq!(core::mem::offset_of!(epoll_event, data), 8);
     }
 }

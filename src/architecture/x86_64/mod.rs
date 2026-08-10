@@ -61,6 +61,13 @@ pub mod definitions {
     /// System call number for `exit_group`.
     /// Linux >= 2.5.67
     pub const __NR_exit_group: usize = 231;
+    /// System call number for `epoll_ctl`.
+    ///
+    /// x86_64 keeps the original slot 214 as `epoll_ctl_old`.
+    /// The current `epoll_ctl` interface uses number 233.
+    ///
+    /// Linux >= 2.5.74
+    pub const __NR_epoll_ctl: usize = 233;
     /// System call number for `faccessat`.
     /// Linux >= 2.6.16
     pub const __NR_faccessat: usize = 269;
@@ -79,6 +86,19 @@ pub mod definitions {
     /// System call number for `faccessat2`.
     /// Linux >= 5.8
     pub const __NR_faccessat2: usize = 439;
+
+    /// An event exchanged with an epoll instance.
+    ///
+    /// Linux packs this structure to make the 64-bit layout
+    /// match the 32-bit layout, simplifying 32-bit emulation.
+    #[repr(C, packed)]
+    pub struct epoll_event {
+        /// Events that occurred or are being requested.
+        pub events: u32,
+
+        /// Caller-owned data returned with the event.
+        pub data: u64,
+    }
 
     pub use crate::shared::definitions::*;
 }
@@ -335,6 +355,7 @@ pub unsafe fn system_call_6(
 #[cfg(all(test, target_arch = "x86_64", target_pointer_width = "64",))]
 mod tests {
     use super::*;
+    use definitions::epoll_event;
 
     #[test]
     fn getpid_matches_std() {
@@ -487,5 +508,13 @@ mod tests {
         let freed = unsafe { system_call_2(definitions::__NR_munmap, remapped as usize, PAGE * 2) };
 
         assert_eq!(freed, 0);
+    }
+
+    #[test]
+    fn epoll_event_has_the_x86_64_layout() {
+        assert_eq!(core::mem::size_of::<epoll_event>(), 12);
+        assert_eq!(core::mem::align_of::<epoll_event>(), 1);
+        assert_eq!(core::mem::offset_of!(epoll_event, events), 0);
+        assert_eq!(core::mem::offset_of!(epoll_event, data), 4);
     }
 }

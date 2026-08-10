@@ -2,7 +2,7 @@ Create a new epoll instance and return a file descriptor for it.
 
 The returned file descriptor can be passed to
 the other epoll system calls in order to
-register file descriptors and wait for
+add watched file descriptors and wait for
 readiness events.
 
 The epoll instance in the kernel remains alive
