@@ -796,7 +796,52 @@ pub const SOCK_CLOEXEC: i32 = 0o2000000;
 /// Linux >= 2.6.27
 pub const SOCK_NONBLOCK: i32 = 0o0004000;
 
-// Message flags passed to socket send and receive system calls.
+// Message flags passed to or returned by socket send and receive system calls.
+
+/// Request or report urgent or out of band data.
+///
+/// Protocol support and exact semantics vary.
+///
+/// Linux >= 0.97
+pub const MSG_OOB: i32 = 0x0001;
+
+/// Observe available data without consuming it.
+///
+/// Linux >= 0.97
+pub const MSG_PEEK: i32 = 0x0002;
+
+/// Report truncation or request the full message length.
+///
+/// Receive protocols may set this bit in output message flags
+/// when a message was truncated. As an input flag, supported
+/// protocols may return the full message length even when only
+/// a prefix fits in the supplied output region.
+///
+/// Linux >= 2.1.37pre3
+pub const MSG_TRUNC: i32 = 0x0020;
+
+/// Request non-blocking behavior for this operation.
+///
+/// Unlike `O_NONBLOCK`, this flag applies only to the individual call.
+///
+/// Linux >= 2.1.37pre3
+pub const MSG_DONTWAIT: i32 = 0x0040;
+
+/// Request waiting for the full receive length.
+///
+/// Signals, errors, shutdown, record boundaries,
+/// and protocol rules may still produce a shorter
+/// successful result.
+///
+/// Linux >= 2.1.37pre3
+pub const MSG_WAITALL: i32 = 0x0100;
+
+/// Select or report the socket's asynchronous error queue.
+///
+/// Extended error records are ordinarily returned through ancillary data.
+///
+/// Linux >= 2.2
+pub const MSG_ERRQUEUE: i32 = 0x2000;
 
 /// Do not generate `SIGPIPE` when a connection-oriented socket send
 /// finishes with `EPIPE`.

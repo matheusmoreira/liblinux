@@ -19,6 +19,7 @@ system_calls! {
     getsockopt,
     listen,
     read,
+    recvfrom,
     sendto,
     setsockopt,
     socket,
