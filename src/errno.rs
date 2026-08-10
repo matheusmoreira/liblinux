@@ -466,6 +466,14 @@ impl Errno {
     }
 }
 
+impl core::ops::Neg for Errno {
+    type Output = isize;
+
+    fn neg(self) -> Self::Output {
+        -(self.number() as isize)
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
