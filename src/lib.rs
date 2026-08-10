@@ -87,6 +87,13 @@ pub mod shared;
 mod errno;
 pub use errno::Errno;
 
+/// Linux clock identifier.
+///
+/// Clock identifiers are signed 32-bit integers.
+/// Linux clock identifiers are an open namespace.
+/// This type does not encode validity, ownership or lifetime.
+pub type ClockID = i32;
+
 /// Linux file descriptor.
 ///
 /// File descriptors fall within the range: [0, INT_MAX].

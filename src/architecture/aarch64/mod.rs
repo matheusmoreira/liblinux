@@ -28,6 +28,9 @@ pub mod definitions {
     /// System call number for `exit_group`.
     /// Linux >= 3.7
     pub const __NR_exit_group: usize = 94;
+    /// System call number for `clock_gettime`.
+    /// Linux >= 3.7
+    pub const __NR_clock_gettime: usize = 113;
     /// System call number for `getpid`.
     /// Linux >= 3.7
     pub const __NR_getpid: usize = 172;

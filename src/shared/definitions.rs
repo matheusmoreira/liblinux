@@ -12,6 +12,194 @@
 // Linux kernel defines AF_DECnet and PF_DECnet
 #![allow(non_upper_case_globals)]
 
+// Time definitions.
+
+/// System-wide wall clock measured from the Unix epoch
+/// and using Coordinated Universal Time (UTC).
+///
+/// Its frequency is adjusted by the kernel's timekeeping
+/// mechanisms as well as NTP.  It can become discontinuous
+/// due to leap seconds or a sufficiently privileged user
+/// space program setting the clock.
+///
+/// Linux >= 2.5.63
+pub const CLOCK_REALTIME: crate::ClockID = 0;
+
+/// Monotonic time since system boot, excluding suspend.
+///
+/// This clock cannot be set and is not affected by
+/// discontinuous changes to [`CLOCK_REALTIME`].
+/// Linux may adjust its rate as part of kernel
+/// timekeeping and NTP.
+///
+/// In a time namespace, Linux adds its monotonic offset
+/// to the value returned to the calling task.
+///
+/// Linux >= 2.5.63
+pub const CLOCK_MONOTONIC: crate::ClockID = 1;
+
+/// Scheduler execution time consumed by the calling thread group.
+///
+/// Linux implements this as the `CPUCLOCK_SCHED` CPU clock
+/// for the caller's thread group, so it measures scheduler
+/// runtime accumulated by all tasks in that group rather
+/// than elapsed wall clock time.
+///
+/// Linux reports one nanosecond resolution for this clock
+/// because the true resolution of the underlying scheduler
+/// clock is not exported.
+///
+/// Linux >= 2.5.63
+pub const CLOCK_PROCESS_CPUTIME_ID: crate::ClockID = 2;
+
+/// Scheduler execution time consumed by the calling task.
+///
+/// Linux implements this as the `CPUCLOCK_SCHED` CPU clock
+/// for the calling task, so it measures scheduler runtime
+/// rather than elapsed wall clock time.
+///
+/// Linux reports one nanosecond resolution for this clock
+/// because the true resolution of the underlying scheduler
+/// clock is not exported.
+///
+/// Linux >= 2.5.63
+pub const CLOCK_THREAD_CPUTIME_ID: crate::ClockID = 3;
+
+/// Raw monotonic time since system boot, excluding suspend.
+///
+/// This clock runs at the rate of the underlying hardware
+/// clock source without NTP frequency corrections for clock
+/// drift. It is unaffected by discontinuous changes to
+/// [`CLOCK_REALTIME`].
+///
+/// In a time namespace, Linux adds its monotonic offset
+/// to the value returned to the calling task.
+///
+/// Linux >= 2.6.28
+pub const CLOCK_MONOTONIC_RAW: crate::ClockID = 4;
+
+/// Coarse, low resolution version of [`CLOCK_REALTIME`].
+///
+/// Linux returns a cached time from the last timer tick
+/// instead of reading the current hardware clock source.
+/// This makes the clock cheaper to read but less current.
+/// Its reported resolution is the kernel's low resolution
+/// tick granularity.
+///
+/// Linux >= 2.6.32
+pub const CLOCK_REALTIME_COARSE: crate::ClockID = 5;
+
+/// Coarse, low resolution version of [`CLOCK_MONOTONIC`].
+///
+/// Linux returns a cached time from the last timer tick
+/// instead of reading the current hardware clock source.
+/// This makes the clock cheaper to read but less current.
+/// Its reported resolution is the kernel's low resolution
+/// tick granularity.
+///
+/// In a time namespace, Linux adds its monotonic offset
+/// to the value returned to the calling task.
+///
+/// Linux >= 2.6.32
+pub const CLOCK_MONOTONIC_COARSE: crate::ClockID = 6;
+
+/// Monotonic time since system boot, including suspend.
+///
+/// This clock has the same timekeeping basis as [`CLOCK_MONOTONIC`]
+/// but continues to account for time while the system is suspended.
+///
+/// In a time namespace, Linux adds its boot time offset
+/// to the value returned to the calling task.
+///
+/// Linux >= 2.6.39
+pub const CLOCK_BOOTTIME: crate::ClockID = 7;
+
+/// Alarm clock using the [`CLOCK_REALTIME`] timebase.
+///
+/// Timers using this clock can wake a suspended system
+/// through the alarm timer RTC. Reading the clock also
+/// requires Linux to have selected a usable RTC that is
+/// capable of system wake up.
+///
+/// Linux >= 3.0
+pub const CLOCK_REALTIME_ALARM: crate::ClockID = 8;
+
+/// Alarm clock using the [`CLOCK_BOOTTIME`] timebase.
+///
+/// Timers using this clock can wake a suspended system
+/// through the alarm timer RTC. Reading the clock also
+/// requires Linux to have selected a usable RTC that is
+/// capable of system wake up.
+///
+/// In a time namespace, Linux adds its boot time offset
+/// to the value returned to the calling task.
+///
+/// Linux >= 3.0
+pub const CLOCK_BOOTTIME_ALARM: crate::ClockID = 9;
+
+/// Reserved identifier formerly used by the removed SGI cycle clock.
+///
+/// Linux >= 2.6.12
+pub const CLOCK_SGI_CYCLE: crate::ClockID = 10;
+
+/// International Atomic Time derived from [`CLOCK_REALTIME`].
+///
+/// This clock follows Linux system timekeeping and frequency
+/// steering but applies the configured TAI offset. Unlike UTC
+/// real time, TAI does not jump due to leap second updates.
+/// The TAI offset can be changed through Linux's time
+/// adjustment interfaces.
+///
+/// Linux >= 3.10
+pub const CLOCK_TAI: crate::ClockID = 11;
+
+/// Boundary after the legacy clock identifier range.
+///
+/// Also the first auxiliary clock identifier on Linux >= 6.17.
+///
+/// Linux >= 2.6.12
+pub const MAX_CLOCKS: crate::ClockID = 16;
+
+/// First auxiliary clock identifier.
+///
+/// Auxiliary clocks are dynamically configured Linux timekeepers.
+/// Each enabled clock can be steered independently of the core
+/// timekeeper backing [`CLOCK_REALTIME`], [`CLOCK_MONOTONIC`]
+/// and the other system clocks.
+///
+/// Linux >= 6.17
+pub const CLOCK_AUX: crate::ClockID = MAX_CLOCKS;
+
+/// Maximum number of auxiliary clock identifiers.
+///
+/// Linux defines space for eight auxiliary clocks,
+/// but the number actually supported may be lower
+/// because of architecture or vDSO constraints.
+///
+/// Linux >= 6.17
+pub const MAX_AUX_CLOCKS: crate::ClockID = 8;
+
+/// Last auxiliary clock identifier.
+///
+/// Linux >= 6.17
+pub const CLOCK_AUX_LAST: crate::ClockID = CLOCK_AUX + MAX_AUX_CLOCKS - 1;
+
+/// 64 bit seconds and nanoseconds time value.
+///
+/// The `__kernel_timespec` structure exists in the Linux UAPI
+/// since Linux 4.18, but it has the same layout as the structures
+/// used by the native time binary interfaces of older 64 bit kernels.
+///
+/// Linux >= 4.18
+#[repr(C)]
+pub struct __kernel_timespec {
+    /// Whole seconds.
+    pub tv_sec: i64,
+
+    /// Nanosecond component.
+    pub tv_nsec: i64,
+}
+
 // Address families. The kernel keeps these in include/linux/socket.h,
 // which is not a UAPI header and so are never exported to user space.
 // Historically, libraries have simply defined these values themselves.

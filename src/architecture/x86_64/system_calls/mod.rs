@@ -8,3 +8,9 @@ pub use crate::shared::system_calls::*;
 system_calls! {
     open,
 }
+
+system_calls! {
+    x86_64 {
+        clock_gettime,
+    }
+}

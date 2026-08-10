@@ -4,3 +4,9 @@
 //! their exact system call and nothing else.
 
 pub use crate::shared::system_calls::*;
+
+system_calls! {
+    aarch64 {
+        clock_gettime,
+    }
+}
