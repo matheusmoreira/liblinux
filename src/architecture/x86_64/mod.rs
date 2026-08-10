@@ -52,6 +52,9 @@ pub mod definitions {
     /// System call number for `recvfrom`.
     /// Linux >= 2.5.5
     pub const __NR_recvfrom: usize = 45;
+    /// System call number for `shutdown`.
+    /// Linux >= 2.5.5
+    pub const __NR_shutdown: usize = 48;
     /// System call number for `bind`.
     /// Linux >= 2.5.5
     pub const __NR_bind: usize = 49;

@@ -880,6 +880,18 @@ pub const SO_REUSEADDR: i32 = 2;
 /// Linux >= 0.97
 pub const SO_ERROR: i32 = 4;
 
+/// Select the receiving direction for `shutdown`.
+/// Linux >= 2.5.5 on x86_64; Linux >= 3.7 on AArch64
+pub const SHUT_RD: i32 = 0;
+
+/// Select the sending direction for `shutdown`.
+/// Linux >= 2.5.5 on x86_64; Linux >= 3.7 on AArch64
+pub const SHUT_WR: i32 = 1;
+
+/// Select both communication directions for `shutdown`.
+/// Linux >= 2.5.5 on x86_64; Linux >= 3.7 on AArch64
+pub const SHUT_RDWR: i32 = 2;
+
 // Error numbers. The kernel returns these negated in the result register.
 // Most but not all are the generic Linux UAPI assignments. Architecture
 // modules override them when an architecture uses different error numbers.

@@ -22,6 +22,7 @@ system_calls! {
     recvfrom,
     sendto,
     setsockopt,
+    shutdown,
     socket,
     write,
 }
