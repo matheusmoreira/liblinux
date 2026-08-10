@@ -796,6 +796,27 @@ pub const SOCK_CLOEXEC: i32 = 0o2000000;
 /// Linux >= 2.6.27
 pub const SOCK_NONBLOCK: i32 = 0o0004000;
 
+// Socket option levels and names. These are the generic Linux UAPI
+// assignments. Architecture modules override them when an architecture
+// uses different socket option numbers.
+
+/// Select the generic socket layer for socket options.
+///
+/// Other levels select protocol specific option namespaces.
+///
+/// Linux >= 0.97
+pub const SOL_SOCKET: i32 = 1;
+
+/// Read and clear the socket's pending error.
+///
+/// When read with [`SOL_SOCKET`], Linux returns an integer error number.
+/// It clears the socket's pending error while reading it. If there is
+/// no pending error, it reads and clears the soft error instead.
+/// Zero means that neither error is present.
+///
+/// Linux >= 0.97
+pub const SO_ERROR: i32 = 4;
+
 // Error numbers. The kernel returns these negated in the result register.
 // These are the generic Linux UAPI assignments. Architecture modules
 // override them when an architecture uses different error numbers.

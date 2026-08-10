@@ -58,6 +58,9 @@ pub mod definitions {
     /// System call number for `setsockopt`.
     /// Linux >= 3.7
     pub const __NR_setsockopt: usize = 208;
+    /// System call number for `getsockopt`.
+    /// Linux >= 3.7
+    pub const __NR_getsockopt: usize = 209;
     /// System call number for `munmap`.
     /// Linux >= 3.7
     pub const __NR_munmap: usize = 215;

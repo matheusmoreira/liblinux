@@ -16,6 +16,7 @@ system_calls! {
     epoll_pwait,
     epoll_pwait2,
     exit_group,
+    getsockopt,
     listen,
     read,
     socket,

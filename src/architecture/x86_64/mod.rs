@@ -55,6 +55,9 @@ pub mod definitions {
     /// System call number for `setsockopt`.
     /// Linux >= 2.5.5
     pub const __NR_setsockopt: usize = 54;
+    /// System call number for `getsockopt`.
+    /// Linux >= 2.5.5
+    pub const __NR_getsockopt: usize = 55;
     /// System call number for `clock_gettime`.
     /// Linux >= 2.5.63
     pub const __NR_clock_gettime: usize = 228;
