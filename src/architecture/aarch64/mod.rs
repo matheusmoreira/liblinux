@@ -10,6 +10,9 @@
 pub mod definitions {
     #![allow(non_upper_case_globals)]
 
+    /// System call number for `epoll_create1`.
+    /// Linux >= 3.7
+    pub const __NR_epoll_create1: usize = 20;
     /// System call number for `dup`.
     /// Linux >= 3.7
     pub const __NR_dup: usize = 23;

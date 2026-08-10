@@ -200,6 +200,16 @@ pub struct __kernel_timespec {
     pub tv_nsec: i64,
 }
 
+// Epoll definitions.
+
+/// Atomically set close-on-exec on the new epoll file descriptor.
+///
+/// Has the same value as the target architecture's `O_CLOEXEC`.
+/// The exact numeric value is architecture dependent.
+///
+/// Linux >= 2.6.27
+pub const EPOLL_CLOEXEC: i32 = 0o2000000;
+
 // Address families. The kernel keeps these in include/linux/socket.h,
 // which is not a UAPI header and so are never exported to user space.
 // Historically, libraries have simply defined these values themselves.

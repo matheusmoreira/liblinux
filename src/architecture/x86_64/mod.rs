@@ -67,6 +67,9 @@ pub mod definitions {
     /// System call number for `accept4`.
     /// Linux >= 2.6.28
     pub const __NR_accept4: usize = 288;
+    /// System call number for `epoll_create1`.
+    /// Linux >= 2.6.27
+    pub const __NR_epoll_create1: usize = 291;
     /// System call number for `prlimit64`.
     /// Linux >= 2.6.36
     pub const __NR_prlimit64: usize = 302;

@@ -11,6 +11,7 @@ system_calls! {
     bind,
     close,
     connect,
+    epoll_create1,
     exit_group,
     listen,
     read,
