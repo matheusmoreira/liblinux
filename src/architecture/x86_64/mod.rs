@@ -55,6 +55,9 @@ pub mod definitions {
     /// System call number for `setsockopt`.
     /// Linux >= 2.5.5
     pub const __NR_setsockopt: usize = 54;
+    /// System call number for `exit_group`.
+    /// Linux >= 2.5.67
+    pub const __NR_exit_group: usize = 231;
     /// System call number for `faccessat`.
     /// Linux >= 2.6.16
     pub const __NR_faccessat: usize = 269;

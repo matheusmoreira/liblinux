@@ -11,6 +11,7 @@ system_calls! {
     bind,
     close,
     connect,
+    exit_group,
     listen,
     read,
     socket,

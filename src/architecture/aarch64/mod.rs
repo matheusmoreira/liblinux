@@ -25,6 +25,9 @@ pub mod definitions {
     /// System call number for `write`.
     /// Linux >= 3.7
     pub const __NR_write: usize = 64;
+    /// System call number for `exit_group`.
+    /// Linux >= 3.7
+    pub const __NR_exit_group: usize = 94;
     /// System call number for `getpid`.
     /// Linux >= 3.7
     pub const __NR_getpid: usize = 172;
