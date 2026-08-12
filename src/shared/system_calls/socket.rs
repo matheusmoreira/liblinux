@@ -2,8 +2,6 @@ use crate::Errno;
 use crate::FileDescriptor as Fd;
 use crate::definitions;
 
-/// Create a communication endpoint
-/// and return its file descriptor.
 pub fn socket(
     domain: i32,
     r#type: i32,

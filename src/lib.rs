@@ -13,14 +13,68 @@
 //! The crate is normally freestanding and compiled with no_std.
 //! The standard library is linked only in test configuration.
 
+/// Computes paths relative to liblinux's Cargo manifest directory.
+macro_rules! manifest_path {
+    ($($part:expr),+ $(,)?) => {
+        concat!(
+            env!("CARGO_MANIFEST_DIR"),
+            "/",
+            $($part),+
+        )
+    };
+}
+
+/// Computes the path to the specified system call documentation file.
+macro_rules! system_call_documentation_path {
+    ($name:ident) => {
+        manifest_path!("documentation/system-calls/", stringify!($name), ".md")
+    };
+
+    ($name:ident, $architecture:ident) => {
+        manifest_path!(
+            "documentation/system-calls/",
+            stringify!($name),
+            ".",
+            stringify!($architecture),
+            ".md"
+        )
+    };
+}
+
 /// Declare one module per system call and re-export the system call.
 /// The module remains private. This enables one system call per file
 /// while maintaining ergonomics: `system_calls::open` rather than
-/// `system_calls::open::open`.
+/// `system_calls::open::open`. Automatically attaches documentation.
 macro_rules! system_calls {
-    ($($name:ident),* $(,)?) => {
+    (
+        $($name:ident),* $(,)?
+    ) => {
         $(
+            // Public syscall documentation is attached
+            // via the re-exported function below.
+            #[allow(missing_docs)]
+            #[allow(clippy::missing_safety_doc)]
             mod $name;
+
+            #[doc = include_str!(system_call_documentation_path!($name))]
+            pub use $name::$name;
+        )*
+    };
+
+    (
+        $architecture:ident {
+            $($name:ident),* $(,)?
+        }
+    ) => {
+        $(
+            // Public syscall documentation is attached
+            // via the re-exported function below.
+            #[allow(missing_docs)]
+            #[allow(clippy::missing_safety_doc)]
+            mod $name;
+
+            #[doc = include_str!(system_call_documentation_path!($name))]
+            #[doc = include_str!(system_call_documentation_path!($name, $architecture))]
             pub use $name::$name;
         )*
     };

@@ -2,24 +2,6 @@ use crate::Errno;
 use crate::FileDescriptor as Fd;
 use crate::definitions;
 
-/// Write `buffer` to a file descriptor. Returns the number
-/// of bytes written, which may be less than the size of the
-/// given buffer. No automatic retries are made.
-///
-/// # Safety
-///
-/// Rust safety and semantics do not matter to the kernel.
-/// However, the kernel semantics matter a lot to Rust.
-/// The caller must ensure any memory access that Linux
-/// successfully performs through `buffer` does not
-/// violate the Rust memory model or any other
-/// invariants in Rust or anywhere else.
-///
-/// The kernel may attempt to read `buffer.len()` bytes
-/// at the address contained in `buffer`, which is not
-/// actually required to be dereferenceable by Rust.
-/// Passing unmapped user space addresses may cause Linux
-/// to simply return `EFAULT`, a perfectly valid result.
 pub unsafe fn write(
     descriptor: Fd,
     buffer: *const u8,

@@ -2,7 +2,6 @@ use crate::Errno;
 use crate::FileDescriptor as Fd;
 use crate::definitions;
 
-/// Mark a socket as listening for connections.
 pub fn listen(descriptor: Fd, backlog: i32) -> Result<(), Errno> {
     // SAFETY: `__NR_listen` is a 2 argument system call
     // that takes scalar arguments and dereferences

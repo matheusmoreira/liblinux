@@ -2,25 +2,6 @@ use crate::Errno;
 use crate::FileDescriptor as Fd;
 use crate::definitions;
 
-/// Read bytes from the file `descriptor` into `buffer`.
-/// Returns the number of bytes read, which may be less
-/// than the size of the given buffer. No retries are made.
-/// Reading while at the end of the file returns zero.
-///
-/// # Safety
-///
-/// Rust safety and semantics do not matter to the kernel.
-/// However, the kernel semantics matter a lot to Rust.
-/// The caller must ensure any memory access that Linux
-/// successfully performs through `buffer` does not
-/// violate the Rust memory model or any other
-/// invariants in Rust or anywhere else.
-///
-/// The kernel may attempt to write `buffer.len()` bytes
-/// at the address contained in `buffer`, which is not
-/// actually required to be dereferenceable by Rust.
-/// Passing unmapped user space addresses may cause Linux
-/// to simply return `EFAULT`, a perfectly valid result.
 pub unsafe fn read(
     descriptor: Fd,
     buffer: *mut u8,
