@@ -89,6 +89,9 @@ pub mod definitions {
     /// System call number for `faccessat2`.
     /// Linux >= 5.8
     pub const __NR_faccessat2: usize = 439;
+    /// System call number for `epoll_pwait2`.
+    /// Linux >= 5.11
+    pub const __NR_epoll_pwait2: usize = 441;
 
     /// An event exchanged with an epoll instance.
     ///

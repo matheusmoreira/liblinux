@@ -14,6 +14,7 @@ system_calls! {
     epoll_create1,
     epoll_ctl,
     epoll_pwait,
+    epoll_pwait2,
     exit_group,
     listen,
     read,
