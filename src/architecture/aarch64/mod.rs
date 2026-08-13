@@ -16,6 +16,9 @@ pub mod definitions {
     /// System call number for `epoll_ctl`.
     /// Linux >= 3.7
     pub const __NR_epoll_ctl: usize = 21;
+    /// System call number for `epoll_pwait`.
+    /// Linux >= 3.7
+    pub const __NR_epoll_pwait: usize = 22;
     /// System call number for `dup`.
     /// Linux >= 3.7
     pub const __NR_dup: usize = 23;

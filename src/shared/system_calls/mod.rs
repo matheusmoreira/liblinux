@@ -13,6 +13,7 @@ system_calls! {
     connect,
     epoll_create1,
     epoll_ctl,
+    epoll_pwait,
     exit_group,
     listen,
     read,

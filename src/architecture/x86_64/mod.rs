@@ -71,6 +71,9 @@ pub mod definitions {
     /// System call number for `faccessat`.
     /// Linux >= 2.6.16
     pub const __NR_faccessat: usize = 269;
+    /// System call number for `epoll_pwait`.
+    /// Linux >= 2.6.22
+    pub const __NR_epoll_pwait: usize = 281;
     /// System call number for `accept4`.
     /// Linux >= 2.6.28
     pub const __NR_accept4: usize = 288;
