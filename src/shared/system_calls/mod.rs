@@ -18,6 +18,7 @@ system_calls! {
     exit_group,
     getsockopt,
     listen,
+    munmap,
     read,
     recvfrom,
     sendto,
