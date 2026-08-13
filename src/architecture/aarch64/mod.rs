@@ -10,6 +10,16 @@
 pub mod definitions {
     #![allow(non_upper_case_globals)]
 
+    /// Request Branch Target Identification guarded page semantics.
+    ///
+    /// Linux >= 5.8
+    pub const PROT_BTI: usize = 0x10;
+
+    /// Request Memory Tagging Extension semantics.
+    ///
+    /// Linux >= 5.10
+    pub const PROT_MTE: usize = 0x20;
+
     /// System call number for `epoll_create1`.
     /// Linux >= 3.7
     pub const __NR_epoll_create1: usize = 20;
@@ -430,8 +440,10 @@ mod tests {
 
     #[test]
     fn mmap_mremap_munmap() {
-        const PROT_READ_WRITE: usize = 0x1 | 0x2;
-        const MAP_PRIVATE_ANONYMOUS: usize = 0x2 | 0x20;
+        const PROT_READ_WRITE: usize =
+            definitions::PROT_READ | definitions::PROT_WRITE;
+        const MAP_PRIVATE_ANONYMOUS: usize =
+            definitions::MAP_PRIVATE | definitions::MAP_ANONYMOUS;
         const MREMAP_MAYMOVE: usize = 0x1;
         const MREMAP_FIXED: usize = 0x2;
         // 64 KiB is aligned to every AArch64 Linux page size

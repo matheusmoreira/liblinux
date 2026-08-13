@@ -12,5 +12,6 @@ system_calls! {
 system_calls! {
     x86_64 {
         clock_gettime,
+        mmap,
     }
 }

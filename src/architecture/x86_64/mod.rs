@@ -10,6 +10,18 @@
 pub mod definitions {
     #![allow(non_upper_case_globals)]
 
+    /// Make native automatic placement
+    /// use the low 2 GiB address range.
+    ///
+    /// Linux >= 2.5.5
+    pub const MAP_32BIT: usize = 0x40;
+
+    /// Make native automatic top-down
+    /// placement begin at 4 GiB.
+    ///
+    /// Linux >= 6.6
+    pub const MAP_ABOVE4G: usize = 0x80;
+
     /// System call number for `read`.
     /// Linux >= 2.5.5
     pub const __NR_read: usize = 0;
@@ -471,8 +483,10 @@ mod tests {
 
     #[test]
     fn mmap_mremap_munmap() {
-        const PROT_READ_WRITE: usize = 0x1 | 0x2;
-        const MAP_PRIVATE_ANONYMOUS: usize = 0x2 | 0x20;
+        const PROT_READ_WRITE: usize =
+            definitions::PROT_READ | definitions::PROT_WRITE;
+        const MAP_PRIVATE_ANONYMOUS: usize =
+            definitions::MAP_PRIVATE | definitions::MAP_ANONYMOUS;
         const MREMAP_MAYMOVE: usize = 0x1;
         const MREMAP_FIXED: usize = 0x2;
         const PAGE: usize = 4096;

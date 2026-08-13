@@ -8,5 +8,6 @@ pub use crate::shared::system_calls::*;
 system_calls! {
     aarch64 {
         clock_gettime,
+        mmap,
     }
 }

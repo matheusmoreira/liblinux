@@ -200,6 +200,213 @@ pub struct __kernel_timespec {
     pub tv_nsec: i64,
 }
 
+// Memory mapping definitions.
+
+/// Request no page access permissions.
+///
+/// Linux >= 2.5.5
+pub const PROT_NONE: usize = 0x0;
+
+/// Permit reads.
+///
+/// Linux >= 2.5.5
+pub const PROT_READ: usize = 0x1;
+
+/// Permit writes.
+///
+/// Linux >= 2.5.5
+pub const PROT_WRITE: usize = 0x2;
+
+/// Permit code execution.
+///
+/// Linux >= 2.5.5
+pub const PROT_EXEC: usize = 0x4;
+
+/// Mark pages as usable for atomic memory operations.
+///
+/// Linux accepts this bit without giving it an additional
+/// effect on x86_64 or AArch64.
+///
+/// Linux >= 2.5.7
+pub const PROT_SEM: usize = 0x8;
+
+/// Select shared mapping semantics.
+///
+/// Linux >= 2.5.5
+pub const MAP_SHARED: usize = 0x01;
+
+/// Select private copy-on-write mapping semantics.
+///
+/// Linux >= 2.5.5
+pub const MAP_PRIVATE: usize = 0x02;
+
+/// Select shared mapping semantics and validate non-legacy flags.
+///
+/// Linux >= 4.15
+pub const MAP_SHARED_VALIDATE: usize = 0x03;
+
+/// Select droppable private anonymous mapping semantics.
+///
+/// Linux >= 6.11
+pub const MAP_DROPPABLE: usize = 0x08;
+
+/// Mask that selects the mapping type.
+///
+/// Linux >= 2.5.5
+pub const MAP_TYPE: usize = 0x0f;
+
+/// Request exact placement with destructive overlap replacement.
+///
+/// Linux >= 2.5.5
+pub const MAP_FIXED: usize = 0x10;
+
+/// Do not use the supplied file descriptor as mapping backing.
+///
+/// Linux >= 2.5.5
+pub const MAP_ANONYMOUS: usize = 0x20;
+
+/// Allow the mapping to grow toward lower addresses.
+///
+/// Linux >= 2.5.5
+pub const MAP_GROWSDOWN: usize = 0x0100;
+
+/// Ignored legacy flag that once denied writes to the mapped file.
+///
+/// Linux >= 2.5.5
+pub const MAP_DENYWRITE: usize = 0x0800;
+
+/// Ignored legacy flag that once marked executable mappings.
+///
+/// Linux >= 2.5.5
+pub const MAP_EXECUTABLE: usize = 0x1000;
+
+/// Lock the mapping in memory.
+///
+/// Linux >= 2.5.37
+pub const MAP_LOCKED: usize = 0x2000;
+
+/// Suppress normal swap or commit reservation.
+///
+/// Linux >= 2.5.5
+pub const MAP_NORESERVE: usize = 0x4000;
+
+/// Pre-fault page tables and perform file readahead.
+///
+/// Linux >= 2.5.46
+pub const MAP_POPULATE: usize = 0x008000;
+
+/// Suppress blocking population work.
+///
+/// Linux >= 2.5.46
+pub const MAP_NONBLOCK: usize = 0x010000;
+
+/// Mark the mapping as suitable for a process or thread stack.
+///
+/// Linux >= 2.6.27
+pub const MAP_STACK: usize = 0x020000;
+
+/// Use hugetlb pages.
+///
+/// Linux >= 2.6.32
+pub const MAP_HUGETLB: usize = 0x040000;
+
+/// Request synchronous page faults for a shared file mapping.
+///
+/// Linux >= 4.15
+pub const MAP_SYNC: usize = 0x080000;
+
+/// Place the mapping exactly and reject every overlap.
+///
+/// Linux >= 4.17
+pub const MAP_FIXED_NOREPLACE: usize = 0x100000;
+
+/// Request uninitialized anonymous memory on NOMMU kernels.
+///
+/// Linux MMU kernels ignore this flag.
+///
+/// Linux >= 2.6.33
+pub const MAP_UNINITIALIZED: usize = 0x04000000;
+
+/// Compatibility value with no effect.
+///
+/// Linux >= 2.5.5
+pub const MAP_FILE: usize = 0;
+
+/// Bit position of the hugetlb page size exponent.
+///
+/// Linux >= 3.8
+pub const MAP_HUGE_SHIFT: usize = 26;
+
+/// Unshifted mask for the hugetlb page size exponent.
+///
+/// Linux >= 3.8
+pub const MAP_HUGE_MASK: usize = 0x3f;
+
+/// Select 16 KiB hugetlb pages.
+///
+/// Linux >= 5.10
+pub const MAP_HUGE_16KB: usize = 14usize << MAP_HUGE_SHIFT;
+
+/// Select 64 KiB hugetlb pages.
+///
+/// Linux >= 4.14
+pub const MAP_HUGE_64KB: usize = 16usize << MAP_HUGE_SHIFT;
+
+/// Select 512 KiB hugetlb pages.
+///
+/// Linux >= 4.14
+pub const MAP_HUGE_512KB: usize = 19usize << MAP_HUGE_SHIFT;
+
+/// Select 1 MiB hugetlb pages.
+///
+/// Linux >= 4.14
+pub const MAP_HUGE_1MB: usize = 20usize << MAP_HUGE_SHIFT;
+
+/// Select 2 MiB hugetlb pages.
+///
+/// Linux >= 3.8
+pub const MAP_HUGE_2MB: usize = 21usize << MAP_HUGE_SHIFT;
+
+/// Select 8 MiB hugetlb pages.
+///
+/// Linux >= 4.14
+pub const MAP_HUGE_8MB: usize = 23usize << MAP_HUGE_SHIFT;
+
+/// Select 16 MiB hugetlb pages.
+///
+/// Linux >= 4.14
+pub const MAP_HUGE_16MB: usize = 24usize << MAP_HUGE_SHIFT;
+
+/// Select 32 MiB hugetlb pages.
+///
+/// Linux >= 4.19
+pub const MAP_HUGE_32MB: usize = 25usize << MAP_HUGE_SHIFT;
+
+/// Select 256 MiB hugetlb pages.
+///
+/// Linux >= 4.14
+pub const MAP_HUGE_256MB: usize = 28usize << MAP_HUGE_SHIFT;
+
+/// Select 512 MiB hugetlb pages.
+///
+/// Linux >= 4.19
+pub const MAP_HUGE_512MB: usize = 29usize << MAP_HUGE_SHIFT;
+
+/// Select 1 GiB hugetlb pages.
+///
+/// Linux >= 3.8
+pub const MAP_HUGE_1GB: usize = 30usize << MAP_HUGE_SHIFT;
+
+/// Select 2 GiB hugetlb pages.
+///
+/// Linux >= 4.14
+pub const MAP_HUGE_2GB: usize = 31usize << MAP_HUGE_SHIFT;
+
+/// Select 16 GiB hugetlb pages.
+///
+/// Linux >= 4.14
+pub const MAP_HUGE_16GB: usize = 34usize << MAP_HUGE_SHIFT;
+
 // Epoll definitions.
 
 /// Atomically set close-on-exec on the new epoll file descriptor.
